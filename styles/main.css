@@ -1,5 +1,21 @@
 @tailwind base;
 
-@tailwind components;
+.svg-icon {
+	width: 1.75em;
+	height: 1.75em;
+}
 
+.spacing-small {
+	height: 100px;
+}
+
+.spacing-medium {
+	height: 200px;
+}
+
+.spacing-large {
+	height: 300px;
+}
+
+@tailwind components;
 @tailwind utilities;

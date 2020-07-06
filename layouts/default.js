@@ -1,5 +1,5 @@
 import Head from "next/head";
-import BottomNavigation from "../components/navigation/BottomNavigation";
+import BottomNavigation from "../components/navigation/BottomNav";
 
 export default function Layout(props) {
 	return (
@@ -8,9 +8,8 @@ export default function Layout(props) {
 				<title>Create Next App</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-
 			<main>{props.children}</main>
-			<BottomNavigation></BottomNavigation>
+			<BottomNavigation pathname={props.pathname}></BottomNavigation>
 		</React.Fragment>
 	);
 }

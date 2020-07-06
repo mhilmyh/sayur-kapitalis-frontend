@@ -1,5 +1,9 @@
-import Layout from "../layouts/default";
+import Router from "next/router";
+import { useEffect } from "react";
 
-export default function Home() {
-	return <Layout></Layout>;
-}
+export default () => {
+	useEffect(() => {
+		Router.replace("/produk");
+	});
+	return <div></div>;
+};
