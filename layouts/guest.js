@@ -1,5 +1,4 @@
 import Head from "next/head";
-import BottomNavigation from "../components/navigation/BottomNav";
 
 export default function Layout(props) {
 	return (
@@ -8,9 +7,11 @@ export default function Layout(props) {
 				<title>Sayurmayur App</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main>{props.children}</main>
-			<div className="spacing-small"></div>
-			<BottomNavigation pathname={props.pathname}></BottomNavigation>
+			<main className="h-screen w-full">
+				<div className="flex justify-center items-center content-center h-full w-full bg-green-500">
+					{props.children}
+				</div>
+			</main>
 		</React.Fragment>
 	);
 }

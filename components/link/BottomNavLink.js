@@ -12,13 +12,14 @@ export default (props) => {
 			shallow={props.shallow}
 		>
 			<a
-				className={
-					"w-full text-center justify-center pt-2 pb-1 " +
-					(props.active ? "text-blue-500" : "text-green-700")
-				}
+				className={"w-full text-center justify-center pt-2 pb-1 text-green-500"}
 			>
 				{props.children}
-				<span className="tab tab-account block text-xs font-bold">
+				<span
+					className={
+						"tab tab-account block text-xs " + (props.active ? "font-bold" : "")
+					}
+				>
 					{props.title || "Menu"}
 				</span>
 			</a>

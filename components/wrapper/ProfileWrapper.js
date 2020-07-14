@@ -1,5 +1,5 @@
 import ProfileCard from "../card/ProfileCard";
-import ForgotPassCard from "../card/ForgotPassCard";
+import ChangePassCard from "../card/ChangePassCard";
 import ProfileCustomerListSection from "../section/ProfileCustomerListSection";
 
 export default (props) => {
@@ -24,7 +24,7 @@ export default (props) => {
 		},
 	];
 	return (
-		<div className="mx-3 p-3">
+		<React.Fragment>
 			<div className="flex flex-wrap justify-start">
 				<div className="md:w-1/2 w-full container p-6">
 					<div className="w-full py-6">
@@ -35,7 +35,7 @@ export default (props) => {
 						></ProfileCard>
 					</div>
 					<div className="w-full">
-						<ForgotPassCard></ForgotPassCard>
+						<ChangePassCard></ChangePassCard>
 					</div>
 				</div>
 				<div className="md:w-1/2 w-full container p-6">
@@ -54,6 +54,6 @@ export default (props) => {
 					)}
 				</div>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 };

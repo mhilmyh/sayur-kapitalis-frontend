@@ -53,10 +53,7 @@ export default (props) => {
 												name={element}
 												value={data[element]}
 												onChange={(e) => handleChange(e)}
-												placeholder={
-													String(element)[0].toUpperCase() +
-													String(element).slice(1).toLowerCase()
-												}
+												placeholder={element}
 											></input>
 										</td>
 									) : (
