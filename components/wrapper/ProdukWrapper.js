@@ -1,16 +1,17 @@
-import ProdukCategory from "../pill/ProdukCategory";
+import ProdukCategorySection from "../section/ProdukCategorySection";
 import ProdukCard from "../card/ProdukCard";
+import ProdukModal from "../modal/ProdukModal";
 
 export default (props) => {
 	return (
-		<div className="mx-3 px-3">
-			<h5 className="font-semibold text-green-500 text-2xl">Kategori Produk</h5>
+		<div className="mx-3 p-3">
+			<h5 className="font-bold text-green-500 text-lg">Kategori Produk</h5>
 			<div className="pb-8 pt-4">
-				<ProdukCategory
+				<ProdukCategorySection
 					data={["makanan", "minuman", "bumbu dapur"]}
-				></ProdukCategory>
+				></ProdukCategorySection>
 			</div>
-			<h5 className="font-semibold text-green-500 text-2xl">Daftar Produk</h5>
+			<h5 className="font-bold text-green-500 text-lg">Daftar Produk</h5>
 			<div className="pb-8 pt-4">
 				{props.produk ? (
 					<div className="flex flex-wrap">
@@ -27,10 +28,11 @@ export default (props) => {
 					</div>
 				) : (
 					<span className="inline-block py-1 text-sm font-semibold text-gray-500 mr-2">
-						Belum ada kategori
+						Belum ada produk
 					</span>
 				)}
 			</div>
+			<ProdukModal></ProdukModal>
 		</div>
 	);
 };

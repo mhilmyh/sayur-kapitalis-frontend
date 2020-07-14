@@ -5,6 +5,17 @@
 	height: 1.75em;
 }
 
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+	fill: #48bb78;
+}
+
+.svg-icon circle {
+	stroke: #48bb78;
+	stroke-width: 1;
+}
+
 .spacing-small {
 	height: 100px;
 }

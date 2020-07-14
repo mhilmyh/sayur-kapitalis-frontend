@@ -13,8 +13,8 @@ export default (props) => {
 		>
 			<a
 				className={
-					"w-full focus:text-green-500 hover:text-green-300 justify-center inline-block text-center pt-2 pb-1 " +
-					(props.active ? "text-green-500" : "")
+					"w-full text-center justify-center pt-2 pb-1 " +
+					(props.active ? "text-blue-500" : "text-green-700")
 				}
 			>
 				{props.children}

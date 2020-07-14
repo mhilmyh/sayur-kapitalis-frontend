@@ -5,10 +5,11 @@ export default function Layout(props) {
 	return (
 		<React.Fragment>
 			<Head>
-				<title>Create Next App</title>
+				<title>Sayur Mayur App</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>{props.children}</main>
+			<div className="spacing-small"></div>
 			<BottomNavigation pathname={props.pathname}></BottomNavigation>
 		</React.Fragment>
 	);

@@ -5,15 +5,18 @@ export default (props) => {
 				<div className="relative text-gray-600 focus-within:text-gray-400">
 					<span className="absolute inset-y-0 left-0 flex items-center pl-2">
 						<svg
-							fill="none"
-							stroke="currentColor"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth="1"
+							xmlns="http://www.w3.org/2000/svg"
+							className="w-6 h-6 text-gray-400"
 							viewBox="0 0 24 24"
-							className="w-6 h-6"
+							stroke-width="2"
+							stroke="currentColor"
+							fill="none"
+							stroke-linecap="round"
+							stroke-linejoin="round"
 						>
-							<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+							<rect x="0" y="0" width="24" height="24" stroke="none"></rect>
+							<circle cx="10" cy="10" r="7" />
+							<line x1="21" y1="21" x2="15" y2="15" />
 						</svg>
 					</span>
 					<input
