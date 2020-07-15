@@ -1,6 +1,7 @@
 export default () => {
+	const [added, setAdded] = React.useState(false);
 	const handleClick = () => {
-		console.log("Clicked !");
+		setAdded(!added);
 	};
 	return (
 		<div
@@ -17,11 +18,22 @@ export default () => {
 					Telor Ayam Negeri 1KG
 				</div>
 				<p className="font-medium">
+					<span className="text-gray-500 text-xs">Stock 3</span>
+				</p>
+				<p className="font-medium">
 					<span className="text-green-700 text-sm">Rp. 500.000</span>
 				</p>
 				<div className="w-full pt-3">
-					<button className="container bg-green-500 rounded shadow-lg py-2 text-white">
-						Tambah
+					<button
+						className={
+							"container rounded shadow-lg py-2 " +
+							(added
+								? "bg-gray-500 text-gray-100"
+								: "bg-green-500 text-gray-100")
+						}
+						onClick={() => handleClick()}
+					>
+						{added ? "Keluarkan" : "Tambahkan"}
 					</button>
 				</div>
 			</div>

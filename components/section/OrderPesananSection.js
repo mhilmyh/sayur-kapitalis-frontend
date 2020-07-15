@@ -1,4 +1,13 @@
 export default () => {
+	const [amount, setAmount] = React.useState(0);
+	const handleIncrement = () => {
+		setAmount((prev) => prev + 1);
+	};
+	const handleDecrement = () => {
+		if (amount > 0) {
+			setAmount((prev) => prev - 1);
+		}
+	};
 	return (
 		<div className="flex flex-wrap shadow-lg rounded py-2 my-5">
 			<div className="w-full px-5 py-3">
@@ -19,6 +28,7 @@ export default () => {
 					</div>
 					<div className="text-sm font-normal text-gray-500 tracking-wide px-1 rounded-full">
 						<svg
+							onClick={() => handleIncrement()}
 							className="svg-icon cursor-pointer shadow-md rounded-full border border-1 border-green-500"
 							viewBox="0 0 20 20"
 						>
@@ -28,11 +38,12 @@ export default () => {
 							></path>
 						</svg>
 					</div>
-					<div className="text-sm font-normal text-gray-500 tracking-wide px-1 rounded-full hover:bg-green-100">
-						1
+					<div className="text-sm font-normal text-gray-500 tracking-wide px-1 rounded-full">
+						{amount}
 					</div>
 					<div className="text-sm font-normal text-gray-500 tracking-wide px-1 rounded-full">
 						<svg
+							onClick={() => handleDecrement()}
 							className="svg-icon cursor-pointer shadow-md rounded-full border border-1 border-green-500"
 							viewBox="0 0 20 20"
 						>

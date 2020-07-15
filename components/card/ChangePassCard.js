@@ -10,7 +10,7 @@ export default () => {
 						<td className="text-gray-600 w-full">
 							<input
 								name="oldpass"
-								className="w-full rounded block shadow-lg px-4 overflow-x-auto"
+								className="w-full rounded block shadow-lg px-4 py-1 overflow-x-auto"
 								placeholder="Password lama"
 							></input>
 						</td>
@@ -19,7 +19,7 @@ export default () => {
 						<td className="text-gray-600 w-full">
 							<input
 								name="newpass"
-								className="w-full rounded block shadow-lg px-4 overflow-x-auto"
+								className="w-full rounded block shadow-lg px-4 py-1 overflow-x-auto"
 								placeholder="Password baru"
 							></input>
 						</td>

@@ -71,6 +71,11 @@ export default (props) => {
 					)}
 				</tbody>
 			</table>
+			{props.data && (
+				<div className="w-full flex justify-center">
+					<button className="">Keluar Akun</button>
+				</div>
+			)}
 		</div>
 	);
 };
