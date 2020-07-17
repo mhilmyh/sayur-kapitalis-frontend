@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default (props) => {
 	const [edit, setEdit] = React.useState(false);
 	const [data, setData] = React.useState(props.data);
@@ -8,6 +10,23 @@ export default (props) => {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const label = (element) => {
+		switch (element) {
+			case "firstName":
+				return "Nama Depan";
+			case "lastName":
+				return "Nama Belakang";
+			case "phoneNumber":
+				return "Nomor Telepon";
+			case "email":
+				return "Email";
+			case "address":
+				return "Alamat";
+			default:
+				return "Label";
+		}
 	};
 	return (
 		<div className="container shadow-lg rounded">
@@ -44,7 +63,7 @@ export default (props) => {
 									className="flex flex-wrap w-full justify-between rounded bg-gray-200 m-2 p-2 overflow-x-auto"
 								>
 									<td className="w-1/2 text-sm text-gray-600 font-semibold capitalize">
-										{element}
+										{label(element)}
 									</td>
 									{edit ? (
 										<td className="w-1/2 text-sm text-gray-600">
@@ -72,8 +91,15 @@ export default (props) => {
 				</tbody>
 			</table>
 			{props.data && (
-				<div className="w-full flex justify-center">
-					<button className="">Keluar Akun</button>
+				<div className="w-full flex justify-center pb-5">
+					<Link href="/login">
+						<button
+							className="rounded bg-green-500 hover:bg-green-700 text-white h-full px-10 py-3 shadow-lg text-center"
+							type="button"
+						>
+							<span className="font-semibold">Keluar Akun</span>
+						</button>
+					</Link>
 				</div>
 			)}
 		</div>

@@ -4,8 +4,9 @@ import ProfileCustomerListSection from "../section/ProfileCustomerListSection";
 
 export default (props) => {
 	const user = {
-		name: "Muhamad Hilmy Haidar",
-		telp: "081314131073",
+		firstName: "Hilmy",
+		lastName: "Haidar",
+		phoneNumber: "081314131073",
 		email: "mhilmy021@gmail.com",
 		address: "Jl Gn Salak Perumnas Kota Cirebon",
 	};

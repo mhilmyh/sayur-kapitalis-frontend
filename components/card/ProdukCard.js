@@ -4,10 +4,7 @@ export default () => {
 		setAdded(!added);
 	};
 	return (
-		<div
-			onClick={() => handleClick()}
-			className="rounded overflow-hidden shadow-lg mx-1 md:mx-5"
-		>
+		<div className="rounded overflow-hidden shadow-lg mx-1 md:mx-5">
 			<img
 				className="w-full object-cover h-32 max-h-full"
 				src="https://images.unsplash.com/photo-1568595190540-629c27a62db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"

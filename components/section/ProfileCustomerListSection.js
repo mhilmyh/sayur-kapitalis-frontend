@@ -4,29 +4,6 @@ export default (props) => {
 			<div className="font-bold text-white text-2xl bg-green-500 rounded rounded-b-none py-2">
 				<h3 className="px-5 text-left">{props.title || "Data diri"}</h3>
 			</div>
-			<div className="relative md:w-1/2 p-5">
-				<div className="absolute inline-flex items-center p-2">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						className="w-6 h-6 text-gray-400"
-						viewBox="0 0 24 24"
-						strokeWidth="2"
-						stroke="currentColor"
-						fill="none"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					>
-						<rect x="0" y="0" width="24" height="24" stroke="none"></rect>
-						<circle cx="10" cy="10" r="7" />
-						<line x1="21" y1="21" x2="15" y2="15" />
-					</svg>
-				</div>
-				<input
-					type="search"
-					className="w-full pl-10 pr-4 py-2 rounded shadow focus:outline-none focus:shadow-outline text-gray-600 font-medium"
-					placeholder="Cari..."
-				></input>
-			</div>
 			<table className="table-auto whitespace-no-wrap bg-white m-5 border-collapse border-1 border-gray-200">
 				<thead className="flex bg-gray-200 rounded rounded-b-none overflow-x-auto text-left">
 					<tr className="w-full flex">

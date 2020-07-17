@@ -11,13 +11,12 @@ export default (props) => {
 			scroll={props.scroll}
 			shallow={props.shallow}
 		>
-			<a
-				className={"w-full text-center justify-center pt-2 pb-1 text-green-500"}
-			>
+			<a className={"w-full text-center justify-center pt-2 pb-1"}>
 				{props.children}
 				<span
 					className={
-						"tab tab-account block text-xs " + (props.active ? "font-bold" : "")
+						"tab tab-account block text-xs " +
+						(props.active ? "font-bold text-green-500" : "text-white")
 					}
 				>
 					{props.title || "Menu"}
