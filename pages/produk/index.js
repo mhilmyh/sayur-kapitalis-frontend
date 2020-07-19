@@ -1,7 +1,6 @@
 import Layout from "../../layouts/default";
 import ProdukNav from "../../components/navigation/ProdukNav";
 import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
-import { ProtectRoute } from "../../contexts/auth";
 
 const ProdukPage = (props) => {
 	return (
@@ -22,4 +21,4 @@ ProdukPage.getInitialProps = async ({ pathname }) => {
 	};
 };
 
-export default ProtectRoute(ProdukPage);
+export default ProdukPage;

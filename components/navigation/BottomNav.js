@@ -1,6 +1,6 @@
 import BottomNavLink from "../link/BottomNavLink";
 
-export default (props) => {
+export default React.memo((props) => {
 	return (
 		<div className="w-full">
 			<section
@@ -51,4 +51,4 @@ export default (props) => {
 			</section>
 		</div>
 	);
-};
+});

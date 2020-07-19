@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default (props) => {
+export default React.memo((props) => {
 	return (
 		<Link
 			href={props.href}
@@ -13,15 +13,10 @@ export default (props) => {
 		>
 			<a className={"w-full text-center justify-center pt-2 pb-1"}>
 				{props.children}
-				<span
-					className={
-						"tab tab-account block text-xs " +
-						(props.active ? "font-bold text-green-500" : "text-white")
-					}
-				>
+				<span className={"tab tab-account block text-xs text-green-500"}>
 					{props.title || "Menu"}
 				</span>
 			</a>
 		</Link>
 	);
-};
+});

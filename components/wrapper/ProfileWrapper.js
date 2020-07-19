@@ -1,55 +1,46 @@
 import ProfileCard from "../card/ProfileCard";
 import ChangePassCard from "../card/ChangePassCard";
 import ProfileCustomerListSection from "../section/ProfileCustomerListSection";
+import useAuth from "../../contexts/auth";
 
-export default (props) => {
-	const user = {
-		firstName: "Hilmy",
-		lastName: "Haidar",
-		phoneNumber: "081314131073",
-		email: "mhilmy021@gmail.com",
-		address: "Jl Gn Salak Perumnas Kota Cirebon",
-	};
-	const customer = [
-		{
-			name: "Muhamad Hilmy Haidar",
-			telp: "081314131073",
-		},
-		{
-			name: "Muhamad Hilmy Haidar",
-			telp: "081314131073",
-		},
-		{
-			name: "Muhamad Hilmy Haidar",
-			telp: "081314131073",
-		},
-	];
+export default () => {
+	const ctx = useAuth();
+	React.useEffect(() => {
+		console.log("Render ProfileWrapper");
+		ctx.getLastUser();
+		console.log(ctx.user);
+	}, []);
 	return (
 		<React.Fragment>
-			<div className="flex flex-wrap justify-start">
-				<div className="md:w-1/2 w-full container p-6">
+			<div className="flex flex-wrap justify-center">
+				<div className="md:w-1/2 w-full p-6">
 					<div className="w-full py-6">
 						<ProfileCard
 							title="Data diri"
-							data={user}
+							data={ctx.user.is_agent ? ctx.user.agent : ctx.user.customer}
 							editable={true}
+							doLogout={() => ctx.doLogout()}
 						></ProfileCard>
 					</div>
 					<div className="w-full">
 						<ChangePassCard></ChangePassCard>
 					</div>
 				</div>
-				<div className="md:w-1/2 w-full container p-6">
-					{props.type === "customer" && (
+				<div className="md:w-1/2 w-full p-6">
+					{ctx.user.is_agent == false && (
 						<div className="w-full pt-6">
-							<ProfileCard title="Agen"></ProfileCard>
+							<ProfileCard
+								title="Agen"
+								data={ctx.user.agent}
+								readonly
+							></ProfileCard>
 						</div>
 					)}
-					{props.type === "agent" && (
+					{ctx.user.is_agent == true && (
 						<div className="w-full pt-6">
 							<ProfileCustomerListSection
 								title="Daftar Customer"
-								data={customer}
+								data={ctx.user.customer}
 							></ProfileCustomerListSection>
 						</div>
 					)}
