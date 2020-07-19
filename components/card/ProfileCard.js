@@ -1,5 +1,3 @@
-import { useAuth } from "../../contexts/auth";
-
 export default (props) => {
 	const [edit, setEdit] = React.useState(false);
 	const [data, setData] = React.useState(props.data || {});

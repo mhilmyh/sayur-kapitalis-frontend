@@ -10,12 +10,14 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = (props) => {
-	const [user, setUser] = React.useState({
-		email: "",
-		id: "",
-		created_at: "",
-		updated_at: "",
-	});
+	const [user, setUser] = React.useState(
+		Cookies.getJSON("user") || {
+			email: "",
+			id: "",
+			created_at: "",
+			updated_at: "",
+		}
+	);
 	const [loading, setLoading] = React.useState(false);
 	const [alert, setAlert] = React.useState({
 		value: false,
@@ -78,22 +80,22 @@ export const AuthProvider = (props) => {
 		setLoading(true);
 		setAlert((prev) => ({ ...prev, value: false }));
 		Cookies.remove("access_token");
-		localStorage.removeItem("user");
+		Cookies.remove("user");
 		Router.replace("/login");
 		setLoading(false);
 	};
 	const getLastUser = () => {
-		if (localStorage.getItem("user")) {
-			const lastUser = JSON.parse(localStorage.getItem("user"));
+		if (Cookies.get("user")) {
+			const lastUser = Cookies.getJSON("user");
 			setUser((prev) => ({ ...prev, ...lastUser }));
 		}
 	};
 	React.useEffect(() => {
-		if (localStorage.getItem("user") == null) {
-			localStorage.setItem("user", JSON.stringify(user));
+		if (Cookies.get("user") == null) {
+			Cookies.set("user", JSON.stringify(user));
 		}
 		if (user == null) {
-			const lastUser = JSON.parse(localStorage.getItem("user"));
+			const lastUser = Cookies.getJSON("user");
 			setUser((prev) => ({ ...prev, ...lastUser }));
 		}
 	}, [user]);

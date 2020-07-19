@@ -6,9 +6,7 @@ import useAuth from "../../contexts/auth";
 export default () => {
 	const ctx = useAuth();
 	React.useEffect(() => {
-		console.log("Render ProfileWrapper");
 		ctx.getLastUser();
-		console.log(ctx.user);
 	}, []);
 	return (
 		<React.Fragment>
