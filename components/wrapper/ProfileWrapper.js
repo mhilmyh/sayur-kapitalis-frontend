@@ -3,7 +3,7 @@ import ChangePassCard from "../card/ChangePassCard";
 import ProfileCustomerListSection from "../section/ProfileCustomerListSection";
 import useAuth from "../../contexts/auth";
 
-export default () => {
+export default React.memo(() => {
 	const ctx = useAuth();
 	React.useEffect(() => {
 		ctx.getLastUser();
@@ -46,4 +46,4 @@ export default () => {
 			</div>
 		</React.Fragment>
 	);
-};
+});

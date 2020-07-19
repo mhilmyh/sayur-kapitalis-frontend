@@ -1,4 +1,4 @@
-export default (props) => {
+export default React.memo((props) => {
 	const [edit, setEdit] = React.useState(false);
 	const [data, setData] = React.useState(props.data || {});
 	const handleEdit = () => {
@@ -127,4 +127,4 @@ export default (props) => {
 			</div>
 		</div>
 	);
-};
+});
