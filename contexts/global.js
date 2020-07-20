@@ -3,13 +3,13 @@ import API from "../services/axios";
 import Cookies from "js-cookie";
 import Router from "next/router";
 
-export const AuthContext = createContext({});
-export const useAuth = () => {
-	const context = useContext(AuthContext);
+export const GlobalContext = createContext({});
+export const useGlobal = () => {
+	const context = useContext(GlobalContext);
 	return context;
 };
 
-export const AuthProvider = (props) => {
+export const GlobalProvider = (props) => {
 	const [user, setUser] = React.useState(
 		Cookies.getJSON("user") || {
 			email: "",
@@ -19,11 +19,18 @@ export const AuthProvider = (props) => {
 		}
 	);
 	const [loading, setLoading] = React.useState(false);
+
 	const [alert, setAlert] = React.useState({
 		value: false,
 		error: false,
 		message: "",
 	});
+
+	const [cart, setCart] = React.useState([]);
+
+	const [category, setCategory] = React.useState([]);
+	const [selectedCategory, setSelectedCategory] = React.useState([]);
+
 	const doLogin = (email, password) => {
 		setLoading(true);
 		setAlert({ value: false });
@@ -56,6 +63,7 @@ export const AuthProvider = (props) => {
 			})
 			.finally(() => setLoading(false));
 	};
+
 	const checkLogin = async () => {
 		setLoading(true);
 		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
@@ -76,6 +84,7 @@ export const AuthProvider = (props) => {
 		if (isLogin == false) Router.replace("/login");
 		return isLogin;
 	};
+
 	const doLogout = () => {
 		setLoading(true);
 		setAlert((prev) => ({ ...prev, value: false }));
@@ -84,12 +93,40 @@ export const AuthProvider = (props) => {
 		Router.replace("/login");
 		setLoading(false);
 	};
+
 	const getLastUser = () => {
 		if (Cookies.get("user")) {
 			const lastUser = Cookies.getJSON("user");
 			setUser((prev) => ({ ...prev, ...lastUser }));
 		}
 	};
+
+	const addToCart = (product) => {
+		setCart((prev) => [...prev, product]);
+	};
+
+	const findProductByAttr = (product, attr, value) => {
+		let index = -1;
+		for (let i = 0; i < product.length; i++) {
+			if (product[i][attr] == value) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	};
+
+	const saveCart = () => {
+		localStorage.setItem("cart", JSON.stringify(cart));
+	};
+
+	const loadCart = () => {
+		if (localStorage.getItem("cart")) {
+			const lastCart = JSON.parse(localStorage.getItem("cart"));
+			setCart({ ...lastCart });
+		}
+	};
+
 	React.useEffect(() => {
 		if (Cookies.get("user") == null) {
 			Cookies.set("user", JSON.stringify(user));
@@ -100,7 +137,7 @@ export const AuthProvider = (props) => {
 		}
 	}, [user]);
 	return (
-		<AuthContext.Provider
+		<GlobalContext.Provider
 			value={{
 				doLogin,
 				doLogout,
@@ -112,11 +149,19 @@ export const AuthProvider = (props) => {
 				alert,
 				setAlert,
 				getLastUser,
+				cart,
+				setCart,
+				addToCart,
+				findProductByAttr,
+				saveCart,
+				loadCart,
+				category,
+				setCategory,
 			}}
 		>
 			{props.children}
-		</AuthContext.Provider>
+		</GlobalContext.Provider>
 	);
 };
 
-export default useAuth;
+export default useGlobal;

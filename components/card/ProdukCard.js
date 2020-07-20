@@ -1,24 +1,37 @@
-export default () => {
+export default (props) => {
 	const [added, setAdded] = React.useState(false);
-	const handleClick = () => {
+	const handleClick = (p) => {
+		console.log(p);
 		setAdded(!added);
 	};
 	return (
 		<div className="rounded overflow-hidden shadow-lg mx-1 md:mx-5">
-			<img
-				className="w-full object-cover h-32 max-h-full"
-				src="https://images.unsplash.com/photo-1568595190540-629c27a62db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-				alt="Sunset in the mountains"
-			></img>
+			{props.product.image_url ? (
+				<img
+					className="w-full object-cover h-32 max-h-full"
+					src={props.product.image_url}
+					alt="Sunset in the mountains"
+				></img>
+			) : (
+				<img
+					className="w-full object-cover h-32 max-h-full"
+					src={props.product.image_url}
+					alt="Sunset in the mountains"
+				></img>
+			)}
 			<div className="p-4">
 				<div className="font-semibold text-sm text-gray-700 mb-2 container rounded">
-					Telor Ayam Negeri 1KG
+					{props.product.name ? props.product.name : "Nama Produk"}
 				</div>
 				<p className="font-medium">
-					<span className="text-gray-500 text-xs">Stock 3</span>
+					<span className="text-gray-500 text-xs">
+						Stock {props.product.stock ? props.product.stock : "0"}
+					</span>
 				</p>
 				<p className="font-medium">
-					<span className="text-green-700 text-sm">Rp. 500.000</span>
+					<span className="text-green-700 text-sm">
+						Rp {props.product.price ? props.product.price : "0"}
+					</span>
 				</p>
 				<div className="w-full pt-3">
 					<button
@@ -28,7 +41,7 @@ export default () => {
 								? "bg-gray-500 text-gray-100"
 								: "bg-green-500 text-gray-100")
 						}
-						onClick={() => handleClick()}
+						onClick={() => handleClick(props.product)}
 					>
 						{added ? "Keluarkan" : "Tambahkan"}
 					</button>

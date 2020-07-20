@@ -1,6 +1,16 @@
+import { useGlobal } from "../../contexts/global";
+
 export default (props) => {
+	const ctx = useGlobal();
 	const [selected, setSelected] = React.useState(false);
 	const handleClick = () => {
+		if (!selected == true) {
+			ctx.setSelectedCategory((prev) => [...prev, props.data.id]);
+		} else {
+			ctx.setSelectedCategory((prev) =>
+				prev.splice(prev.indexOf(props.data.id), 1)
+			);
+		}
 		setSelected(!selected);
 	};
 	return (

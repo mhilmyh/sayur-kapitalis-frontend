@@ -1,11 +1,11 @@
 import "../styles/main.css";
-import { AuthProvider } from "../contexts/auth";
+import { GlobalProvider } from "../contexts/global";
 
 function App({ Component, pageProps }) {
 	return (
-		<AuthProvider>
+		<GlobalProvider>
 			<Component {...pageProps} />
-		</AuthProvider>
+		</GlobalProvider>
 	);
 }
 

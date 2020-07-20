@@ -1,10 +1,10 @@
 import ProfileCard from "../card/ProfileCard";
 import ChangePassCard from "../card/ChangePassCard";
 import ProfileCustomerListSection from "../section/ProfileCustomerListSection";
-import useAuth from "../../contexts/auth";
+import useGlobal from "../../contexts/global";
 
 export default React.memo(() => {
-	const ctx = useAuth();
+	const ctx = useGlobal();
 	React.useEffect(() => {
 		ctx.getLastUser();
 	}, []);
