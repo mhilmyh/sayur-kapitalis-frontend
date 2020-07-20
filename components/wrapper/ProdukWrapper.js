@@ -22,11 +22,6 @@ export default (props) => {
 			.then((res) => {
 				const { data } = res.data;
 				setProduct(data);
-				console.log(
-					product.filter(
-						(each) => !ctx.category.map((el) => el.id).includes(each)
-					)
-				);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -57,8 +52,11 @@ export default (props) => {
 					{product ? (
 						<div className="flex flex-wrap">
 							{product
-								.filter(
-									(each) => !ctx.category.map((el) => el.id).includes(each)
+								.filter((each) =>
+									typeof ctx.selectedCategory !== "undefined" &&
+									ctx.selectedCategory.length === 0
+										? true
+										: ctx.selectedCategory.includes(each.category_id)
 								)
 								.map((each) => {
 									return (

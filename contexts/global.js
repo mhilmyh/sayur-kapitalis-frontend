@@ -31,6 +31,8 @@ export const GlobalProvider = (props) => {
 	const [category, setCategory] = React.useState([]);
 	const [selectedCategory, setSelectedCategory] = React.useState([]);
 
+	const [search, setSearch] = React.useState([]);
+
 	const doLogin = (email, password) => {
 		setLoading(true);
 		setAlert({ value: false });
@@ -157,6 +159,10 @@ export const GlobalProvider = (props) => {
 				loadCart,
 				category,
 				setCategory,
+				selectedCategory,
+				setSelectedCategory,
+				search,
+				setSearch,
 			}}
 		>
 			{props.children}

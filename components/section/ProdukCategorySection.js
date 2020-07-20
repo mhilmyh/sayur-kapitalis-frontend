@@ -19,7 +19,6 @@ export default () => {
 			.then((res) => {
 				const { data } = res.data;
 				ctx.setCategory(data);
-				console.log(data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -29,6 +28,11 @@ export default () => {
 	React.useEffect(() => {
 		getCategory();
 	}, []);
+	const handleClickTest = () => {
+		console.log(ctx.selectedCategory);
+		console.log(ctx.category.map((el) => el.id));
+		console.log(ctx.selectedCategory.length);
+	};
 	return (
 		<React.Fragment>
 			{loading ? (
@@ -56,6 +60,14 @@ export default () => {
 							Belum ada kategori
 						</span>
 					)}
+					<div>
+						<button
+							className="bg-yellow-500 shadow px-5"
+							onClick={handleClickTest}
+						>
+							Test
+						</button>
+					</div>
 				</div>
 			)}
 		</React.Fragment>

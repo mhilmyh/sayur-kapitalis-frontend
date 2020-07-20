@@ -8,7 +8,7 @@ export default (props) => {
 			ctx.setSelectedCategory((prev) => [...prev, props.data.id]);
 		} else {
 			ctx.setSelectedCategory((prev) =>
-				prev.splice(prev.indexOf(props.data.id), 1)
+				prev.filter((el) => el !== props.data.id)
 			);
 		}
 		setSelected(!selected);
@@ -21,7 +21,7 @@ export default (props) => {
 				(selected ? "bg-green-500 text-gray-100" : "bg-gray-200 text-gray-700")
 			}
 		>
-			{String(props.data).toLowerCase().split(" ").join("-")}
+			{String(props.data.name).toLowerCase().split(" ").join("-")}
 		</button>
 	);
 };
