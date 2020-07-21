@@ -24,6 +24,7 @@ const ProdukPage = (props) => {
 		) {
 			Router.replace("/login");
 		}
+		ctx.loadCart();
 	}, []);
 	return (
 		<Layout pathname={props.pathname}>

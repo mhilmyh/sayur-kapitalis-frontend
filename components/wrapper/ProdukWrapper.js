@@ -6,12 +6,11 @@ import API from "../../services/axios";
 import Cookies from "js-cookie";
 import { green } from "@material-ui/core/colors";
 
-export default (props) => {
+export default () => {
 	const ctx = useGlobal();
 	const style = {
 		color: green[500],
 	};
-	const [product, setProduct] = React.useState([]);
 	const [loading, setLoading] = React.useState([]);
 	const getProduct = async () => {
 		setLoading(true);
@@ -21,7 +20,7 @@ export default (props) => {
 		await API.get("/product")
 			.then((res) => {
 				const { data } = res.data;
-				setProduct(data);
+				ctx.setProduct(data);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -49,9 +48,9 @@ export default (props) => {
 				</div>
 			) : (
 				<div className="pb-8 pt-4">
-					{product ? (
+					{ctx.product ? (
 						<div className="flex flex-wrap">
-							{product
+							{ctx.product
 								.filter((p) => p.name.toLowerCase().includes(ctx.search))
 								.filter((each) =>
 									typeof ctx.selectedCategory !== "undefined" &&

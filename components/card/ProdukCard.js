@@ -1,13 +1,12 @@
 import { useGlobal } from "../../contexts/global";
+import Cookies from "js-cookie";
 export default (props) => {
 	const ctx = useGlobal();
-	const [added, setAdded] = React.useState(
-		ctx.cart.some((el) => el.id === props.product.id)
-	);
+	const [added, setAdded] = React.useState(false);
 	const handleClick = (p) => {
-		if (!added) ctx.addToCart(p);
-		else ctx.removeProductFromCart(p.id);
-		setAdded(!added);
+		setAdded(true);
+		ctx.saveCart(p.id);
+		setTimeout(() => setAdded(false), 1000);
 	};
 	return (
 		<div className="rounded overflow-hidden shadow-lg mx-1 md:mx-5">
@@ -20,7 +19,7 @@ export default (props) => {
 			) : (
 				<img
 					className="w-full object-cover h-32 max-h-full"
-					src={props.product.image_url}
+					src="/assets/placeholder.png"
 					alt="Sunset in the mountains"
 				></img>
 			)}
@@ -48,7 +47,7 @@ export default (props) => {
 						}
 						onClick={() => handleClick(props.product)}
 					>
-						{added ? "Keluarkan" : "Tambahkan"}
+						{added ? "Sudah ditambah" : "Tambahkan"}
 					</button>
 				</div>
 			</div>

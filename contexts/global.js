@@ -21,6 +21,8 @@ export const GlobalProvider = (props) => {
 	const [category, setCategory] = React.useState([]);
 	const [selectedCategory, setSelectedCategory] = React.useState([]);
 
+	const [product, setProduct] = React.useState([]);
+
 	const [search, setSearch] = React.useState("");
 
 	const [user, setUser] = React.useState(
@@ -102,36 +104,22 @@ export const GlobalProvider = (props) => {
 		}
 	};
 
-	const [cart, setCart] = React.useState([]);
-
-	const addToCart = (product) => {
-		setCart((prev) => [...prev, product]);
-	};
-
-	const findProductByAttr = (attr, value) => {
-		let index = -1;
-		for (let i = 0; i < cart.length; i++) {
-			if (cart[i][attr] == value) {
-				index = i;
-				break;
-			}
+	const saveCart = (id) => {
+		let intID = parseInt(id, 10);
+		const lastCart = Cookies.getJSON("cart");
+		if (lastCart === undefined) Cookies.set("cart", [intID]);
+		else {
+			lastCart.push(intID);
+			Cookies.set(
+				"cart",
+				lastCart.filter((item, pos) => lastCart.indexOf(item) === pos)
+			);
 		}
-		return index;
-	};
-
-	const removeProductFromCart = (id) => {
-		setCart((prev) => prev.filter((el) => el.id !== id));
-	};
-
-	const saveCart = () => {
-		localStorage.setItem("cart", JSON.stringify(cart));
 	};
 
 	const loadCart = () => {
-		if (localStorage.getItem("cart")) {
-			const lastCart = JSON.parse(localStorage.getItem("cart"));
-			setCart({ ...lastCart });
-		}
+		if (Cookies.get("cart")) return Cookies.getJSON("cart");
+		return null;
 	};
 
 	React.useEffect(() => {
@@ -156,11 +144,8 @@ export const GlobalProvider = (props) => {
 				alert,
 				setAlert,
 				getLastUser,
-				cart,
-				setCart,
-				addToCart,
-				findProductByAttr,
-				removeProductFromCart,
+				product,
+				setProduct,
 				saveCart,
 				loadCart,
 				category,
