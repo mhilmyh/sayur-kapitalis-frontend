@@ -10,14 +10,6 @@ export const useGlobal = () => {
 };
 
 export const GlobalProvider = (props) => {
-	const [user, setUser] = React.useState(
-		Cookies.getJSON("user") || {
-			email: "",
-			id: "",
-			created_at: "",
-			updated_at: "",
-		}
-	);
 	const [loading, setLoading] = React.useState(false);
 
 	const [alert, setAlert] = React.useState({
@@ -26,12 +18,19 @@ export const GlobalProvider = (props) => {
 		message: "",
 	});
 
-	const [cart, setCart] = React.useState([]);
-
 	const [category, setCategory] = React.useState([]);
 	const [selectedCategory, setSelectedCategory] = React.useState([]);
 
-	const [search, setSearch] = React.useState([]);
+	const [search, setSearch] = React.useState("");
+
+	const [user, setUser] = React.useState(
+		Cookies.getJSON("user") || {
+			email: "",
+			id: "",
+			created_at: "",
+			updated_at: "",
+		}
+	);
 
 	const doLogin = (email, password) => {
 		setLoading(true);
@@ -103,19 +102,25 @@ export const GlobalProvider = (props) => {
 		}
 	};
 
+	const [cart, setCart] = React.useState([]);
+
 	const addToCart = (product) => {
 		setCart((prev) => [...prev, product]);
 	};
 
-	const findProductByAttr = (product, attr, value) => {
+	const findProductByAttr = (attr, value) => {
 		let index = -1;
-		for (let i = 0; i < product.length; i++) {
-			if (product[i][attr] == value) {
+		for (let i = 0; i < cart.length; i++) {
+			if (cart[i][attr] == value) {
 				index = i;
 				break;
 			}
 		}
 		return index;
+	};
+
+	const removeProductFromCart = (id) => {
+		setCart((prev) => prev.filter((el) => el.id !== id));
 	};
 
 	const saveCart = () => {
@@ -155,6 +160,7 @@ export const GlobalProvider = (props) => {
 				setCart,
 				addToCart,
 				findProductByAttr,
+				removeProductFromCart,
 				saveCart,
 				loadCart,
 				category,

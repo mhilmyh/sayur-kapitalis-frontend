@@ -1,7 +1,10 @@
+import { useGlobal } from "../../contexts/global";
 export default (props) => {
+	const ctx = useGlobal();
 	const [added, setAdded] = React.useState(false);
 	const handleClick = (p) => {
-		console.log(p);
+		if (!added) ctx.addToCart(p);
+		else ctx.removeProductFromCart(p.id);
 		setAdded(!added);
 	};
 	return (

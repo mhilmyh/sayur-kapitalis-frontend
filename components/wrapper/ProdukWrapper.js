@@ -52,6 +52,7 @@ export default (props) => {
 					{product ? (
 						<div className="flex flex-wrap">
 							{product
+								.filter((p) => p.name.toLowerCase().includes(ctx.search))
 								.filter((each) =>
 									typeof ctx.selectedCategory !== "undefined" &&
 									ctx.selectedCategory.length === 0

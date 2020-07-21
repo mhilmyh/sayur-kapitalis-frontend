@@ -3,11 +3,10 @@ import Link from "next/link";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import { green } from "@material-ui/core/colors";
-import { useAuth } from "../contexts/auth";
-import Router from "next/router";
+import { useGlobal } from "../contexts/global";
 
 const LoginPage = () => {
-	const ctx = useAuth();
+	const ctx = useGlobal();
 	const [user, setUser] = React.useState({
 		email: "",
 		password: "",

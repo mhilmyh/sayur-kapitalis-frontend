@@ -4,12 +4,27 @@ import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
 import { useGlobal } from "../../contexts/global";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { green } from "@material-ui/core/colors";
+import Cookies from "js-cookie";
+import Router from "next/router";
 
 const ProdukPage = (props) => {
 	const ctx = useGlobal();
 	const style = {
 		color: green[500],
 	};
+	React.useEffect(() => {
+		const checkUser = Cookies.getJSON("user");
+		if (
+			checkUser.id == null ||
+			checkUser.id == undefined ||
+			checkUser.created_at == null ||
+			checkUser.created_at == undefined ||
+			checkUser.updated_at == null ||
+			checkUser.updated_at == undefined
+		) {
+			Router.replace("/login");
+		}
+	}, []);
 	return (
 		<Layout pathname={props.pathname}>
 			<div className="fixed top-0 w-full bg-white">
