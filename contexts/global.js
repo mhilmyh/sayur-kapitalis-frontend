@@ -18,10 +18,38 @@ export const GlobalProvider = (props) => {
 		message: "",
 	});
 
+	const saveCart = (id) => {
+		let intID = parseInt(id, 10);
+		const lastCart = Cookies.getJSON("cart");
+		if (lastCart === undefined) Cookies.set("cart", [intID], { expires: 2 });
+		else {
+			lastCart.push(intID);
+			Cookies.set(
+				"cart",
+				lastCart.filter((item, pos) => lastCart.indexOf(item) === pos),
+				{ expires: 2 }
+			);
+		}
+	};
+	const saveCartArray = (arr) => {
+		Cookies.set("cart", arr);
+	};
+	const loadCart = () => {
+		if (Cookies.get("cart")) return Cookies.getJSON("cart");
+		return null;
+	};
+
 	const [category, setCategory] = React.useState([]);
 	const [selectedCategory, setSelectedCategory] = React.useState([]);
 
 	const [product, setProduct] = React.useState([]);
+	const saveProductToLocal = (data) => {
+		localStorage.setItem("product", JSON.stringify(data));
+	};
+	const getProductFromLocal = () => {
+		const result = JSON.parse(localStorage.getItem("product"));
+		return result;
+	};
 
 	const [search, setSearch] = React.useState("");
 
@@ -49,7 +77,9 @@ export const GlobalProvider = (props) => {
 					value: true,
 				});
 				const { access_token, expires } = await response.data.data;
-				Cookies.set("access_token", access_token, { expires: expires });
+				Cookies.set("access_token", access_token, {
+					expires: parseInt(expires, 10) / 14400,
+				});
 				API.defaults.headers.Authorization = `Bearer ${access_token}`;
 			})
 			.then(() => checkLogin())
@@ -104,24 +134,6 @@ export const GlobalProvider = (props) => {
 		}
 	};
 
-	const saveCart = (id) => {
-		let intID = parseInt(id, 10);
-		const lastCart = Cookies.getJSON("cart");
-		if (lastCart === undefined) Cookies.set("cart", [intID]);
-		else {
-			lastCart.push(intID);
-			Cookies.set(
-				"cart",
-				lastCart.filter((item, pos) => lastCart.indexOf(item) === pos)
-			);
-		}
-	};
-
-	const loadCart = () => {
-		if (Cookies.get("cart")) return Cookies.getJSON("cart");
-		return null;
-	};
-
 	React.useEffect(() => {
 		if (Cookies.get("user") == null) {
 			Cookies.set("user", JSON.stringify(user));
@@ -146,7 +158,10 @@ export const GlobalProvider = (props) => {
 				getLastUser,
 				product,
 				setProduct,
+				saveProductToLocal,
+				getProductFromLocal,
 				saveCart,
+				saveCartArray,
 				loadCart,
 				category,
 				setCategory,

@@ -5,6 +5,7 @@ import { useGlobal } from "../../contexts/global";
 import API from "../../services/axios";
 import Cookies from "js-cookie";
 import { green } from "@material-ui/core/colors";
+import Axios from "axios";
 
 export default () => {
 	const ctx = useGlobal();
@@ -12,23 +13,31 @@ export default () => {
 		color: green[500],
 	};
 	const [loading, setLoading] = React.useState([]);
-	const getProduct = async () => {
-		setLoading(true);
-		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
-			"access_token"
-		)}`;
-		await API.get("/product")
-			.then((res) => {
-				const { data } = res.data;
-				ctx.setProduct(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-			.finally(() => setLoading(false));
-	};
+
 	React.useEffect(() => {
+		const CancelToken = Axios.CancelToken;
+		const source = CancelToken.source();
+		const getProduct = () => {
+			setLoading(true);
+			API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+				"access_token"
+			)}`;
+			API.get("/product", { cancelToken: source.token })
+				.then((res) => {
+					const { data } = res.data;
+					ctx.setProduct(data);
+					ctx.saveProductToLocal(data);
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		};
 		getProduct();
+
+		return () => {
+			source.cancel();
+		};
 	}, []);
 	return (
 		<div className="mx-3 p-3">
