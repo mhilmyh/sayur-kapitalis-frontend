@@ -3,6 +3,7 @@ export default (props) => {
 	const ctx = useGlobal();
 	const handleChange = (e) => {
 		ctx.setSearch(e.target.value);
+		console.log(ctx.cart);
 	};
 	return (
 		<div className="flex py-5 justify-center">

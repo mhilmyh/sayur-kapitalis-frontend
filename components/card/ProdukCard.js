@@ -1,7 +1,9 @@
 import { useGlobal } from "../../contexts/global";
 export default (props) => {
 	const ctx = useGlobal();
-	const [added, setAdded] = React.useState(false);
+	const [added, setAdded] = React.useState(
+		ctx.cart.some((el) => el.id === props.product.id)
+	);
 	const handleClick = (p) => {
 		if (!added) ctx.addToCart(p);
 		else ctx.removeProductFromCart(p.id);
