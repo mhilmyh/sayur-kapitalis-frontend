@@ -171,7 +171,7 @@ export default () => {
 			<div className="w-full text-gray-700 px-5">
 				<div className="flex justify-end text-gray-700 my-2">
 					<button className="bg-green-500 px-10 py-1 rounded text-gray-100 shadow-md">
-						Pesanan
+						Pesan
 					</button>
 				</div>
 			</div>
