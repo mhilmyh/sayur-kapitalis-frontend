@@ -4,6 +4,11 @@ import API from "../services/axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import { green } from "@material-ui/core/colors";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import { Typography } from "@material-ui/core";
 
 const RegisterPage = () => {
 	const [user, setUser] = React.useState({
@@ -21,11 +26,11 @@ const RegisterPage = () => {
 		message: "",
 	});
 	const [loading, setLoading] = React.useState(false);
-
+	const [selectedValue, setSelectedValue] = React.useState(0);
 	const handleClick = () => {
 		setLoading((prev) => !prev);
 		setAlert({ value: false });
-		API.post("/auth/register", user)
+		API.post("/auth/register", { ...user, is_agent: selectedValue })
 			.then((res) => {
 				console.log(res);
 				setAlert({
@@ -45,9 +50,14 @@ const RegisterPage = () => {
 			})
 			.finally(() => setLoading((prev) => !prev));
 	};
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setUser((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleRadioChange = (event) => {
+		setSelectedValue(parseInt(event.target.value, 10));
 	};
 
 	const style = {
@@ -155,6 +165,38 @@ const RegisterPage = () => {
 						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
 						placeholder="Tulis ulang Password"
 					></input>
+				</div>
+				<div className="relative w-full mb-3">
+					<FormControl component="fieldset">
+						<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
+							Sebagai
+						</label>
+						<RadioGroup
+							name="is_agent"
+							value={selectedValue}
+							onChange={(e) => handleRadioChange(e)}
+							className="text-gray-600"
+						>
+							<FormControlLabel
+								value={0}
+								control={<Radio className="text-green-500"></Radio>}
+								label={
+									<Typography variant="body2" color="textSecondary">
+										Pelanggan
+									</Typography>
+								}
+							/>
+							<FormControlLabel
+								value={1}
+								control={<Radio className="text-green-500"></Radio>}
+								label={
+									<Typography variant="body2" color="textSecondary">
+										Agen
+									</Typography>
+								}
+							/>
+						</RadioGroup>
+					</FormControl>
 				</div>
 				<div className="text-center w-full mt-6">
 					{loading ? (
