@@ -5,7 +5,7 @@ import { useGlobal } from "../../contexts/global";
 import API from "../../services/axios";
 import Cookies from "js-cookie";
 import { green } from "@material-ui/core/colors";
-import Axios from "axios";
+import useSWR from "swr";
 
 export default () => {
 	const ctx = useGlobal();
@@ -13,32 +13,36 @@ export default () => {
 		color: green[500],
 	};
 	const [loading, setLoading] = React.useState([]);
+	const [mounted, setMounted] = React.useState(false);
+
+	const getProduct = () => {
+		setLoading(true);
+		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+			"access_token"
+		)}`;
+		API.get("/product")
+			.then((res) => {
+				const { data } = res.data;
+				ctx.setProduct(data);
+				ctx.saveProductToLocal(data);
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+			.finally(() => setLoading(false));
+	};
+
+	useSWR(mounted ? "/produk" : null, getProduct);
 
 	React.useEffect(() => {
-		const CancelToken = Axios.CancelToken;
-		const source = CancelToken.source();
-		const getProduct = () => {
-			setLoading(true);
-			API.defaults.headers.Authorization = `Bearer ${Cookies.get(
-				"access_token"
-			)}`;
-			API.get("/product", { cancelToken: source.token })
-				.then((res) => {
-					const { data } = res.data;
-					ctx.setProduct(data);
-					ctx.saveProductToLocal(data);
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-				.finally(() => setLoading(false));
-		};
-		getProduct();
-
-		return () => {
-			source.cancel();
-		};
+		setMounted(true);
+		return () => setMounted(false);
 	}, []);
+
+	if (!mounted) {
+		return null;
+	}
+
 	return (
 		<div className="mx-3 p-3">
 			<h5 className="font-bold text-green-500 text-lg">Kategori Produk</h5>

@@ -36,7 +36,7 @@ export const GlobalProvider = (props) => {
 	};
 	const loadCart = () => {
 		if (Cookies.get("cart")) return Cookies.getJSON("cart");
-		return null;
+		return [];
 	};
 
 	const [category, setCategory] = React.useState([]);
@@ -118,18 +118,29 @@ export const GlobalProvider = (props) => {
 		return isLogin;
 	};
 
-	const doLogout = () => {
+	const doLogout = async () => {
 		setLoading(true);
 		setAlert((prev) => ({ ...prev, value: false }));
 		Cookies.remove("access_token");
 		Cookies.remove("user");
+		await API.post("auth/logout")
+			.then(() => {
+				return true;
+			})
+			.catch((err) => {
+				console.log(err);
+				return false;
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 		Router.replace("/login");
-		setLoading(false);
 	};
 
 	const getLastUser = () => {
 		if (Cookies.get("user")) {
 			const lastUser = Cookies.getJSON("user");
+			console.log(lastUser);
 			setUser((prev) => ({ ...prev, ...lastUser }));
 		}
 	};

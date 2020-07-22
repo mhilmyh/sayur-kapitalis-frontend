@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.19.2",
+    "fontsource-roboto": "^2.2.3",
     "framer-motion": "^1.11.1",
     "js-cookie": "^2.2.1",
     "material-design-icons": "^3.0.1",
