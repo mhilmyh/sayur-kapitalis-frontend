@@ -39,7 +39,9 @@ export default React.memo(() => {
 	};
 
 	const handleClickLogout = async () => {
+		setLoading(true);
 		await ctx.doLogout();
+		setLoading(false);
 	};
 
 	React.useEffect(() => {
@@ -49,7 +51,7 @@ export default React.memo(() => {
 	return (
 		<React.Fragment>
 			<div className="w-full flex justify-end px-5 pt-5">
-				{ctx.loading ? (
+				{loading ? (
 					<CircularProgress
 						size={40}
 						thickness={6}

@@ -105,6 +105,7 @@ export const GlobalProvider = (props) => {
 		const isLogin = await API.post("auth/getUser")
 			.then((response) => {
 				setUser({ ...response.data.data });
+				console.log(response);
 				return true;
 			})
 			.catch((err) => {
