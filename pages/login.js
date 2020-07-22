@@ -28,10 +28,6 @@ const LoginPage = () => {
 					<div className="relative w-full mb-3">
 						<Alert severity={ctx.alert.error ? "error" : "success"}>
 							<span>{ctx.alert.message}</span>
-							{/* {alert.error &&
-								Object.keys(alert.listErr).map((k, i) => (
-									<li key={"err" + i}>{k + ": " + alert.listErr[k][0]}</li>
-								))} */}
 						</Alert>
 					</div>
 				)}
@@ -79,14 +75,24 @@ const LoginPage = () => {
 				</div>
 				<div className="text-center text-xs text-gray-600 pt-2">
 					{!ctx.loading && (
-						<p>
-							Belum punya akun ?{" "}
-							<Link href="/register">
-								<span className="text-blue-500 cursor-pointer">
-									Daftar di sini
-								</span>
-							</Link>
-						</p>
+						<div>
+							<p>
+								{"Belum punya akun? "}
+								<Link href="/register">
+									<span className="text-blue-500 cursor-pointer">
+										Daftar di sini
+									</span>
+								</Link>
+							</p>
+							<p>
+								{"Lupa password? "}
+								<Link href="/forgot">
+									<span className="text-blue-500 cursor-pointer">
+										Klik di sini
+									</span>
+								</Link>
+							</p>
+						</div>
 					)}
 				</div>
 			</form>
