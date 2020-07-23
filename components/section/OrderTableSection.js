@@ -32,14 +32,6 @@ export default () => {
 					</tbody>
 				</table>
 			</div>
-			<div className="inline-flex w-full justify-center p-5">
-				<button className="bg-gray-300 opacity-50 cursor-not-allowed hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-					Prev
-				</button>
-				<button className="bg-gray-300 opacity-50 cursor-not-allowed hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-					Next
-				</button>
-			</div>
 		</div>
 	);
 };
