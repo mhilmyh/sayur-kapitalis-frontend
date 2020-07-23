@@ -21,6 +21,14 @@ const LoginPage = () => {
 	const style = {
 		color: green[500],
 	};
+
+	React.useEffect(() => {
+		ctx.setAlert({
+			value: false,
+			error: false,
+			message: "",
+		});
+	}, []);
 	return (
 		<Layout>
 			<form className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white">

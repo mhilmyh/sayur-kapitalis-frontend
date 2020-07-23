@@ -11,6 +11,7 @@ export const useGlobal = () => {
 
 export const GlobalProvider = (props) => {
 	const [loading, setLoading] = React.useState(false);
+	const [badge, setBadge] = React.useState(false);
 
 	const [alert, setAlert] = React.useState({
 		value: false,
@@ -41,26 +42,36 @@ export const GlobalProvider = (props) => {
 
 	const [category, setCategory] = React.useState([]);
 	const [selectedCategory, setSelectedCategory] = React.useState([]);
+	const saveCategoryToLocal = (data) => {
+		localStorage.setItem("category", JSON.stringify(data));
+	};
+	const getCategoryFromLocal = () => {
+		const result = JSON.parse(localStorage.getItem("category"));
+		const now = new Date();
+		const ttl = parseInt(localStorage.getItem("ttl"), 10);
+		if (ttl < now.getTime()) return null;
+		return result;
+	};
 
 	const [product, setProduct] = React.useState([]);
 	const saveProductToLocal = (data) => {
 		localStorage.setItem("product", JSON.stringify(data));
+		const hour = 1000 * 60 * 60;
+		const now = new Date();
+		const ttl = now.setTime(now.getTime() + hour);
+		localStorage.setItem("ttl", ttl);
 	};
 	const getProductFromLocal = () => {
 		const result = JSON.parse(localStorage.getItem("product"));
+		const now = new Date();
+		const ttl = parseInt(localStorage.getItem("ttl"), 10);
+		if (ttl < now.getTime()) return null;
 		return result;
 	};
 
 	const [search, setSearch] = React.useState("");
 
-	const [user, setUser] = React.useState(
-		Cookies.getJSON("user") || {
-			email: "",
-			id: "",
-			created_at: "",
-			updated_at: "",
-		}
-	);
+	const [user, setUser] = React.useState(Cookies.getJSON("user"));
 
 	const doLogin = (email, password) => {
 		setLoading(true);
@@ -97,7 +108,7 @@ export const GlobalProvider = (props) => {
 			.finally(() => setLoading(false));
 	};
 
-	const checkLogin = async () => {
+	const checkLogin = async (redirect = true) => {
 		setLoading(true);
 		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
 			"access_token"
@@ -105,7 +116,7 @@ export const GlobalProvider = (props) => {
 		const isLogin = await API.post("auth/getUser")
 			.then((response) => {
 				setUser({ ...response.data.data });
-				console.log(response);
+				Cookies.set("user", { ...response.data.data });
 				return true;
 			})
 			.catch((err) => {
@@ -114,8 +125,8 @@ export const GlobalProvider = (props) => {
 			})
 			.finally(() => setLoading(false));
 
-		if (isLogin == true) Router.replace("/produk");
-		if (isLogin == false) Router.replace("/login");
+		if (isLogin == true && redirect) Router.replace("/produk");
+		else if (redirect) Router.replace("/login");
 		return isLogin;
 	};
 
@@ -139,15 +150,35 @@ export const GlobalProvider = (props) => {
 	};
 
 	const getLastUser = () => {
-		if (Cookies.get("user")) {
-			const lastUser = Cookies.getJSON("user");
-			console.log(lastUser);
+		const lastUser = Cookies.getJSON("user");
+		if (Object.keys(lastUser).length === 0 && lastUser.constructor === Object) {
+			return {
+				email: "",
+				customer: {
+					first_name: "",
+					last_name: "",
+					phone_number: "",
+					address: "",
+				},
+				agent: {
+					first_name: "",
+					last_name: "",
+					phone_number: "",
+					address: "",
+				},
+				is_agent: 0,
+				is_admin: 0,
+				created_at: "",
+				updated_at: "",
+			};
+		} else {
 			setUser((prev) => ({ ...prev, ...lastUser }));
+			return lastUser;
 		}
 	};
 
 	React.useEffect(() => {
-		if (Cookies.get("user") == null) {
+		if (Cookies.get("user") == null && user != null) {
 			Cookies.set("user", JSON.stringify(user));
 		}
 		if (user == null) {
@@ -179,8 +210,12 @@ export const GlobalProvider = (props) => {
 				setCategory,
 				selectedCategory,
 				setSelectedCategory,
+				saveCategoryToLocal,
+				getCategoryFromLocal,
 				search,
 				setSearch,
+				badge,
+				setBadge,
 			}}
 		>
 			{props.children}

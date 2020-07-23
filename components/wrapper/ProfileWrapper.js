@@ -9,8 +9,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import DialogUpdateDataDiri from "../modal/DialogUpdateDataDiri";
 import DialogRegistCust from "../modal/DialogRegistCust";
+import DialogHapusAgen from "../modal/DialogHapusAgen";
 import { CircularProgress } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
+import Cookies from "js-cookie";
+import Router from "next/router";
 
 export default React.memo(() => {
 	const ctx = useGlobal();
@@ -21,13 +24,40 @@ export default React.memo(() => {
 	const [loading, setLoading] = React.useState(false);
 	const [openUpdate, setOpenUpdate] = React.useState(false);
 	const [openRegist, setOpenRegist] = React.useState(false);
+	const [openHapusAgen, setOpenHapusAgen] = React.useState(false);
+	const [user, setUser] = React.useState({
+		email: "",
+		customer: {
+			first_name: "",
+			last_name: "",
+			phone_number: "",
+			address: "",
+		},
+		agent: {
+			first_name: "",
+			last_name: "",
+			phone_number: "",
+			address: "",
+		},
+		is_agent: 0,
+		is_admin: 0,
+		created_at: "",
+		updated_at: "",
+	});
 
 	const handleCloseUpdate = (value) => {
 		setOpenUpdate(value);
+		setUser({ ...ctx.getLastUser() });
 	};
 
 	const handleCloseRegist = (value) => {
 		setOpenRegist(value);
+		setUser({ ...ctx.getLastUser() });
+	};
+
+	const handleCloseHapusAgen = (value) => {
+		setOpenHapusAgen(value);
+		setUser({ ...ctx.getLastUser() });
 	};
 
 	const handleClickUpdate = () => {
@@ -38,6 +68,10 @@ export default React.memo(() => {
 		setOpenRegist(true);
 	};
 
+	const handleClickHapusAgen = () => {
+		setOpenHapusAgen(true);
+	};
+
 	const handleClickLogout = async () => {
 		setLoading(true);
 		await ctx.doLogout();
@@ -45,7 +79,15 @@ export default React.memo(() => {
 	};
 
 	React.useEffect(() => {
-		ctx.getLastUser();
+		const checkUser = Cookies.getJSON("user");
+		if (
+			!checkUser ||
+			(Object.keys(checkUser).length === 0 && checkUser.constructor === Object)
+		) {
+			Router.replace("/login");
+		} else {
+			setUser({ ...ctx.getLastUser() });
+		}
 	}, []);
 
 	return (
@@ -81,7 +123,7 @@ export default React.memo(() => {
 									Email
 								</div>
 								<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-									{ctx.user.email ? ctx.user.email : "Tidak ada data"}
+									{user.email ? user.email : "Tidak ada data"}
 								</div>
 							</div>
 							<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -89,7 +131,7 @@ export default React.memo(() => {
 									Tipe Akun
 								</div>
 								<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-									{parseInt(ctx.user.is_agent, 10) === 1 ? "Agen" : "Pelanggan"}
+									{parseInt(user.is_agent, 10) === 1 ? "Agen" : "Pelanggan"}
 								</div>
 							</div>
 							<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -97,11 +139,15 @@ export default React.memo(() => {
 									Nama
 								</div>
 								<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-									{parseInt(ctx.user.is_agent, 10) === 1
-										? ctx.user.agent.first_name + " " + ctx.user.agent.last_name
-										: ctx.user.customer.first_name +
-										  " " +
-										  ctx.user.customer.last_name}
+									{parseInt(user.is_agent, 10) === 1
+										? user.agent != null &&
+										  user.agent.first_name + " " + (user.agent != null) &&
+										  user.agent.last_name
+										: user.customer != null &&
+										  user.customer.first_name +
+												" " +
+												(user.customer != null) &&
+										  user.customer.last_name}
 								</div>
 							</div>
 							<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -109,9 +155,9 @@ export default React.memo(() => {
 									Nomor Telepon
 								</div>
 								<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-									{parseInt(ctx.user.is_agent, 10) === 1
-										? ctx.user.agent.phone_number
-										: ctx.user.customer.phone_number}
+									{parseInt(user.is_agent, 10) === 1
+										? user.agent != null && user.agent.phone_number
+										: user.customer != null && user.customer.phone_number}
 								</div>
 							</div>
 							<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -119,9 +165,9 @@ export default React.memo(() => {
 									Alamat
 								</div>
 								<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-									{parseInt(ctx.user.is_agent, 10) === 1
-										? ctx.user.agent.address
-										: ctx.user.customer.address}
+									{parseInt(user.is_agent, 10) === 1
+										? user.agent != null && user.agent.address
+										: user.customer != null && user.customer.address}
 								</div>
 							</div>
 						</CardContent>
@@ -140,45 +186,49 @@ export default React.memo(() => {
 					<Card className="shadow-lg p-0">
 						<CardHeader
 							title={
-								parseInt(ctx.user.is_agent, 10)
+								parseInt(user.is_agent, 10)
 									? "Daftar Pelanggan"
 									: "Agen Langganan"
 							}
 							className="bg-green-500 text-gray-200"
 						></CardHeader>
 						<CardContent className="p-0">
-							{parseInt(ctx.user.is_agent, 10) ? (
+							{parseInt(user.is_agent, 10) === 1 ? (
 								<List dense={true} className="h-64 overflow-y-auto">
-									<div className="bg-gray-200 rounded m-5">
-										<ListItem className="flex justify-between">
-											<div className="bg-green-400 h-2 w-2 mx-3 rounded-full"></div>
-											<div className="w-5"></div>
-											<ListItemText
-												primary="Zulkifli Hasibbuuubuan"
-												secondary="08888888888"
-											></ListItemText>
-											<div>
-												<Button size="small" className="text-red-500 rounded">
-													Hapus
-												</Button>
+									{Array.isArray(user.agent != null && user.agent.customers) &&
+									user.agent != null &&
+									user.agent.customers.length > 0 ? (
+										user.agent != null &&
+										user.agent.customers.map((person, i) => (
+											<div
+												key={"person-" + i}
+												className="bg-gray-200 rounded m-5"
+											>
+												<ListItem className="flex justify-between">
+													<div className="bg-green-400 h-2 w-2 mx-3 rounded-full"></div>
+													<div className="w-5"></div>
+													<ListItemText
+														primary={person.first_name + " " + person.last_name}
+														secondary={person.phone_number}
+													></ListItemText>
+													<div>
+														<Button
+															size="small"
+															className="text-red-500 rounded"
+														>
+															Hapus
+														</Button>
+													</div>
+												</ListItem>
 											</div>
-										</ListItem>
-									</div>
-									<div className="bg-gray-200 rounded m-5">
-										<ListItem className="flex justify-between">
-											<div className="bg-green-400 h-2 w-2 m-3 rounded-full"></div>
-											<div className="w-5"></div>
-											<ListItemText
-												primary="Zulkifli Hasibbuuubuan"
-												secondary="08888888888"
-											></ListItemText>
-											<div>
-												<Button size="small" className="text-red-500 rounded">
-													Hapus
-												</Button>
-											</div>
-										</ListItem>
-									</div>
+										))
+									) : (
+										<div className="w-full flex justify-center items-center content-center">
+											<p className="text-sm text-gray-600">
+												Belum ada pelanggan
+											</p>
+										</div>
+									)}
 								</List>
 							) : (
 								<div className="pt-4">
@@ -187,7 +237,7 @@ export default React.memo(() => {
 											Email
 										</div>
 										<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-											{ctx.user.email ? ctx.user.email : "Tidak ada data"}
+											{user.email ? user.email : "Tidak ada data"}
 										</div>
 									</div>
 									<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -195,9 +245,7 @@ export default React.memo(() => {
 											Tipe Akun
 										</div>
 										<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-											{parseInt(ctx.user.is_agent, 10) === 1
-												? "Agen"
-												: "Pelanggan"}
+											{parseInt(user.is_agent, 10) === 1 ? "Agen" : "Pelanggan"}
 										</div>
 									</div>
 									<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -205,13 +253,15 @@ export default React.memo(() => {
 											Nama
 										</div>
 										<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-											{parseInt(ctx.user.is_agent, 10) === 1
-												? ctx.user.agent.first_name +
-												  " " +
-												  ctx.user.agent.last_name
-												: ctx.user.customer.first_name +
-												  " " +
-												  ctx.user.customer.last_name}
+											{parseInt(user.is_agent, 10) === 1
+												? user.agent != null &&
+												  user.agent.first_name + " " + (user.agent != null) &&
+												  user.agent.last_name
+												: user.customer != null &&
+												  user.customer.first_name +
+														" " +
+														(user.customer != null) &&
+												  user.customer.last_name}
 										</div>
 									</div>
 									<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -219,9 +269,9 @@ export default React.memo(() => {
 											Nomor Telepon
 										</div>
 										<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-											{parseInt(ctx.user.is_agent, 10) === 1
-												? ctx.user.agent.phone_number
-												: ctx.user.customer.phone_number}
+											{parseInt(user.is_agent, 10) === 1
+												? user.agent != null && user.agent.phone_number
+												: user.customer != null && user.customer.phone_number}
 										</div>
 									</div>
 									<div className="flex bg-gray-200 content-center rounded p-2 m-2">
@@ -229,16 +279,16 @@ export default React.memo(() => {
 											Alamat
 										</div>
 										<div className="flex-1 text-gray-600 font-light text-xs antialiased">
-											{parseInt(ctx.user.is_agent, 10) === 1
-												? ctx.user.agent.address
-												: ctx.user.customer.address}
+											{parseInt(user.is_agent, 10) === 1
+												? user.agent != null && user.agent.address
+												: user.customer != null && user.customer.address}
 										</div>
 									</div>
 								</div>
 							)}
 						</CardContent>
 						<CardActions className="flex justify-center pb-5">
-							{parseInt(ctx.user.is_agent, 10) ? (
+							{parseInt(user.is_agent, 10) ? (
 								<Button
 									size="large"
 									className="bg-green-500 shadow-lg text-gray-100 rounded"
@@ -250,7 +300,7 @@ export default React.memo(() => {
 								<Button
 									size="large"
 									className="bg-green-500 shadow-lg text-gray-100 rounded"
-									onClick={() => handleClickRegist()}
+									onClick={() => handleClickHapusAgen()}
 								>
 									Hapus Agen
 								</Button>
@@ -261,11 +311,20 @@ export default React.memo(() => {
 				<DialogUpdateDataDiri
 					onClose={handleCloseUpdate}
 					open={openUpdate}
+					initData={
+						user.is_agent
+							? user.agent != null && user.agent
+							: user.customer != null && user.customer
+					}
 				></DialogUpdateDataDiri>
 				<DialogRegistCust
 					onClose={handleCloseRegist}
 					open={openRegist}
 				></DialogRegistCust>
+				<DialogHapusAgen
+					onClose={handleCloseHapusAgen}
+					open={openHapusAgen}
+				></DialogHapusAgen>
 			</div>
 		</React.Fragment>
 	);

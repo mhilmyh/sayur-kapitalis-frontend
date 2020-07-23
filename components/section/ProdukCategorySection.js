@@ -11,19 +11,26 @@ export default () => {
 	};
 	const [loading, setLoading] = React.useState([]);
 	const getCategory = async () => {
-		setLoading(true);
-		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
-			"access_token"
-		)}`;
-		await API.get("/category")
-			.then((res) => {
-				const { data } = res.data;
-				ctx.setCategory(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-			.finally(() => setLoading(false));
+		const lastCategory = ctx.getCategoryFromLocal();
+		if (lastCategory && Array.isArray(lastCategory) && lastCategory.length) {
+			ctx.setCategory(lastCategory);
+			setLoading(false);
+		} else {
+			setLoading(true);
+			API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+				"access_token"
+			)}`;
+			await API.get("/category")
+				.then((res) => {
+					const { data } = res.data;
+					ctx.setCategory(data);
+					ctx.saveCategoryToLocal(data);
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		}
 	};
 	React.useEffect(() => {
 		getCategory();

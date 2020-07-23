@@ -9,8 +9,10 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { Typography } from "@material-ui/core";
+import useGlobal from "../contexts/global";
 
 const RegisterPage = () => {
+	const ctx = useGlobal();
 	const [user, setUser] = React.useState({
 		first_name: "",
 		last_name: "",
@@ -64,9 +66,17 @@ const RegisterPage = () => {
 		color: green[500],
 	};
 
+	React.useEffect(() => {
+		ctx.setAlert({
+			value: false,
+			error: false,
+			message: "",
+		});
+	}, []);
+
 	return (
 		<Layout>
-			<form className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white flex flex-wrap justify-center">
+			<form className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white flex flex-wrap justify-center my-5">
 				{alert.value && (
 					<div className="relative w-full mb-3">
 						<Alert severity={alert.error ? "error" : "success"}>

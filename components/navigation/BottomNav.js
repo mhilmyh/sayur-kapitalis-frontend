@@ -3,10 +3,9 @@ import Badge from "@material-ui/core/Badge";
 import { useGlobal } from "../../contexts/global";
 export default React.memo((props) => {
 	const ctx = useGlobal();
-	const [badgeValue, setBadgeValue] = React.useState(0);
 	React.useEffect(() => {
 		const cart = ctx.loadCart();
-		setBadgeValue(cart.length);
+		ctx.setBadge(cart.length);
 	}, []);
 	return (
 		<div className="w-full">
@@ -32,7 +31,7 @@ export default React.memo((props) => {
 						title="Pesanan"
 						active={props.pathname === "/pesanan"}
 					>
-						<Badge variant="dot" invisible={badgeValue === 0} color="error">
+						<Badge variant="dot" invisible={ctx.badge === 0} color="error">
 							<svg
 								className="svg-icon inline-block mb-1 text-lg"
 								viewBox="0 0 20 20"

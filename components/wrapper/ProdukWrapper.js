@@ -5,7 +5,6 @@ import { useGlobal } from "../../contexts/global";
 import API from "../../services/axios";
 import Cookies from "js-cookie";
 import { green } from "@material-ui/core/colors";
-import useSWR from "swr";
 
 export default () => {
 	const ctx = useGlobal();
@@ -16,26 +15,31 @@ export default () => {
 	const [mounted, setMounted] = React.useState(false);
 
 	const getProduct = () => {
-		setLoading(true);
-		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
-			"access_token"
-		)}`;
-		API.get("/product")
-			.then((res) => {
-				const { data } = res.data;
-				ctx.setProduct(data);
-				ctx.saveProductToLocal(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-			.finally(() => setLoading(false));
+		const lastProduct = ctx.getProductFromLocal();
+		if (lastProduct && Array.isArray(lastProduct) && lastProduct.length) {
+			ctx.setProduct(lastProduct);
+			setLoading(false);
+		} else {
+			setLoading(true);
+			API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+				"access_token"
+			)}`;
+			API.get("/product")
+				.then((res) => {
+					const { data } = res.data;
+					ctx.setProduct(data);
+					ctx.saveProductToLocal(data);
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+				.finally(() => setLoading(false));
+		}
 	};
-
-	useSWR(mounted ? "/produk" : null, getProduct);
 
 	React.useEffect(() => {
 		setMounted(true);
+		getProduct();
 		return () => setMounted(false);
 	}, []);
 

@@ -4,15 +4,19 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
 import { green } from "@material-ui/core/colors";
 import { useGlobal } from "../contexts/global";
+import API from "../services/axios";
 
 const LoginPage = () => {
 	const ctx = useGlobal();
 	const [user, setUser] = React.useState({
 		email: "",
-		password: "",
 	});
 	const handleClick = () => {
-		ctx.doLogin(user.email, user.password);
+		ctx.setLoading(true);
+		API.post("auth/forgotPassword", { email: user.email })
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err))
+			.finally(() => ctx.setLoading(false));
 	};
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -21,6 +25,13 @@ const LoginPage = () => {
 	const style = {
 		color: green[500],
 	};
+	React.useEffect(() => {
+		ctx.setAlert({
+			value: false,
+			error: false,
+			message: "",
+		});
+	}, []);
 	return (
 		<Layout>
 			<form className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white">

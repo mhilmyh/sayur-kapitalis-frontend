@@ -6,6 +6,7 @@ export default (props) => {
 	const handleClick = (p) => {
 		setAdded(true);
 		ctx.saveCart(p.id);
+		ctx.setBadge(1);
 		setTimeout(() => setAdded(false), 1000);
 	};
 	return (

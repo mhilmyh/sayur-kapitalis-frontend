@@ -15,12 +15,8 @@ const ProdukPage = (props) => {
 	React.useEffect(() => {
 		const checkUser = Cookies.getJSON("user");
 		if (
-			checkUser.id == null ||
-			checkUser.id == undefined ||
-			checkUser.created_at == null ||
-			checkUser.created_at == undefined ||
-			checkUser.updated_at == null ||
-			checkUser.updated_at == undefined
+			!checkUser ||
+			(Object.keys(checkUser).length === 0 && checkUser.constructor === Object)
 		) {
 			Router.replace("/login");
 		}

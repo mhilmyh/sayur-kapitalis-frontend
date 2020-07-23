@@ -48,10 +48,11 @@ export default () => {
 			const deletedPrice = products.find(
 				(el) => el.id === parseInt(cart[index], 10)
 			).price;
-			return (
+			const newSum =
 				parseInt(prev, 10) -
-				parseInt(amount[index], 10) * parseInt(deletedPrice, 10)
-			);
+				parseInt(amount[index], 10) * parseInt(deletedPrice, 10);
+			if (newSum === 0) ctx.setBadge(0);
+			return newSum;
 		});
 		setCart((prev) => {
 			const newArr = [];
@@ -163,7 +164,7 @@ export default () => {
 				<div className="flex justify-start text-gray-700 rounded-md px-2 my-2">
 					<span className="bg-gray-400 h-2 w-2 m-2 rounded-full"></span>
 					<div className="flex-grow font-medium px-2">Total</div>
-					<div className="text-sm font-normal text-gray-500 tracking-wide px-1 rounded-full hover:bg-green-100">
+					<div className="text-sm font-normal text-gray-500 tracking-wide px-1">
 						Rp {totalSum}
 					</div>
 				</div>
