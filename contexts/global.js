@@ -19,6 +19,15 @@ export const GlobalProvider = (props) => {
 		message: "",
 	});
 
+	const isLocalStorageSupported = () => {
+		return (
+			!!window.localStorage &&
+			typeof localStorage.getItem === "function" &&
+			typeof localStorage.setItem === "function" &&
+			typeof localStorage.removeItem === "function"
+		);
+	};
+
 	const saveCart = (id) => {
 		let intID = parseInt(id, 10);
 		const lastCart = Cookies.getJSON("cart");
@@ -56,23 +65,118 @@ export const GlobalProvider = (props) => {
 	const [product, setProduct] = React.useState([]);
 	const saveProductToLocal = (data) => {
 		localStorage.setItem("product", JSON.stringify(data));
-		const hour = 1000 * 60 * 60;
+		const delay = 1000 * 60;
 		const now = new Date();
-		const ttl = now.setTime(now.getTime() + hour);
+		const ttl = now.setTime(now.getTime() + delay);
 		localStorage.setItem("ttl", ttl);
 	};
-	const getProductFromLocal = () => {
+	const getProductFromLocal = (fromCache = false) => {
 		const result = JSON.parse(localStorage.getItem("product"));
+		if (fromCache) return result;
 		const now = new Date();
 		const ttl = parseInt(localStorage.getItem("ttl"), 10);
 		if (ttl < now.getTime()) return null;
 		return result;
 	};
+	const orderProduct = (data = [], callback = null) => {
+		setLoading(true);
+		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+			"access_token"
+		)}`;
+		API.post("orderHeader", { details: data })
+			.then((res) => {
+				// const { data } = res.data;
+				const message =
+					res.data && res.data.message
+						? res.data.message
+						: "Berhasil memesan produk";
+				setAlert({
+					message: message,
+					error: false,
+					value: true,
+				});
+				if (callback) callback();
+			})
+			.catch((err) => {
+				const message =
+					err.response && err.response.data
+						? err.response.data.message
+						: "Gagal memesan produk";
+				setAlert({
+					message: message,
+					error: true,
+					value: true,
+				});
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	};
+	const [listOrderHistory, setListOrderHistory] = React.useState([]);
+	const getOrderHistoryProduct = (callback = null) => {
+		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+			"access_token"
+		)}`;
+		API.get("orderHeader")
+			.then((res) => {
+				const { data } = res.data;
+				setListOrderHistory(data);
+				if (isLocalStorageSupported()) {
+					localStorage.setItem("lastOrder", data);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				setAlert({
+					message: "Gagal mendapatkan data terbaru",
+					error: true,
+					value: true,
+				});
+				if (isLocalStorageSupported()) {
+					const lastOrder = JSON.parse(localStorage.setItem("lastOrder", data));
+					setListOrderHistory(lastOrder);
+				}
+			})
+			.finally(() => {
+				if (callback) callback();
+			});
+	};
+
+	const [accountList, setAccoutList] = React.useState([]);
+	const getListAccount = (fromCache = false, callback = null) => {
+		const lastAccount = JSON.parse(localStorage.getItem("account"));
+
+		if (fromCache && lastAccount) return lastAccount;
+
+		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
+			"access_token"
+		)}`;
+
+		API.get("/account")
+			.then((res) => {
+				const { data } = res.data;
+				if (typeof localStorage === "object" && data) {
+					localStorage.setItem("account", JSON.stringify(data));
+					setAccoutList(data);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+			.finally(() => {
+				if (typeof callback === "function") {
+					callback();
+				}
+			});
+	};
+	const saveListAccount = (data = null) => {
+		if (typeof localStorage === "object" && data) {
+			localStorage.setItem("account", data);
+		}
+	};
 
 	const [search, setSearch] = React.useState("");
-
 	const [user, setUser] = React.useState(Cookies.getJSON("user"));
-
 	const doLogin = (email, password) => {
 		setLoading(true);
 		setAlert({ value: false });
@@ -203,6 +307,14 @@ export const GlobalProvider = (props) => {
 				setProduct,
 				saveProductToLocal,
 				getProductFromLocal,
+				orderProduct,
+				listOrderHistory,
+				setListOrderHistory,
+				getOrderHistoryProduct,
+				accountList,
+				setAccoutList,
+				getListAccount,
+				saveListAccount,
 				saveCart,
 				saveCartArray,
 				loadCart,

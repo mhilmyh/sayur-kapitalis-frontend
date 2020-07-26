@@ -1,4 +1,18 @@
+import useGlobal from "../../contexts/global";
+import { CircularProgress } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+import OrderHistoryTable from "../table/OrderHistoryTable";
 export default () => {
+	const ctx = useGlobal();
+	const style = {
+		color: green[500],
+	};
+	const [loading, setLoading] = React.useState(false);
+	React.useEffect(() => {
+		setLoading(true);
+		ctx.getListAccount();
+		ctx.getOrderHistoryProduct(() => setLoading(false));
+	}, []);
 	return (
 		<div className="flex flex-wrap shadow-lg rounded py-2 my-5">
 			<div className="w-full px-5 py-3">
@@ -9,28 +23,18 @@ export default () => {
 			</div>
 			<hr className="mx-5 w-full"></hr>
 			<div className="w-full px-5 py-3 overflow-x-auto">
-				<table className="table-auto whitespace-no-wrap bg-white w-full overflow-x-auto">
-					<thead className="w-full text-left text-xs uppercase">
-						<tr className="">
-							<th className="px-5 py-2 bg-gray-200 text-gray-600 tracking-wider">
-								Barang
-							</th>
-							<th className="px-5 py-2 bg-gray-200 text-gray-600 tracking-wider">
-								Tanggal Pemesanan
-							</th>
-							<th className="px-5 py-2 bg-gray-200 text-gray-600 tracking-wider">
-								Status
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr className="text-sm text-gray-600">
-							<td className="px-5 py-5">Ayam mentah</td>
-							<td className="px-5 py-5">21-09-2020</td>
-							<td className="px-5 py-5">Sedang diproses</td>
-						</tr>
-					</tbody>
-				</table>
+				{loading ? (
+					<div className="w-full flex justify-center">
+						<CircularProgress
+							size={40}
+							thickness={6}
+							disableShrink
+							style={style}
+						></CircularProgress>
+					</div>
+				) : (
+					<OrderHistoryTable data={ctx.listOrderHistory}></OrderHistoryTable>
+				)}
 			</div>
 		</div>
 	);

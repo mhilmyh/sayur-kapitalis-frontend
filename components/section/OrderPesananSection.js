@@ -1,7 +1,15 @@
 import { useGlobal } from "../../contexts/global";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { green } from "@material-ui/core/colors";
+import Alert from "@material-ui/lab/Alert";
+import Cookies from "js-cookie";
+
 export default () => {
 	const ctx = useGlobal();
 	const [products, setProducts] = React.useState([]);
+	const style = {
+		color: green[500],
+	};
 
 	const [cart, setCart] = React.useState([]);
 	const [amount, setAmount] = React.useState([]);
@@ -72,11 +80,39 @@ export default () => {
 		});
 		ctx.saveCartArray(lastCart);
 	};
+
+	const resetData = () => {
+		setCart([]);
+		setAmount([]);
+		setTotalSum(0);
+		Cookies.remove("cart");
+	};
+
+	const handleOrder = () => {
+		if (Array.isArray(cart) && cart.length === 0) {
+			ctx.setAlert({
+				message: "Tidak ada produk yg ingin di pesan",
+				error: true,
+				value: true,
+			});
+			return;
+		}
+		const data = [];
+		for (let i = 0; i < cart.length; i++) {
+			data.push({
+				product_id: cart[i],
+				quantity: amount[i],
+			});
+		}
+		ctx.orderProduct(data, resetData);
+	};
+
 	React.useEffect(() => {
-		const listProduct = ctx.getProductFromLocal();
+		ctx.setAlert({ value: false });
+		const listProduct = ctx.getProductFromLocal(true) || [];
 		setProducts(listProduct);
 
-		const tempCart = ctx.loadCart();
+		const tempCart = ctx.loadCart() || [];
 		setCart(tempCart);
 
 		let sum = 0;
@@ -84,7 +120,7 @@ export default () => {
 		for (let i = 0; i < tempCart.length; i++) {
 			tempAmount.push(1);
 			sum += parseInt(
-				listProduct.find((el) => el.id === tempCart[i]).price,
+				listProduct.find((el) => el.id === tempCart[i]).price || 0,
 				10
 			);
 		}
@@ -100,6 +136,15 @@ export default () => {
 				</p>
 			</div>
 			<hr className="mx-5 w-full"></hr>
+			<div className="w-full mx-5">
+				{ctx.alert.value && (
+					<div className="relative w-full mb-3">
+						<Alert severity={ctx.alert.error ? "error" : "success"}>
+							<span>{ctx.alert.message}</span>
+						</Alert>
+					</div>
+				)}
+			</div>
 			<div className="w-full font-semibold text-sm text-gray-700 px-5">
 				{cart.map((id, index) => (
 					<div
@@ -171,9 +216,23 @@ export default () => {
 			</div>
 			<div className="w-full text-gray-700 px-5">
 				<div className="flex justify-end text-gray-700 my-2">
-					<button className="bg-green-500 px-10 py-1 rounded text-gray-100 shadow-md">
-						Pesan
-					</button>
+					{ctx.loading ? (
+						<div className="px-10 py-1">
+							<CircularProgress
+								size={40}
+								thickness={6}
+								disableShrink
+								style={style}
+							></CircularProgress>
+						</div>
+					) : (
+						<button
+							className="bg-green-500 px-10 py-1 rounded text-gray-100 shadow-md"
+							onClick={handleOrder}
+						>
+							Pesan
+						</button>
+					)}
 				</div>
 			</div>
 		</div>

@@ -120,6 +120,7 @@ export default (props) => {
 						value={tabValue}
 						indicatorColor="primary"
 						textColor="primary"
+						variant="fullWidth"
 						onChange={handleChangeTab}
 					>
 						<Tab label="Akun Baru" />
