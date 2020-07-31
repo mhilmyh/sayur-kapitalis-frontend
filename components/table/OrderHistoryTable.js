@@ -2,13 +2,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -18,6 +18,7 @@ import useGlobal from "../../contexts/global";
 import { CircularProgress } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import DialogOrderPayment from "../modal/DialogOrderPayment";
+import DialogEditProduk from "../modal/DialogEditProduk";
 
 const useRowStyles = makeStyles({
 	root: {
@@ -62,6 +63,8 @@ function Row(props) {
 
 	const { row } = props;
 	const [open, setOpen] = React.useState(false);
+	const [openEdit, setOpenEdit] = React.useState(false);
+	const [editData, setEditData] = React.useState({});
 	const [loading, setLoading] = React.useState(false);
 	const classes = useRowStyles();
 
@@ -85,6 +88,13 @@ function Row(props) {
 			);
 	};
 
+	const handleClickEdit = (data) => {
+		setLoading(true);
+		setEditData(data);
+		setOpenEdit(true);
+		setLoading(false);
+	};
+
 	return (
 		<React.Fragment>
 			<TableRow className={classes.root} onClick={() => setOpen(!open)}>
@@ -93,7 +103,7 @@ function Row(props) {
 						{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell component="th" scope="row">
+				<TableCell component="th" scope="row" className="cursor-pointer">
 					{row.order_number || "Tidak ada data"}
 				</TableCell>
 				<TableCell align="right" className="cursor-pointer">
@@ -152,10 +162,10 @@ function Row(props) {
 												<TableCell>
 													<a
 														href={"#button-pay-" + row.id}
-														className="bg-gray-200 py-2 flex justify-center content-center items-center rounded"
+														className="bg-gray-200 py-2 flex justify-center content-center items-center rounded max-w-xs"
 													>
-														<span className="capitalize ml-5 font-bold text-gray-600">
-															bayar
+														<span className="ml-5 font-bold text-gray-600">
+															Bayar
 														</span>
 														<svg
 															className="svg-icon inline-block mx-5"
@@ -180,20 +190,35 @@ function Row(props) {
 													></DialogOrderPayment>
 												</TableCell>
 												<TableCell colSpan="2">
-													<button
-														id={"button-pay-" + row.id}
-														className="bg-green-500 px-10 py-2 rounded text-gray-100 shadow-md w-full"
-														onClick={handlePayment}
-													>
-														Pembayaran
-													</button>
+													<span className="flex w-full justify-end">
+														<Button
+															id={"button-edit-" + row.id}
+															className={
+																"bg-gray-200 px-5 py-2 mx-2 rounded font-bold " +
+																(row.status.id > 1
+																	? "text-gray-400"
+																	: "text-gray-600")
+															}
+															disabled={row.status.id > 1}
+															onClick={() => handleClickEdit(row)}
+														>
+															Edit
+														</Button>
+														<Button
+															id={"button-pay-" + row.id}
+															className="bg-green-500 px-5 py-2 mx-2 rounded text-gray-100"
+															onClick={handlePayment}
+														>
+															Pembayaran
+														</Button>
+													</span>
 												</TableCell>
 											</TableRow>
 										</TableBody>
 									</Table>
 								</React.Fragment>
 							) : (
-								<Table className="w-full flex justify-center flex-wrap">
+								<Table className="w-full flex justify-center flex-wrap h-full">
 									<caption className="w-full text-center py-3">
 										Tidak ada data
 									</caption>
@@ -220,6 +245,12 @@ function Row(props) {
 					</Collapse>
 				</TableCell>
 			</TableRow>
+			<DialogEditProduk
+				open={openEdit}
+				setOpen={setOpenEdit}
+				data={editData}
+				loading={loading}
+			></DialogEditProduk>
 		</React.Fragment>
 	);
 }

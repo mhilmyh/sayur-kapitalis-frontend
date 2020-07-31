@@ -11,7 +11,8 @@ import {
 	FormControl,
 	InputLabel,
 	FormHelperText,
-	NativeSelect,
+	Select,
+	MenuItem,
 	Typography,
 	CircularProgress,
 	Tabs,
@@ -157,7 +158,7 @@ export default (props) => {
 					</Tabs>
 					<TabPanel value={tabValue} index={0}>
 						{loading ? (
-							<div className="w-full flex justify-center h-full items-center">
+							<div className="w-full flex justify-center h-full items-center py-5">
 								<CircularProgress
 									size={40}
 									thickness={6}
@@ -184,27 +185,23 @@ export default (props) => {
 									<InputLabel htmlFor="select-rekening">
 										Rekening Bank
 									</InputLabel>
-									<NativeSelect
+									<Select
 										value={accountID}
 										onChange={handleChangeSelectAccount}
-										inputProps={{
-											name: "accountID",
-											id: "select-rekening",
-										}}
 									>
-										<option aria-label="None" value={-1}></option>
+										<MenuItem value={-1}>Tidak ada</MenuItem>
 										{Array.isArray(ctx.accountList) &&
 										ctx.accountList.length > 0 ? (
 											ctx.accountList.map((item, i) => (
-												<option
-													key={"acc-list-" + item.id + "-" + i}
+												<MenuItem
 													value={item.id}
-												>{`${item.bank_name} ${item.number} (${item.owner_name})`}</option>
+													key={"menu-" + item.id}
+												>{`${item.bank_name} ${item.number} (${item.owner_name})`}</MenuItem>
 											))
 										) : (
-											<option value={-1}>Tidak ada data</option>
+											<MenuItem value={-1}>Tidak ada</MenuItem>
 										)}
-									</NativeSelect>
+									</Select>
 									<FormHelperText>
 										Pilih rekening yang akan ditransfer
 									</FormHelperText>
@@ -252,15 +249,31 @@ export default (props) => {
 							</React.Fragment>
 						)}
 					</TabPanel>
-					<TabPanel value={tabValue} index={1}>
+					<TabPanel value={tabValue} index={1} className="h-full">
 						<OrderPaymentTable></OrderPaymentTable>
 					</TabPanel>
 				</DialogContent>
 				<DialogActions>
-					<Button autoFocus onClick={handleClose} className="text-green-500">
+					<Button
+						autoFocus
+						onClick={handleClose}
+						className="text-green-500"
+						variant="contained"
+						size="large"
+						className="bg-gray-500 text-gray-100"
+						fullWidth={true}
+					>
 						Tutup
 					</Button>
-					<Button onClick={handleBayar} className="text-green-500" autoFocus>
+					<Button
+						onClick={handleBayar}
+						className="text-green-500"
+						autoFocus
+						variant="contained"
+						size="large"
+						className="bg-green-500 text-gray-100"
+						fullWidth={true}
+					>
 						Bayar
 					</Button>
 				</DialogActions>

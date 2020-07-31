@@ -11,7 +11,7 @@ export default React.memo((props) => {
 		<div className="w-full">
 			<section
 				id="bottom-navigation"
-				className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow"
+				className="block fixed inset-x-0 bottom-0 z-1 bg-white shadow"
 			>
 				<div id="tabs" className="flex justify-between border-solid border p-1">
 					<BottomNavLink

@@ -133,7 +133,7 @@ export const GlobalProvider = (props) => {
 					value: true,
 				});
 				if (isLocalStorageSupported()) {
-					const lastOrder = JSON.parse(localStorage.setItem("lastOrder", data));
+					const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
 					setListOrderHistory(lastOrder);
 				}
 			})

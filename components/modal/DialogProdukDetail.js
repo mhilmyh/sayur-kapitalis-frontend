@@ -1,4 +1,4 @@
-export default (props) => {
+export const DialogProdukDetail = (props) => {
 	const isActive = props.isActive || true;
 	return (
 		<div
@@ -58,3 +58,5 @@ export default (props) => {
 		</div>
 	);
 };
+
+export default DialogProdukDetail;

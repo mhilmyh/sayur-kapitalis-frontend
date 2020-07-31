@@ -128,7 +128,7 @@ export default () => {
 		setTotalSum(sum);
 	}, []);
 	return (
-		<div className="flex flex-wrap shadow-lg rounded py-2 my-5">
+		<div className="flex flex-wrap rounded py-2">
 			<div className="w-full px-5 py-3">
 				<h2 className="text-gray-700 font-semibold text-2xl">Pesanan</h2>
 				<p className="text-gray-500 text-xs capitalize">
@@ -215,7 +215,7 @@ export default () => {
 				</div>
 			</div>
 			<div className="w-full text-gray-700 px-5">
-				<div className="flex justify-end text-gray-700 my-2">
+				<div className="flex justify-center text-gray-700 my-2 w-full">
 					{ctx.loading ? (
 						<div className="px-10 py-1">
 							<CircularProgress
@@ -227,7 +227,7 @@ export default () => {
 						</div>
 					) : (
 						<button
-							className="bg-green-500 px-10 py-1 rounded text-gray-100 shadow-md"
+							className="bg-green-500 px-10 py-3 rounded text-gray-100 shadow-md w-full"
 							onClick={handleOrder}
 						>
 							Pesan

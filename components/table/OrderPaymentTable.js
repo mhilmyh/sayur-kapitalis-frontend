@@ -7,7 +7,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 import API from "../../services/axios";
 import Cookies from "js-cookie";
 import { green } from "@material-ui/core/colors";
@@ -47,7 +46,6 @@ export default function () {
 		API.get("orderPayment")
 			.then((res) => {
 				const { data } = res.data;
-				console.log(data);
 				setData(data);
 			})
 			.catch((err) => {
@@ -64,14 +62,13 @@ export default function () {
 	};
 
 	const deleteOrderPayment = (id) => {
-		console.log(id);
 		if (loading) return;
 		setLoading(true);
 		API.defaults.headers.Authorization = `Bearer ${Cookies.get(
 			"access_token"
 		)}`;
 		API.delete("orderPayment/" + id)
-			.then((res) => console.log(res))
+			.then(() => getOrderPayment())
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
@@ -80,61 +77,76 @@ export default function () {
 		getOrderPayment();
 	}, []);
 	return (
-		<TableContainer component={Paper}>
-			<Table className={classes.table} aria-label="caption table">
-				<caption>
-					{alert.value
-						? alert.message
-						: "List bukti pembayaran yang telah berhasil diupload"}
-				</caption>
-				<TableHead>
-					<TableRow>
-						<TableCell>Gambar</TableCell>
-						<TableCell align="right">Rekening</TableCell>
-						<TableCell align="right">Tanggal Dibuat</TableCell>
-						<TableCell align="right">Opsi</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{data.map((row) => (
-						<TableRow key={row.id}>
-							<TableCell component="th" scope="row">
-								<a
-									href={row.image_url ? row.image_url : "#"}
-									className={row.image_url ? "text-blue-500" : "text-gray-600"}
-								>
-									{row.image_url || "Tidak ada data"}
-								</a>
-							</TableCell>
-							<TableCell align="right">
-								{row.account_id || "Tidak ada data"}
-							</TableCell>
-							<TableCell align="right">
-								{convertDate(row.created_at) || "Tidak ada data"}
-							</TableCell>
-							<TableCell align="right">
-								{loading ? (
-									<CircularProgress
-										size={40}
-										thickness={6}
-										disableShrink
-										style={style}
-									></CircularProgress>
-								) : (
-									<Button
-										size="small"
-										variant="contained"
-										color="secondary"
-										onClick={deleteOrderPayment}
-									>
-										<DeleteIcon />
-									</Button>
-								)}
-							</TableCell>
-						</TableRow>
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<React.Fragment>
+			{loading ? (
+				<div className="w-full flex justify-center h-full items-center py-5">
+					<CircularProgress
+						size={40}
+						thickness={6}
+						disableShrink
+						style={style}
+					></CircularProgress>
+				</div>
+			) : (
+				<TableContainer component={Paper}>
+					<Table className={classes.table} aria-label="caption table">
+						<caption>
+							{alert.value
+								? alert.message
+								: "List bukti pembayaran yang telah berhasil diupload"}
+						</caption>
+						<TableHead>
+							<TableRow>
+								<TableCell>Gambar</TableCell>
+								<TableCell align="right">Rekening</TableCell>
+								<TableCell align="right">Tanggal Dibuat</TableCell>
+								<TableCell align="right">Opsi</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{data.map((row) => (
+								<TableRow key={row.id}>
+									<TableCell component="th" scope="row">
+										<a
+											href={row.image_url ? row.image_url : "#"}
+											className={
+												row.image_url ? "text-blue-500" : "text-gray-600"
+											}
+										>
+											{row.image_url || "Tidak ada data"}
+										</a>
+									</TableCell>
+									<TableCell align="right">
+										{row.account_id || "Tidak ada data"}
+									</TableCell>
+									<TableCell align="right">
+										{convertDate(row.created_at) || "Tidak ada data"}
+									</TableCell>
+									<TableCell align="right">
+										{loading ? (
+											<CircularProgress
+												size={40}
+												thickness={6}
+												disableShrink
+												style={style}
+											></CircularProgress>
+										) : (
+											<Button
+												size="small"
+												variant="contained"
+												color="secondary"
+												onClick={() => deleteOrderPayment(row.id)}
+											>
+												Hapus
+											</Button>
+										)}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			)}
+		</React.Fragment>
 	);
 }
