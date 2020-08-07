@@ -1,29 +1,29 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-// Request
 const handleRequestSend = (config) => {
-	// Assign JWT if exist
+	// Set token
 	const token = Cookies.get("token");
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
-
 	return config;
 };
+
 const handleRequestError = (error) => {
-	console.log(error);
 	return Promise.reject(error);
 };
 
-// Response
-const handleResponseReceive = (reponse) => {
-	console.log(response);
+const handleResponseReceive = (response) => {
+	// Status Code 2xx
+	console.log("Axios Response");
 	return response.data;
 };
+
 const handleResponseError = (error) => {
-	console.log(error);
-	return Promise.reject(error);
+	// Status Code 4xx
+	console.log("Axios Response Error");
+	return Promise.reject(error.response);
 };
 
 const API = axios.create({

@@ -1,9 +1,8 @@
 import { useGlobal } from "../../contexts/global";
 export default (props) => {
-	const ctx = useGlobal();
+	const { setSearch } = useGlobal();
 	const handleChange = (e) => {
-		ctx.setSearch(e.target.value);
-		console.log(ctx.cart);
+		setSearch(e.target.value);
 	};
 	return (
 		<div className="flex py-5 justify-center">

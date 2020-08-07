@@ -1,181 +1,138 @@
 import Layout from "../layouts/guest";
-import Link from "next/link";
-import API from "../services/axios";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Alert from "@material-ui/lab/Alert";
-import { green } from "@material-ui/core/colors";
+import TextFieldCustom from "../components/form/TextFieldCustom";
+import CircularLoading from "../components/loading/CircularLoading";
+import ImageWrapper from "../components/image/simpleWrapper";
+import FlexibleAlert from "../components/alert/FlexibleAlert";
+import { userRegister } from "../redux/actions/creator/user";
+
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { Typography } from "@material-ui/core";
-import useGlobal from "../contexts/global";
+
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 
 const RegisterPage = () => {
-	const ctx = useGlobal();
-	const [user, setUser] = React.useState({
-		first_name: "",
-		last_name: "",
-		phone_number: "",
-		password: "",
-		email: "",
-		password_confirm: "",
-	});
-	const [alert, setAlert] = React.useState({
-		value: false,
-		error: false,
-		listErr: null,
-		message: "",
-	});
-	const [loading, setLoading] = React.useState(false);
-	const [selectedValue, setSelectedValue] = React.useState(0);
-	const handleClick = () => {
-		setLoading((prev) => !prev);
-		setAlert({ value: false });
-		API.post("/auth/register", { ...user, is_agent: selectedValue })
-			.then((res) => {
-				console.log(res);
-				setAlert({
-					value: true,
-					error: false,
-					message: "Berhasil membuat akun",
-				});
-			})
-			.catch((err) => {
-				console.log(err.response);
-				setAlert({
-					value: true,
+	const loading = useSelector((state) => state.loading);
+	const alert = useSelector((state) => state.alert);
+	const dispatch = useDispatch();
+
+	const [firstName, setFirstName] = React.useState("");
+	const [lastName, setLastName] = React.useState("");
+	const [email, setEmail] = React.useState("");
+	const [password, setPassword] = React.useState("");
+	const [confirmPassword, setConfirmPassword] = React.useState("");
+	const [phone, setPhone] = React.useState("");
+	const [address, setAddress] = React.useState("");
+	const [isAgent, setIsAgent] = React.useState(0);
+	const [imageSelf, setImageSelf] = React.useState(null);
+	const [showImageSelf, setShowImageSelf] = React.useState("");
+	const [imageKTP, setImageKTP] = React.useState(null);
+	const [showImageKTP, setShowImageKTP] = React.useState("");
+
+	const handleShowImageKTP = (event) => {
+		const file = event.target.files[0];
+		setImageKTP(file);
+		const reader = new FileReader();
+		reader.onload = function (event) {
+			setShowImageKTP(event.target.result);
+		};
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	};
+
+	const handleShowImageSelf = (event) => {
+		const file = event.target.files[0];
+		setImageSelf(file);
+		const reader = new FileReader();
+		reader.onload = function (event) {
+			setShowImageSelf(event.target.result);
+		};
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	};
+
+	const matchPassword = () => {
+		return password === confirmPassword;
+	};
+
+	const handleClickRegister = () => {
+		const data = new FormData();
+		data.set("first_name", firstName);
+		data.set("last_name", lastName);
+		data.set("email", email);
+		data.set("password", password);
+		data.set("phoneNumber", phone);
+		data.set("address", address);
+		data.set("is_agent", isAgent);
+		if (matchPassword()) dispatch(userRegister(data));
+		else
+			dispatch(
+				alertSet({
+					show: true,
 					error: true,
-					message: err.response.data.message,
-					listErr: err.response.data.errors,
-				});
-			})
-			.finally(() => setLoading((prev) => !prev));
+					message: "Password tidak sama dengan yang ditulis ulang",
+				})
+			);
 	};
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setUser((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const handleRadioChange = (event) => {
-		setSelectedValue(parseInt(event.target.value, 10));
-	};
-
-	const style = {
-		color: green[500],
-	};
-
-	React.useEffect(() => {
-		ctx.setAlert({
-			value: false,
-			error: false,
-			message: "",
-		});
-	}, []);
 
 	return (
 		<Layout>
-			<form className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white flex flex-wrap justify-center my-5">
-				{alert.value && (
-					<div className="relative w-full mb-3">
-						<Alert severity={alert.error ? "error" : "success"}>
-							<span>{alert.message}</span>
-							{alert.error &&
-								Object.keys(alert.listErr).map((k, i) => (
-									<li key={"err" + i}>{k + ": " + alert.listErr[k][0]}</li>
-								))}
-						</Alert>
-					</div>
-				)}
-				<div className="relative w-1/2 mb-3">
-					<div className="pr-2">
-						<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-							Nama Depan
-						</label>
-						<input
-							type="text"
-							name="first_name"
-							onChange={(e) => handleChange(e)}
-							className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-							placeholder="Nama Lengkap"
-						></input>
-					</div>
-				</div>
-				<div className="relative w-1/2 mb-3">
-					<div className="pl-2">
-						<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-							Nama Belakang
-						</label>
-						<input
-							type="text"
-							name="last_name"
-							onChange={(e) => handleChange(e)}
-							className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-							placeholder="Nama Lengkap"
-						></input>
-					</div>
-				</div>
-				<div className="relative w-full mb-3">
-					<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-						Telepon
-					</label>
-					<input
-						type="text"
-						name="phone_number"
-						onChange={(e) => handleChange(e)}
-						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-						placeholder="Nomor Telepon"
-					></input>
-				</div>
-				<div className="relative w-full mb-3">
-					<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-						Email
-					</label>
-					<input
-						type="email"
-						name="email"
-						onChange={(e) => handleChange(e)}
-						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-						placeholder="Email"
-					></input>
-				</div>
-				<div className="relative w-full mb-3">
-					<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-						Password
-					</label>
-					<input
-						type="password"
-						name="password"
-						onChange={(e) => handleChange(e)}
-						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-						placeholder="Password"
-					></input>
-				</div>
-				<div className="relative w-full mb-3">
-					<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-						Confirm Password
-					</label>
-					<input
-						type="password"
-						name="password_confirm"
-						onChange={(e) => handleChange(e)}
-						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-						placeholder="Tulis ulang Password"
-					></input>
-				</div>
-				<div className="relative w-full mb-3">
-					<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
-						Alamat
-					</label>
-					<input
-						type="text"
-						name="address"
-						onChange={(e) => handleChange(e)}
-						className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full"
-						placeholder="Tulis ulang Password"
-					></input>
-				</div>
+			<form
+				id="form-register"
+				className="w-4/5 max-w-screen-sm shadow-lg p-5 rounded-lg bg-white flex flex-wrap justify-center my-5"
+			>
+				<FlexibleAlert status={alert}></FlexibleAlert>
+				<TextFieldCustom
+					label="Nama Depan"
+					type="text"
+					name="firstName"
+					onChange={(e) => setFirstName(e.target.value)}
+					placeholder="Ani"
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Nama Belakang"
+					type="text"
+					name="lastName"
+					onChange={(e) => setLastName(e.target.value)}
+					placeholder="Budi"
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Email"
+					type="email"
+					name="email"
+					onChange={(e) => setEmail(e.target.value)}
+					placeholder="orang@mail.com"
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Telepon"
+					type="text"
+					name="phone"
+					onChange={(e) => setPhone(e.target.value)}
+					placeholder="08123xxxxxxx"
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Password"
+					type="password"
+					name="password"
+					onChange={(e) => setPassword(e.target.value)}
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Ulangi Password"
+					type="password"
+					name="confirmPassword"
+					onChange={(e) => setConfirmPassword(e.target.value)}
+				></TextFieldCustom>
+				<TextFieldCustom
+					label="Alamat"
+					type="text"
+					name="address"
+					onChange={(e) => setAddress(e.target.value)}
+				></TextFieldCustom>
 				<div className="relative w-full mb-3">
 					<FormControl component="fieldset">
 						<label className="block uppercase text-gray-700 text-xs font-bold mb-2">
@@ -183,13 +140,15 @@ const RegisterPage = () => {
 						</label>
 						<RadioGroup
 							name="is_agent"
-							value={selectedValue}
-							onChange={(e) => handleRadioChange(e)}
+							value={isAgent}
+							onChange={(e) => setIsAgent(parseInt(e.target.value, 10))}
 							className="text-gray-600"
 						>
 							<FormControlLabel
 								value={0}
-								control={<Radio className="text-green-500"></Radio>}
+								control={
+									<Radio size="small" className="text-green-500"></Radio>
+								}
 								label={
 									<Typography variant="body2" color="textSecondary">
 										Pelanggan
@@ -198,7 +157,9 @@ const RegisterPage = () => {
 							/>
 							<FormControlLabel
 								value={1}
-								control={<Radio className="text-green-500"></Radio>}
+								control={
+									<Radio size="small" className="text-green-500"></Radio>
+								}
 								label={
 									<Typography variant="body2" color="textSecondary">
 										Agen
@@ -208,18 +169,37 @@ const RegisterPage = () => {
 						</RadioGroup>
 					</FormControl>
 				</div>
+				{isAgent === 1 && (
+					<React.Fragment>
+						<TextFieldCustom
+							label="Foto Wajah"
+							type="file"
+							name="imageSelf"
+							onChange={(e) => handleShowImageSelf(e)}
+							accept="image/*"
+						></TextFieldCustom>
+						{showImageSelf != null && (
+							<ImageWrapper src={showImageSelf}></ImageWrapper>
+						)}
+						<TextFieldCustom
+							label="Foto KTP"
+							type="file"
+							name="imageKTP"
+							onChange={(e) => handleShowImageKTP(e)}
+							accept="image/*"
+						></TextFieldCustom>
+						{showImageKTP != null && (
+							<ImageWrapper src={showImageKTP}></ImageWrapper>
+						)}
+					</React.Fragment>
+				)}
 				<div className="text-center w-full mt-6">
 					{loading ? (
-						<CircularProgress
-							size={40}
-							thickness={6}
-							disableShrink
-							style={style}
-						></CircularProgress>
+						<CircularLoading></CircularLoading>
 					) : (
 						<button
 							className="bg-green-500 text-gray-100 text-sm font-bold uppercase px-6 py-3 rounded shadow-lg mb-1 w-full"
-							onClick={() => handleClick()}
+							onClick={() => handleClickRegister()}
 							type="button"
 						>
 							Daftar
@@ -227,16 +207,14 @@ const RegisterPage = () => {
 					)}
 				</div>
 				<div className="text-center text-xs text-gray-600 pt-2">
-					{!loading && (
-						<p>
-							Sudah punya akun ?{" "}
-							<Link href="/login">
-								<span className="text-blue-500 cursor-pointer">
-									Masuk di sini
-								</span>
-							</Link>
-						</p>
-					)}
+					<p>
+						Sudah punya akun ?{" "}
+						<Link href="/login">
+							<span className="text-blue-500 cursor-pointer">
+								Masuk di sini
+							</span>
+						</Link>
+					</p>
 				</div>
 			</form>
 		</Layout>

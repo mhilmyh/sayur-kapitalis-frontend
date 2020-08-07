@@ -1,12 +1,6 @@
 import BottomNavLink from "../link/BottomNavLink";
 import Badge from "@material-ui/core/Badge";
-import { useGlobal } from "../../contexts/global";
-export default React.memo((props) => {
-	const ctx = useGlobal();
-	React.useEffect(() => {
-		const cart = ctx.loadCart();
-		ctx.setBadge(cart.length);
-	}, []);
+const BottomNav = (props) => {
 	return (
 		<div className="w-full">
 			<section
@@ -31,7 +25,7 @@ export default React.memo((props) => {
 						title="Pesanan"
 						active={props.pathname === "/pesanan"}
 					>
-						<Badge variant="dot" invisible={ctx.badge === 0} color="error">
+						<Badge variant="dot" invisible={false} color="error">
 							<svg
 								className="svg-icon inline-block mb-1 text-lg"
 								viewBox="0 0 20 20"
@@ -59,4 +53,6 @@ export default React.memo((props) => {
 			</section>
 		</div>
 	);
-});
+};
+
+export default React.memo(BottomNav);
