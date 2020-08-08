@@ -1,11 +1,12 @@
+import { ThemeProvider } from "@material-ui/core/styles";
+import { theme } from "../contexts/theme";
 import Head from "next/head";
-import BottomNavigation from "../components/navigation/BottomNav";
 
-export default function Layout(props) {
+const DefaultLayout = ({ children }) => {
 	return (
 		<React.Fragment>
 			<Head>
-				<title>Sayurmayur App</title>
+				<title>Bukit Royal App</title>
 				<link rel="icon" href="/favicon.ico" />
 				<link
 					rel="stylesheet"
@@ -16,9 +17,13 @@ export default function Layout(props) {
 					href="https://fonts.googleapis.com/icon?family=Material+Icons"
 				/>
 			</Head>
-			<main>{props.children}</main>
-			<div className="spacing-small"></div>
-			<BottomNavigation pathname={props.pathname}></BottomNavigation>
+			<ThemeProvider theme={theme}>
+				<main className="w-full flex justify-center items-center">
+					{children}
+				</main>
+			</ThemeProvider>
 		</React.Fragment>
 	);
-}
+};
+
+export default DefaultLayout;

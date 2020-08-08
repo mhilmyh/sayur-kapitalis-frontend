@@ -1,35 +1,23 @@
-import Layout from "../../layouts/default";
-import ProdukNav from "../../components/navigation/ProdukNav";
+import DefaultLayout from "../../layouts/default";
+import SearchBar from "../../components/input/SearchBar";
+import CategorySection from "../../components/section/CategorySection";
 import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
-import CircularLoading from "../../components/loading/CircularLoading";
-import { useSelector, useDispatch } from "react-redux";
-import { productsFetch } from "../../redux/actions/creator/product";
-
-const ProdukPage = (props) => {
-	const loading = useSelector((state) => state.loading);
-	const dispatch = useDispatch();
-	React.useEffect(() => {
-		dispatch(productsFetch());
-	}, []);
+const ProdukPage = () => {
 	return (
-		<Layout pathname={props.pathname}>
-			<div className="fixed top-0 w-full bg-white">
-				<ProdukNav></ProdukNav>
+		<div className="flex flex-wrap w-full">
+			<div className="w-full bg-green-500 mb-4">
+				<SearchBar></SearchBar>
 			</div>
-			<div className="spacing-small"></div>
-			{loading ? (
-				<CircularLoading></CircularLoading>
-			) : (
+			<div className="w-full px-8">
+				<CategorySection></CategorySection>
+			</div>
+			<div className="w-full px-8">
 				<ProdukWrapper></ProdukWrapper>
-			)}
-		</Layout>
+			</div>
+		</div>
 	);
 };
 
-ProdukPage.getInitialProps = async ({ pathname }) => {
-	return {
-		pathname: pathname,
-	};
-};
+ProdukPage.Layout = DefaultLayout;
 
 export default ProdukPage;

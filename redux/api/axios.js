@@ -27,7 +27,7 @@ const handleResponseError = (error) => {
 };
 
 const API = axios.create({
-	baseURL: "http://52.90.139.72/api/v1",
+	baseURL: "http://api-bukitroyal.kiplikipli.my.id/api/v1",
 	headers: {
 		Accept: "application/json",
 		"Content-Type": "application/json",

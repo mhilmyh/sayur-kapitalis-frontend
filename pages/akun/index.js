@@ -1,19 +1,9 @@
-import Layout from "../../layouts/default";
-import ProfileWrapper from "../../components/wrapper/ProfileWrapper";
+import DefaultLayout from "../../layouts/default";
 
-const AkunPage = (props) => {
-	return (
-		<Layout pathname={props.pathname}>
-			<ProfileWrapper type="agent"></ProfileWrapper>
-		</Layout>
-	);
+const AkunPage = () => {
+	return <div>AkunPage</div>;
 };
 
-AkunPage.getInitialProps = async ({ pathname }) => {
-	return {
-		user: {},
-		pathname: pathname,
-	};
-};
+AkunPage.Layout = DefaultLayout;
 
 export default AkunPage;

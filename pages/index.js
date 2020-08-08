@@ -1,9 +1,12 @@
 import Router from "next/router";
-import { useEffect } from "react";
 
 export default () => {
-	useEffect(() => {
-		Router.replace("/produk");
+	React.useEffect(() => {
+		setTimeout(() => Router.replace("/produk"), 1000);
 	}, []);
-	return <div></div>;
+	return (
+		<div className="w-full h-screen flex justify-center items-center">
+			<span>Mengarahkan Ulang...</span>
+		</div>
+	);
 };

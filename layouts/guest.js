@@ -1,17 +1,21 @@
+import { ThemeProvider } from "@material-ui/core/styles";
+import { theme } from "../contexts/theme";
 import Head from "next/head";
 
-export default function Layout(props) {
+const GuestLayout = ({ children }) => {
 	return (
 		<React.Fragment>
 			<Head>
-				<title>Sayurmayur App</title>
+				<title>Bukit Royal App</title>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<main className="min-h-screen w-full bg-green-500 flex justify-center content-center items-center">
-				<div className="flex justify-center items-center content-center h-full w-full">
-					{props.children}
-				</div>
-			</main>
+			<ThemeProvider theme={theme}>
+				<main className="w-full min-h-screen flex justify-center items-center">
+					{children}
+				</main>
+			</ThemeProvider>
 		</React.Fragment>
 	);
-}
+};
+
+export default GuestLayout;

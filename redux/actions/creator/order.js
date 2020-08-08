@@ -1,7 +1,7 @@
 import { ORDERS_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
-import OrderServices from "../../services/order";
+import OrderServices from "../../services/order.service";
 
 // Order Action API
 export const ordersFetch = () => {

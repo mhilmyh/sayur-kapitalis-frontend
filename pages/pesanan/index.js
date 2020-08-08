@@ -1,20 +1,9 @@
-import Layout from "../../layouts/default";
-import OrderWrapper from "../../components/wrapper/OrderWrapper";
-import Cookies from "js-cookie";
-import Router from "next/router";
+import DefaultLayout from "../../layouts/default";
 
-const PesananPage = (props) => {
-	return (
-		<Layout pathname={props.pathname}>
-			<OrderWrapper></OrderWrapper>
-		</Layout>
-	);
+const PesananPage = () => {
+	return <div>PesananPage</div>;
 };
 
-PesananPage.getInitialProps = async ({ pathname }) => {
-	return {
-		pathname: pathname,
-	};
-};
+PesananPage.Layout = DefaultLayout;
 
 export default PesananPage;

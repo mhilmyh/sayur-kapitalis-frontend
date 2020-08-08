@@ -1,40 +1,27 @@
-import ProdukCategorySection from "../section/ProdukCategorySection";
-import ProdukCard from "../card/ProdukCard";
-import CircularLoading from "../loading/CircularLoading";
-import { useGlobal } from "../../contexts/global";
-import { useSelector } from "react-redux";
+import CircularLoad from "../loading/CircularLoad";
+import { useSelector, useDispatch } from "react-redux";
+import { productsFetch } from "../../redux/actions/creator/product";
 
-export default () => {
-	const { search } = useGlobal();
-	const products = useSelector((state) => state.products);
+const ProdukWrapper = () => {
 	const loading = useSelector((state) => state.loading);
+	const products = useSelector((state) => state.products);
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(productsFetch());
+	}, []);
+
 	return (
-		<div className="mx-3 p-3">
-			<h5 className="font-bold text-green-500 text-lg">Kategori Produk</h5>
-			<div className="pb-8 pt-4">
-				<ProdukCategorySection></ProdukCategorySection>
-			</div>
-			<h5 className="font-bold text-green-500 text-lg">Daftar Produk</h5>
+		<div className="w-full flex flex-wrap justify-center items-center pt-8 mt-8">
 			{loading ? (
-				<CircularLoading></CircularLoading>
+				<CircularLoad></CircularLoad>
 			) : (
-				<div className="pb-8 pt-4">
-					<div className="flex flex-wrap">
-						{products
-							.filter((p) => String(p.name).toLowerCase().includes(search))
-							.map((each, index) => {
-								return (
-									<div
-										key={`produk-${each.id}-${index}`}
-										className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 mb-4"
-									>
-										<ProdukCard product={each}></ProdukCard>
-									</div>
-								);
-							})}
-					</div>
-				</div>
+				products.map((item, index) => (
+					<div key={`product-${index}`}>{item.name}</div>
+				))
 			)}
 		</div>
 	);
 };
+
+export default React.memo(ProdukWrapper);

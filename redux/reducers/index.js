@@ -13,6 +13,7 @@ const initState = {
 		name: "",
 		email: "",
 		agent: {},
+		is_agent: 0,
 		customers: [],
 	},
 	loading: false,
@@ -51,7 +52,6 @@ const reducer = (state = initState, action) => {
 		case act.LOADING_SET:
 			return { ...state, loading: action.payload };
 		default:
-			console.log("Unknown action type");
 			return state;
 	}
 };
