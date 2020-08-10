@@ -32,7 +32,7 @@ const LoginPage = () => {
 					label="Email"
 					type="email"
 					name="email"
-					placeholder="test@mail.com"
+					placeholder="test@example.com"
 					onChange={(e) => setEmail(e.target.value)}
 				></EasyTextfield>
 				<EasyTextfield

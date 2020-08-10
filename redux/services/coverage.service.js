@@ -1,6 +1,6 @@
 import API from "../api/axios";
 
-export default class CoverageAreaServices {
+export default class CoverageAreaService {
 	static fetch() {
 		return API.get("/coverageArea");
 	}

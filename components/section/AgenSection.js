@@ -1,21 +1,33 @@
 import EasyCard from "../card/EasyCard";
-const AgenSection = ({ agen = {} }) => {
-	if (!!agen) {
-		return (
-			<EasyCard>
-				<div className="w-full p-2">
-					<div className="flex my-1 rounded items-center px-1 justify-center">
-						<div className="mx-2 p-2 text-gray-500 text-sm">Ada Agen</div>
-					</div>
-				</div>
-			</EasyCard>
-		);
-	}
+const AgenSection = ({ agen }) => {
 	return (
 		<EasyCard>
-			<div className="w-full p-2">
-				<div className="flex my-1 rounded items-center px-1 justify-center">
-					<div className="mx-2 p-2 text-gray-500 text-sm">Belum Ada Agen</div>
+			<div className="w-full py-1">
+				<div className="flex flex-wrap my-1 rounded items-center justify-center">
+					<div className="w-full flex justify-between my-1 text-gray-600 text-sm bg-gray-200 rounded py-1">
+						<div className="mx-2 text-xs font-semibold">Nama Depan</div>
+						<div className="mx-2 text-xs ">
+							{agen.first_name || "Belum ada data"}
+						</div>
+					</div>
+					<div className="w-full flex justify-between my-1 text-gray-600 text-sm bg-gray-200 rounded py-1">
+						<div className="mx-2 text-xs font-semibold">Nama Belakang</div>
+						<div className="mx-2 text-xs ">
+							{agen.last_name || "Belum ada data"}
+						</div>
+					</div>
+					<div className="w-full flex justify-between my-1 text-gray-600 text-sm bg-gray-200 rounded py-1">
+						<div className="mx-2 text-xs font-semibold">No. Telp</div>
+						<div className="mx-2 text-xs ">
+							{agen.phone_number || "Belum ada data"}
+						</div>
+					</div>
+					<div className="w-full flex justify-between my-1 text-gray-600 text-sm bg-gray-200 rounded py-1">
+						<div className="mx-2 text-xs font-semibold">Alamat</div>
+						<div className="mx-2 text-xs ">
+							{agen.address || "Belum ada data"}
+						</div>
+					</div>
 				</div>
 			</div>
 		</EasyCard>

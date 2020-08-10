@@ -2,20 +2,31 @@ import { USER_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import { alertSet } from "./alert";
-import UserServices from "../../services/user.service";
+import UserService from "../../services/user.service";
+import LocalStorageService from "../../services/localstorage.service";
 import CookieService from "../../services/cookie.service";
 
 // User Action API Call
-export const userFetch = () => {
+export const userFetch = (router = null) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.getUser().finally(() => dispatch(loadingSet(false)));
+		UserService.getUser()
+			.then((response) => {
+				dispatch(userSave(response.data));
+				LocalStorageService.saveUser(response.data);
+			})
+			.catch(() => {
+				if (!!router) {
+					router.replace("/login");
+				}
+			})
+			.finally(() => dispatch(loadingSet(false)));
 	};
 };
 export const userRegister = (data = {}) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.register(data)
+		UserService.register(data)
 			.then((response) => {
 				dispatch(
 					alertSet({ show: true, error: false, message: response.message })
@@ -37,9 +48,10 @@ export const userRegister = (data = {}) => {
 export const userLogin = (email, password, router = null) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.login(email, password)
+		UserService.login(email, password)
 			.then((response) => {
 				CookieService.setToken(response.data.access_token);
+				console.log(response);
 				dispatch(
 					alertSet({ show: true, error: false, message: response.message })
 				);
@@ -65,10 +77,11 @@ export const userLogin = (email, password, router = null) => {
 export const userLogout = (router = null) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.logout()
+		UserService.logout()
 			.then(() => {
 				router.replace("/login");
 				CookieService.removeToken();
+				LocalStorageService.removeUser();
 			})
 			.catch(() => {
 				dispatch(
@@ -85,19 +98,40 @@ export const userLogout = (router = null) => {
 export const userUpdate = (data) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.update(data).finally(() => dispatch(loadingSet(false)));
+		UserService.update(data)
+			.then((response) => {
+				dispatch(userSave(response.data));
+				LocalStorageService.saveUser(response.data);
+				dispatch(
+					alertSet({
+						show: true,
+						error: false,
+						message: response.message,
+					})
+				);
+			})
+			.catch((error) => {
+				dispatch(
+					alertSet({
+						show: true,
+						error: true,
+						message: error.data.message,
+					})
+				);
+			})
+			.finally(() => dispatch(loadingSet(false)));
 	};
 };
 export const userAddCustomer = (data) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.addCustomer(data).finally(() => dispatch(loadingSet(false)));
+		UserService.addCustomer(data).finally(() => dispatch(loadingSet(false)));
 	};
 };
 export const userForgotPassword = (email) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserServices.forgotPassword(email)
+		UserService.forgotPassword(email)
 			.then(() => {
 				dispatch(
 					alertSet({

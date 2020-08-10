@@ -8,14 +8,43 @@ const initState = {
 	categories: [],
 	orders: [],
 	accounts: [],
+	coverageArea: [],
 	shipmentTimes: [],
 	user: {
 		id: null,
 		name: "",
 		email: "",
-		agent: {},
-		is_agent: 0,
+		agent: {
+			id: null,
+			first_name: "",
+			last_name: "",
+			phone_number: "",
+			address: "",
+			user_id: null,
+			is_approved: 0,
+			created_at: "",
+			updated_at: "",
+			customers: [],
+		},
+		customer: {
+			id: null,
+			first_name: "",
+			last_name: "",
+			phone_number: "",
+			address: "",
+			user_id: null,
+			agent_id: null,
+			created_at: "",
+			updated_at: "",
+			coverage_area_id: null,
+			full_name: "",
+		},
 		customers: [],
+		is_email_confirmed: 0,
+		is_admin: 0,
+		is_agent: 0,
+		created_at: "",
+		updated_at: "",
 	},
 	loading: false,
 	alert: {
@@ -57,8 +86,10 @@ const reducer = (state = initState, action) => {
 					(item) => item.id !== action.payload.productID
 				),
 			};
+		case act.COVERAGE_AREA_SAVE:
+			return { ...state, coverageArea: action.payload.data };
 		case act.SHIPMENT_TIME_SAVE:
-			return { ...state, orders: action.payload.data };
+			return { ...state, shipmentTimes: action.payload.data };
 		case act.ORDERS_SAVE:
 			return { ...state, orders: action.payload.data };
 		case act.ACCOUNTS_SAVE:

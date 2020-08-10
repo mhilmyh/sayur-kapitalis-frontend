@@ -1,3 +1,4 @@
+const STR_USER = "__user";
 const STR_CATEGORIES = "__categories";
 const STR_PRODUCTS = "__products";
 const STR_TTL = "_ttl";
@@ -42,21 +43,88 @@ export default class LocalStorageService {
 	static getCategories() {
 		if (this.isAvailable()) {
 			const expire = this.getTimeToLive(STR_CATEGORIES);
+			const categories = JSON.parse(localStorage.getItem(STR_CATEGORIES));
 			if (Date.now() < expire) {
-				console.log("UWaw");
-				return JSON.parse(localStorage.getItem(STR_CATEGORIES));
+				return !!categories ? categories : null;
 			}
 		}
-		return null;
+		return [];
 	}
 
 	static getProducts() {
 		if (this.isAvailable()) {
 			const expire = this.getTimeToLive(STR_PRODUCTS);
+			const products = JSON.parse(localStorage.getItem(STR_PRODUCTS));
 			if (Date.now() < expire) {
-				return JSON.parse(localStorage.getItem(STR_PRODUCTS));
+				return !!products ? products : null;
 			}
 		}
+		return [];
+	}
+
+	static saveUser(data = {}) {
+		if (this.isAvailable()) {
+			localStorage.setItem(STR_USER, JSON.stringify(data));
+		}
+	}
+
+	static getUser() {
+		if (this.isAvailable()) {
+			const user = JSON.parse(localStorage.getItem(STR_USER));
+			return !!user ? user : null;
+		}
 		return null;
+	}
+
+	static getUserOnlyRole() {
+		if (this.isAvailable()) {
+			const user = JSON.parse(localStorage.getItem(STR_USER));
+			if (!!user && user.is_agent != null) {
+				return user.is_agent ? user.agent : user.customer;
+			}
+			return {
+				id: null,
+				name: "",
+				email: "",
+				agent: {
+					id: null,
+					first_name: "",
+					last_name: "",
+					phone_number: "",
+					address: "",
+					user_id: null,
+					is_approved: 0,
+					created_at: "",
+					updated_at: "",
+					customers: [],
+				},
+				customer: {
+					id: null,
+					first_name: "",
+					last_name: "",
+					phone_number: "",
+					address: "",
+					user_id: null,
+					agent_id: null,
+					created_at: "",
+					updated_at: "",
+					coverage_area_id: null,
+					full_name: "",
+				},
+				customers: [],
+				is_email_confirmed: 0,
+				is_admin: 0,
+				is_agent: 0,
+				created_at: "",
+				updated_at: "",
+			};
+		}
+		return null;
+	}
+
+	static removeUser() {
+		if (this.isAvailable()) {
+			localStorage.removeItem(STR_USER);
+		}
 	}
 }

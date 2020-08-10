@@ -16,6 +16,9 @@ export const ACCOUNTS_SAVE = "ACCOUNTS_SAVE";
 // Shipment Time Action Type
 export const SHIPMENT_TIME_SAVE = "SHIPMENT_TIME_SAVE";
 
+// Coverage Area Action Type
+export const COVERAGE_AREA_SAVE = "COVERAGE_AREA_SAVE";
+
 // Order Action Type
 export const ORDERS_SAVE = "ORDERS_SAVE";
 

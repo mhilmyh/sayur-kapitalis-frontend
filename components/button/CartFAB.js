@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 
 const CartFAB = () => {
 	const carts = useSelector((state) => state.carts);
-
 	const [open, setOpen] = React.useState(false);
+
 	return (
 		<div className="fixed bottom-0 right-0 pb-12 mb-12 pr-2 mr-2">
 			<Fab

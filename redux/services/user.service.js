@@ -1,7 +1,7 @@
 import API from "../api/axios";
-export default class UserServices {
+export default class UserService {
 	static getUser() {
-		return API.get("/auth/getUser");
+		return API.post("/auth/getUser");
 	}
 
 	static register(data = {}) {

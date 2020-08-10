@@ -4,17 +4,19 @@ import { loadingSet } from "./loading";
 import ShipmentTimeServices from "../../services/shipment.service";
 
 // Order Action API
-export const ordersFetch = () => {
+export const shipmentFetch = () => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
 		ShipmentTimeServices.fetch()
-			.then(() => {})
+			.then((response) => {
+				dispatch(shipmentSave(response.data));
+			})
 			.catch(() => {})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };
 
 // Order Action Local
-export const ordersSave = (data) => {
+export const shipmentSave = (data) => {
 	return goodWay(SHIPMENT_TIME_SAVE, { data });
 };

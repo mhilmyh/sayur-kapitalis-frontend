@@ -28,7 +28,7 @@ const DialogWrapper = ({
 		<Dialog
 			open={open}
 			fullScreen={fullScreen}
-			maxWidth="sm"
+			maxWidth="md"
 			fullWidth={true}
 			disableBackdropClick={true}
 		>

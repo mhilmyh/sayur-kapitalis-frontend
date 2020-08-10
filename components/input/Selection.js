@@ -9,6 +9,7 @@ import {
 const Selection = ({
 	entity = "",
 	data = [],
+	dataLabel = null,
 	value = null,
 	onChange = () => {},
 	...other
@@ -18,12 +19,16 @@ const Selection = ({
 			<FormControl fullWidth={true} size="medium">
 				<InputLabel shrink={true}>{entity}</InputLabel>
 				<Select value={value} onChange={onChange} color="primary" {...other}>
-					<MenuItem value={0}>Semua</MenuItem>
-					{data.map((item, index) => (
-						<MenuItem key={index} value={item.id}>
-							<Typography>{item.name}</Typography>
-						</MenuItem>
-					))}
+					<MenuItem value={0}>Belum dipilih</MenuItem>
+					{data.map((item, index) => {
+						return (
+							<MenuItem key={index} value={item.id}>
+								<Typography>
+									{dataLabel ? item[dataLabel] : item.name}
+								</Typography>
+							</MenuItem>
+						);
+					})}
 				</Select>
 			</FormControl>
 		</div>
