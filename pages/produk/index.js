@@ -5,10 +5,11 @@ import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
 const ProdukPage = () => {
 	return (
 		<div className="flex flex-wrap w-full">
-			<div className="w-full bg-green-500 mb-4">
+			<div className="w-full bg-green-500 mb-4 fixed z-10">
 				<SearchBar></SearchBar>
 			</div>
-			<div className="w-full px-8">
+			<div className="h-24 w-full"></div>
+			<div className="w-full px-8 relative">
 				<CategorySection></CategorySection>
 			</div>
 			<div className="w-full px-8">

@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const STR_TOKEN = "token";
+const STR_TOKEN = "X_API_TOKEN_";
 
 export default class CookieService {
 	static setToken(token = "") {

@@ -3,11 +3,12 @@ import * as act from "../actions/types";
 import _ from "lodash";
 
 const initState = {
-	carts: {},
+	carts: [],
 	products: [],
 	categories: [],
 	orders: [],
 	accounts: [],
+	shipmentTimes: [],
 	user: {
 		id: null,
 		name: "",
@@ -27,16 +28,37 @@ const initState = {
 const reducer = (state = initState, action) => {
 	switch (action.type) {
 		case act.CARTS_ADD:
+			if (!!action.payload.product) {
+				const lastCartsBeforeAdd = _.cloneDeep(state.carts);
+				const isExist = lastCartsBeforeAdd
+					.map((item) => item.id)
+					.includes(action.payload.product.id);
+				if (!isExist) {
+					return {
+						...state,
+						carts: [...state.carts, { ...action.payload.product, quantity: 1 }],
+					};
+				}
+				return state;
+			}
+			return state;
+		case act.CARTS_CHANGE_QUANTITY:
+			const lastQuantityCarts = _.cloneDeep(state.carts);
+			const index = lastQuantityCarts.findIndex(
+				(item) => item.id === action.payload.productID
+			);
+			lastQuantityCarts[index].quantity = action.payload.quantity;
+			return { ...state, carts: lastQuantityCarts };
+		case act.CARTS_REMOVE:
+			const lastAvailableCarts = _.cloneDeep(state.carts);
 			return {
 				...state,
-				carts: { ...state.carts, [action.payload.productID]: 1 },
+				carts: lastAvailableCarts.filter(
+					(item) => item.id !== action.payload.productID
+				),
 			};
-		case act.CARTS_CHANGE_QUANTITY:
-			const carts = _.cloneDeep(state.carts);
-			carts[action.payload.productID] = action.payload.quantity;
-			return { ...state, carts: carts };
-		case act.CARTS_REMOVE:
-			return { ...state };
+		case act.SHIPMENT_TIME_SAVE:
+			return { ...state, orders: action.payload.data };
 		case act.ORDERS_SAVE:
 			return { ...state, orders: action.payload.data };
 		case act.ACCOUNTS_SAVE:

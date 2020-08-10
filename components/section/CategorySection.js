@@ -24,14 +24,14 @@ const CategorySection = () => {
 		dispatch(categoriesFetch());
 	}, []);
 	return (
-		<div className="w-full bg-white flex justify-center items-start">
+		<div className="w-full bg-white flex justify-center items-start static">
 			{loading ? (
 				<CircularLoad></CircularLoad>
 			) : (
 				<React.Fragment>
 					<div className="w-1/2 flex justify-center mr-2">
 						<Selection
-							entity="Kategori Produk"
+							entity="Kategori"
 							value={context.categoryID}
 							data={categories}
 							onChange={handleChangeCategory}
@@ -39,7 +39,7 @@ const CategorySection = () => {
 					</div>
 					<div className="w-1/2 flex justify-center ml-2">
 						<Selection
-							entity="Sub Kategori Produk"
+							entity="Sub Kategori"
 							value={context.subCategoryID}
 							data={context.subCategories}
 							onChange={handleChangeSubCategory}

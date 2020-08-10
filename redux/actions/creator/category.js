@@ -10,12 +10,10 @@ export const categoriesFetch = () => {
 		dispatch(loadingSet(true));
 		CategoryServices.fetch()
 			.then((response) => {
-				console.log("CategoryServices Response");
 				LocalStorageService.saveCategories(response.data);
 				dispatch(categoriesSave(response.data));
 			})
-			.catch(({ message }) => {
-				console.log(message);
+			.catch(() => {
 				const data = LocalStorageService.getCategories();
 				if (!!data) {
 					dispatch(categoriesSave(data));

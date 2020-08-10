@@ -29,4 +29,8 @@ export default class UserServices {
 	static addCustomer(data = {}) {
 		return API.post("/auth/register/fromAgent", data);
 	}
+
+	static forgotPassword(email = "") {
+		return API.post("/auth/forgotPassword", email);
+	}
 }

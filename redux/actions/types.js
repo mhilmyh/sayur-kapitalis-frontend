@@ -13,6 +13,9 @@ export const CATEGORIES_SAVE = "CATEGORIES_SAVE";
 // Account Action Type
 export const ACCOUNTS_SAVE = "ACCOUNTS_SAVE";
 
+// Shipment Time Action Type
+export const SHIPMENT_TIME_SAVE = "SHIPMENT_TIME_SAVE";
+
 // Order Action Type
 export const ORDERS_SAVE = "ORDERS_SAVE";
 

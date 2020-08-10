@@ -1,10 +1,10 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+import CookieServices from "../services/cookie.service";
 
 const handleRequestSend = (config) => {
 	// Set token
-	const token = Cookies.get("token");
-	if (token) {
+	const token = CookieServices.getToken();
+	if (!!token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
 	return config;

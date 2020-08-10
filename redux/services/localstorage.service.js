@@ -42,7 +42,8 @@ export default class LocalStorageService {
 	static getCategories() {
 		if (this.isAvailable()) {
 			const expire = this.getTimeToLive(STR_CATEGORIES);
-			if (Date.now() > expire) {
+			if (Date.now() < expire) {
+				console.log("UWaw");
 				return JSON.parse(localStorage.getItem(STR_CATEGORIES));
 			}
 		}
@@ -52,7 +53,7 @@ export default class LocalStorageService {
 	static getProducts() {
 		if (this.isAvailable()) {
 			const expire = this.getTimeToLive(STR_PRODUCTS);
-			if (Date.now() > expire) {
+			if (Date.now() < expire) {
 				return JSON.parse(localStorage.getItem(STR_PRODUCTS));
 			}
 		}

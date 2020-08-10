@@ -14,8 +14,7 @@ export const productsFetch = () => {
 				LocalStorageService.saveProducts(response.data);
 				dispatch(productsSave(response.data));
 			})
-			.catch(({ message }) => {
-				console.log(message);
+			.catch(() => {
 				const data = LocalStorageService.getProducts();
 				if (!!data) {
 					dispatch(productsSave(data));
