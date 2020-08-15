@@ -6,6 +6,7 @@ import {
 	cartsRemove,
 } from "../../redux/actions/creator/cart";
 import { convertToRupiah } from "../../redux/utils/format";
+import { ordersBuyProduct } from "../../redux/actions/creator/order";
 
 const CartDialog = ({ open = false, onClose = () => {} }) => {
 	const carts = useSelector((state) => state.carts);
@@ -16,6 +17,7 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 			onClose={onClose}
 			textYes="Pesan Produk"
 			title="Keranjang"
+			onClickYes={() => dispatch(ordersBuyProduct(carts))}
 		>
 			<LocalTable
 				title=" "

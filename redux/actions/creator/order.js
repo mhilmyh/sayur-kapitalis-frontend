@@ -2,14 +2,37 @@ import { ORDERS_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import OrderServices from "../../services/order.service";
+import { alertSet } from "./alert";
+import { cartsReset } from "./cart";
 
 // Order Action API
 export const ordersFetch = () => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
 		OrderServices.fetch()
-			.then(() => {})
+			.then((response) => {
+				dispatch(ordersSave(response.data));
+			})
 			.catch(() => {})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+
+export const ordersBuyProduct = (products = []) => {
+	const payload = products.map(({ id, quantity }) => ({
+		product_id: id,
+		quantity,
+	}));
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		OrderServices.buyProduct(payload)
+			.then(() => {
+				dispatch(
+					alertSet({ show: true, error: false, message: response.message })
+				);
+				dispatch(cartsReset());
+			})
+			.catch((error) => {})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };

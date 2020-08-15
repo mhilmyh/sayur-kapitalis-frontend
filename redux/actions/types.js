@@ -26,6 +26,7 @@ export const ORDERS_SAVE = "ORDERS_SAVE";
 export const CARTS_ADD = "CARTS_ADD";
 export const CARTS_CHANGE_QUANTITY = "CARTS_CHANGE_QUANTITY";
 export const CARTS_REMOVE = "CARTS_REMOVE";
+export const CARTS_RESET = "CARTS_RESET";
 
 // Loading Action Type
 export const LOADING_SET = "LOADING_SET";

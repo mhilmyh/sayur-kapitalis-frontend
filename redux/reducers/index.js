@@ -86,6 +86,8 @@ const reducer = (state = initState, action) => {
 					(item) => item.id !== action.payload.productID
 				),
 			};
+		case act.CARTS_RESET:
+			return { ...state, carts: [] };
 		case act.COVERAGE_AREA_SAVE:
 			return { ...state, coverageArea: action.payload.data };
 		case act.SHIPMENT_TIME_SAVE:

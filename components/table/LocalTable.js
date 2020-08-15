@@ -1,9 +1,15 @@
 import MaterialTable from "material-table";
 
-const LocalTable = (props) => {
+const LocalTable = ({ options, ...other }) => {
+	const defaultOptions = {
+		actionsColumnIndex: -1,
+		pageSize: 5,
+		pageSizeOptions: [5, 10],
+		paginationType: "stepped",
+	};
 	return (
 		<MaterialTable
-			{...props}
+			{...other}
 			localization={{
 				pagination: {
 					labelDisplayedRows: "{from}-{to} dari {count}",
@@ -40,12 +46,7 @@ const LocalTable = (props) => {
 					},
 				},
 			}}
-			options={{
-				actionsColumnIndex: -1,
-				pageSize: 5,
-				pageSizeOptions: [5, 10],
-				paginationType: "stepped",
-			}}
+			options={{ ...defaultOptions, ...options }}
 		></MaterialTable>
 	);
 };
