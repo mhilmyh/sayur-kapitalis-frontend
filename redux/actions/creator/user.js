@@ -32,12 +32,11 @@ export const userRegister = (data = {}) => {
 				);
 			})
 			.catch((error) => {
-				const data = error.data || null;
 				dispatch(
 					alertSet({
 						show: true,
 						error: true,
-						message: data ? data.message : "Terjadi kesahalan",
+						message: error.message ? error.message : "Terjadi kesahalan",
 					})
 				);
 			})
@@ -60,12 +59,11 @@ export const userLogin = (email, password, router = null) => {
 				}
 			})
 			.catch((error) => {
-				const data = error.data || null;
 				dispatch(
 					alertSet({
 						show: true,
 						error: true,
-						message: data ? data.message : "Terjadi kesahalan",
+						message: error.message ? error.message : "Terjadi kesahalan",
 					})
 				);
 			})
@@ -111,7 +109,7 @@ export const userUpdate = (data) => {
 					alertSet({
 						show: true,
 						error: true,
-						message: error.data.message,
+						message: error.message ? error.message : "Terjadi error",
 					})
 				);
 			})
