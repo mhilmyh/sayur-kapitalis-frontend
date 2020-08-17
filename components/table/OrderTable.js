@@ -12,7 +12,7 @@ const OrderTable = (props) => {
 	}, []);
 	return (
 		<LocalTable
-			title="Order"
+			title="List Pesanan"
 			columns={[
 				{ title: "No", field: "order_number" },
 				{
@@ -26,10 +26,8 @@ const OrderTable = (props) => {
 			data={orders}
 			options={{
 				rowStyle: {
-					fontSize: "0.75rem",
-					padding: 0,
-					margin: 0,
-					fontWeight: 500,
+					fontSize: "0.8rem",
+					fontWeight: 600,
 					color: "#718096",
 				},
 			}}

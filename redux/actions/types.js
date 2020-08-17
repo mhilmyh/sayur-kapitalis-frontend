@@ -18,6 +18,7 @@ export const COVERAGE_AREA_SAVE = "COVERAGE_AREA_SAVE";
 
 // Order Action Type
 export const ORDERS_SAVE = "ORDERS_SAVE";
+export const ORDERS_ADD = "ORDERS_ADD";
 
 // Cart Action Type
 export const CARTS_ADD = "CARTS_ADD";

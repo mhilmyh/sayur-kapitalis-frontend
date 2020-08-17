@@ -1,3 +1,5 @@
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 import DialogWrapper from "../wrapper/DialogWrapper";
 import LocalTable from "../table/LocalTable";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,14 +22,26 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 			onClickYes={() => dispatch(ordersBuyProduct(carts))}
 		>
 			<LocalTable
-				title=" "
+				title="List Produk"
 				columns={[
-					{ title: "Produk", field: "name" },
+					{ title: "Nama Produk", field: "name" },
 					{ title: "Kuantitas", field: "quantity" },
 				]}
+				options={{
+					rowStyle: {
+						fontSize: "0.8rem",
+						fontWeight: 600,
+						padding: 0,
+						color: "#718096",
+					},
+				}}
 				actions={[
 					{
-						icon: "add",
+						icon: () => (
+							<div className="bg-green-500 rounded-full text-gray-100 text-xs">
+								<AddIcon />
+							</div>
+						),
 						tooltip: "Tambah",
 						onClick: (_, row) =>
 							dispatch(
@@ -38,7 +52,11 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 							),
 					},
 					{
-						icon: "remove",
+						icon: () => (
+							<div className="bg-green-500 rounded-full text-gray-100 text-xs">
+								<RemoveIcon />
+							</div>
+						),
 						tooltip: "Hapus",
 						onClick: (_, row) =>
 							dispatch(
@@ -46,38 +64,45 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 							),
 					},
 				]}
+				onRowClick={(event, rowData, togglePanel) => togglePanel()}
 				detailPanel={(row) => {
 					return (
-						<div className="w-full px-8 py-2">
-							<table className="w-full">
+						<div className="w-full px-8 pt-2 pb-8">
+							<table className="w-full pb-2">
 								<tbody className="w-full flex flex-wrap justify-center items-center">
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Produk</td>
-										<td>{row.name}</td>
+										<td className="font-semibold text-gray-700">Produk</td>
+										<td className="text-gray-600">{row.name}</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Harga</td>
-										<td>{convertToRupiah(row.price)}</td>
+										<td className="font-semibold text-gray-700">Harga</td>
+										<td className="text-gray-600">
+											{convertToRupiah(row.price)}
+										</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Unit</td>
-										<td>{row.unit}</td>
+										<td className="font-semibold text-gray-700">Unit</td>
+										<td className="text-gray-600">{row.unit}</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Stock</td>
-										<td>{row.stock}</td>
+										<td className="font-semibold text-gray-700">Stock</td>
+										<td className="text-gray-600">{row.stock}</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Kategori</td>
-										<td>{row.category.name}</td>
+										<td className="font-semibold text-gray-700">Kategori</td>
+										<td className="text-gray-600">{row.category.name}</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Sub Kategori</td>
-										<td>{row.sub_category.name}</td>
+										<td className="font-semibold text-gray-700">
+											Sub Kategori
+										</td>
+										<td className="text-gray-600">{row.sub_category.name}</td>
 									</tr>
 									<tr className="flex w-full justify-between border-b-2 border-green-200">
-										<td className="font-bold">Deskripsi</td>
-										<td className="text-right ml-4">{row.descriptions}</td>
+										<td className="font-semibold text-gray-700">Deskripsi</td>
+										<td className="text-gray-600 text-right ml-4">
+											{row.descriptions}
+										</td>
 									</tr>
 								</tbody>
 							</table>

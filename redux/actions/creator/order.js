@@ -1,4 +1,4 @@
-import { ORDERS_SAVE } from "../types";
+import { ORDERS_SAVE, ORDERS_ADD } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import OrderServices from "../../services/order.service";
@@ -13,7 +13,9 @@ export const ordersFetch = () => {
 			.then((response) => {
 				dispatch(ordersSave(response.data));
 			})
-			.catch(() => {})
+			.catch((error) => {
+				console.log(error);
+			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };
@@ -26,13 +28,16 @@ export const ordersBuyProduct = (products = []) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
 		OrderServices.buyProduct(payload)
-			.then(() => {
+			.then((response) => {
+				ordersAdd(response.data);
 				dispatch(
 					alertSet({ show: true, error: false, message: response.message })
 				);
 				dispatch(cartsReset());
 			})
-			.catch((error) => {})
+			.catch((error) => {
+				console.log(error);
+			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };
@@ -40,4 +45,7 @@ export const ordersBuyProduct = (products = []) => {
 // Order Action Local
 export const ordersSave = (data) => {
 	return goodWay(ORDERS_SAVE, { data });
+};
+export const ordersAdd = (data) => {
+	return goodWay(ORDERS_ADD, { data });
 };
