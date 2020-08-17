@@ -13,7 +13,6 @@ export const userFetch = (router = null) => {
 		UserService.getUser()
 			.then((response) => {
 				dispatch(userSave(response.data));
-				LocalStorageService.saveUser(response.data);
 			})
 			.catch(() => {
 				if (!!router) {
@@ -51,7 +50,6 @@ export const userLogin = (email, password, router = null) => {
 		UserService.login(email, password)
 			.then((response) => {
 				CookieService.setToken(response.data.access_token);
-				console.log(response);
 				dispatch(
 					alertSet({ show: true, error: false, message: response.message })
 				);
@@ -81,7 +79,6 @@ export const userLogout = (router = null) => {
 			.then(() => {
 				router.replace("/login");
 				CookieService.removeToken();
-				LocalStorageService.removeUser();
 			})
 			.catch(() => {
 				dispatch(
@@ -101,7 +98,6 @@ export const userUpdate = (data) => {
 		UserService.update(data)
 			.then((response) => {
 				dispatch(userSave(response.data));
-				LocalStorageService.saveUser(response.data);
 				dispatch(
 					alertSet({
 						show: true,

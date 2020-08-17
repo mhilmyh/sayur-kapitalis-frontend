@@ -11,7 +11,9 @@ export const coverageFetch = () => {
 			.then((response) => {
 				dispatch(coverageSave(response.data));
 			})
-			.catch(() => {})
+			.catch((error) => {
+				console.log(error);
+			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };

@@ -1,6 +1,3 @@
-// Local Action
-// SAVE, SHOW, MODIFY, REMOVE
-
 // User Action Type
 export const USER_SAVE = "USER_SAVE";
 

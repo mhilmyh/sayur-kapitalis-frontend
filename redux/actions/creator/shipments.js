@@ -11,7 +11,9 @@ export const shipmentFetch = () => {
 			.then((response) => {
 				dispatch(shipmentSave(response.data));
 			})
-			.catch(() => {})
+			.catch((error) => {
+				console.log(error);
+			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };

@@ -10,15 +10,10 @@ export const productsFetch = () => {
 		dispatch(loadingSet(true));
 		ProductService.fetch()
 			.then((response) => {
-				console.log("ProductService Response");
-				LocalStorageService.saveProducts(response.data);
 				dispatch(productsSave(response.data));
 			})
-			.catch(() => {
-				const data = LocalStorageService.getProducts();
-				if (!!data) {
-					dispatch(productsSave(data));
-				}
+			.catch((error) => {
+				console.log(error);
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};

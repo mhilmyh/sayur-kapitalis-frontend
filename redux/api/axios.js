@@ -1,6 +1,8 @@
 import axios from "axios";
 import CookieServices from "../services/cookie.service";
 
+export const BASE_URL = "http://api-bukitroyal.kiplikipli.my.id/api/v1";
+
 const handleRequestSend = (config) => {
 	// Set token
 	const token = CookieServices.getToken();
@@ -23,11 +25,11 @@ const handleResponseReceive = (response) => {
 const handleResponseError = (error) => {
 	// Status Code 4xx
 	console.log("Axios Response Error");
-	return Promise.reject(error.response);
+	return Promise.reject(error.response ? error.response.data : error.message);
 };
 
 const API = axios.create({
-	baseURL: "http://api-bukitroyal.kiplikipli.my.id/api/v1",
+	baseURL: BASE_URL,
 	headers: {
 		Accept: "application/json",
 		"Content-Type": "application/json",
