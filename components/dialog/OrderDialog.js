@@ -6,6 +6,8 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@material-ui/core/styles";
+import PaymentForm from "../form/PaymentForm";
+import PaymentTable from "../table/PaymentTable";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -67,10 +69,10 @@ const OrderDialog = ({ open = false, onClose = () => {} }) => {
 				onChangeIndex={handleChangeIndex}
 			>
 				<TabPanel value={value} index={0} dir={theme.direction}>
-					Item One
+					<PaymentForm></PaymentForm>
 				</TabPanel>
 				<TabPanel value={value} index={1} dir={theme.direction}>
-					Item Two
+					<PaymentTable></PaymentTable>
 				</TabPanel>
 			</SwipeableViews>
 		</DialogWrapper>
