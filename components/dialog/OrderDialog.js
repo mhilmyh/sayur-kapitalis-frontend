@@ -57,10 +57,9 @@ const OrderDialog = ({ open = false, onClose = () => {} }) => {
 				indicatorColor="primary"
 				textColor="primary"
 				variant="fullWidth"
-				aria-label="full width tabs example"
 			>
-				<Tab label="Item One" />
-				<Tab label="Item Two" />
+				<Tab label="Pembayaran" />
+				<Tab label="List Bukti Pembayaran" />
 			</Tabs>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
