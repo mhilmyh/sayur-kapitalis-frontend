@@ -2,7 +2,7 @@ import { CATEGORIES_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import CategoryServices from "../../services/category.service";
-import LocalStorageService from "../../services/localstorage.service";
+import { alertSet } from "./alert";
 
 // Category Action API
 export const categoriesFetch = () => {
@@ -13,7 +13,7 @@ export const categoriesFetch = () => {
 				dispatch(categoriesSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};

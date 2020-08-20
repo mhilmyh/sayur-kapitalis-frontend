@@ -2,6 +2,7 @@ import { SHIPMENT_TIME_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import ShipmentTimeServices from "../../services/shipment.service";
+import { alertSet } from "./alert";
 
 // Order Action API
 export const shipmentFetch = () => {
@@ -12,7 +13,7 @@ export const shipmentFetch = () => {
 				dispatch(shipmentSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};

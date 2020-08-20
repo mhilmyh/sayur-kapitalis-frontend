@@ -2,7 +2,7 @@ import { PRODUCTS_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import ProductService from "../../services/product.service";
-import LocalStorageService from "../../services/localstorage.service";
+import { alertSet } from "./alert";
 
 // Product Action API
 export const productsFetch = () => {
@@ -13,7 +13,7 @@ export const productsFetch = () => {
 				dispatch(productsSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};

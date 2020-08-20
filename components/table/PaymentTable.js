@@ -1,24 +1,27 @@
 import LocalTable from "./LocalTable";
 import { useDispatch, useSelector } from "react-redux";
-import { paymentsFetch } from "../../redux/actions/creator/payment";
+import { paymentsFetch } from "../../redux/actions/creator/order";
+import { convertToRupiah, stringToDate } from "../../redux/utils/format";
 
-const PaymentTable = () => {
-	const dispatch = useDispatch();
-	const payments = useSelector((state) => state.payments);
-	React.useEffect(() => {
-		dispatch(paymentsFetch());
-	}, []);
+const PaymentTable = ({ payments = [] }) => {
 	return (
 		<LocalTable
 			title="List Pembayaran"
 			columns={[
-				{ title: "No", field: "order_number" },
 				{
-					title: "Total",
-					field: "total_price",
-					render: (data) => convertToRupiah(data.total_price),
+					title: "Bukti Pembayaran",
+					field: "image_url",
+					render: (data) => (
+						<a href={data.image_url} target="_blank">
+							<img src={data.image_url} className="object-contain"></img>
+						</a>
+					),
 				},
-				{ title: "Status", field: "status.name" },
+				{
+					title: "Tanggal Terbuat",
+					field: "created_at",
+					render: (data) => stringToDate(data.created_at),
+				},
 			]}
 			data={payments}
 			options={{

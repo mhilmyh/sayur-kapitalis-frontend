@@ -21,7 +21,7 @@ export const ordersFetch = () => {
 				dispatch(ordersSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
@@ -43,7 +43,7 @@ export const ordersBuyProduct = (products = []) => {
 				dispatch(cartsReset());
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
@@ -58,7 +58,24 @@ export const paymentsFetch = () => {
 				dispatch(paymentsSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+
+// Payment Action API
+export const payOrder = (data = new FormData()) => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		PaymentServices.payOrder(data)
+			.then((response) => {
+				dispatch(
+					alertSet({ show: true, error: false, message: response.message })
+				);
+			})
+			.catch((error) => {
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
@@ -70,10 +87,10 @@ export const accountsFetch = () => {
 		dispatch(loadingSet(true));
 		AccountServices.fetch()
 			.then((response) => {
-				accountSave(response.data);
+				dispatch(accountsSave(response.data));
 			})
 			.catch((error) => {
-				console.log(error);
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
 			})
 			.finally(() => loadingSet(false));
 	};
@@ -93,6 +110,6 @@ export const paymentsSave = (data) => {
 };
 
 // Account Action Local
-export const accountSave = (data) => {
+export const accountsSave = (data) => {
 	return goodWay(ACCOUNTS_SAVE, { data });
 };

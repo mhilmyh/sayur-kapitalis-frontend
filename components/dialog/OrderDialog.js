@@ -1,13 +1,14 @@
 import DialogWrapper from "../wrapper/DialogWrapper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import { payOrder } from "../../redux/actions/creator/order";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@material-ui/core/styles";
 import PaymentForm from "../form/PaymentForm";
 import PaymentTable from "../table/PaymentTable";
+import { useDispatch, useSelector } from "react-redux";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -30,7 +31,29 @@ TabPanel.propTypes = {
 	value: PropTypes.any.isRequired,
 };
 
-const OrderDialog = ({ open = false, onClose = () => {} }) => {
+const OrderDialog = ({ open = false, onClose = () => {}, order = {} }) => {
+	const loading = useSelector((state) => state.loading);
+	const dispatch = useDispatch();
+
+	const [paidDate, setPaidDate] = React.useState(null);
+	const [accountID, setAccountID] = React.useState(-1);
+	const [shipmentDate, setShipmentDate] = React.useState(-1);
+	const [shipmentTimeID, setShipmentTimeID] = React.useState(-1);
+	const [img, setImg] = React.useState(null);
+
+	const handleClickPay = () => {
+		if (!loading) {
+			const data = new FormData();
+			data.set("date", paidDate);
+			data.set("image", img);
+			data.set("order_header_id", order.id);
+			data.set("account_id", accountID);
+			data.set("shipment_date", shipmentDate);
+			data.set("shipment_time_id", shipmentTimeID);
+			dispatch(payOrder(data));
+		}
+	};
+
 	const theme = useTheme();
 	const [value, setValue] = React.useState(0);
 
@@ -41,13 +64,14 @@ const OrderDialog = ({ open = false, onClose = () => {} }) => {
 	const handleChangeIndex = (index) => {
 		setValue(index);
 	};
+
 	return (
 		<DialogWrapper
 			open={open}
 			onClose={onClose}
 			textYes="Bayar"
 			title="Bayar Pesanan"
-			onClickYes={() => {}}
+			onClickYes={() => handleClickPay()}
 		>
 			<Tabs
 				value={value}
@@ -65,7 +89,17 @@ const OrderDialog = ({ open = false, onClose = () => {} }) => {
 				onChangeIndex={handleChangeIndex}
 			>
 				<TabPanel value={value} index={0} dir={theme.direction}>
-					<PaymentForm></PaymentForm>
+					<PaymentForm
+						paidDate={paidDate}
+						accountID={accountID}
+						shipmentDate={shipmentDate}
+						shipmentTimeID={shipmentTimeID}
+						setPaidDate={setPaidDate}
+						setAccountID={setAccountID}
+						setShipmentDate={setShipmentDate}
+						setShipmentTimeID={setShipmentTimeID}
+						setImg={setImg}
+					></PaymentForm>
 				</TabPanel>
 				<TabPanel value={value} index={1} dir={theme.direction}>
 					<PaymentTable></PaymentTable>

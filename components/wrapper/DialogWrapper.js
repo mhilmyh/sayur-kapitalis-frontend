@@ -6,6 +6,8 @@ import {
 } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
+import CircularLoad from "../loading/CircularLoad";
 
 const DialogWrapper = ({
 	title = "",
@@ -16,6 +18,7 @@ const DialogWrapper = ({
 	textNo = "",
 	onClickYes = () => {},
 }) => {
+	const loading = useSelector((state) => state.loading);
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 	const handleClickYes = (event) => {
@@ -38,19 +41,27 @@ const DialogWrapper = ({
 				{children}
 			</DialogContent>
 			<DialogActions>
-				<button
-					className="w-1/2 bg-gray-500 text-white p-2 rounded shadow-md font-semibold"
-					onClick={onClose}
-				>
-					{textNo ? textNo : "Tutup"}
-				</button>
+				{loading ? (
+					<React.Fragment>
+						<CircularLoad></CircularLoad>
+					</React.Fragment>
+				) : (
+					<React.Fragment>
+						<button
+							className="w-1/2 bg-gray-500 text-white p-2 rounded shadow-md font-semibold"
+							onClick={onClose}
+						>
+							{textNo ? textNo : "Tutup"}
+						</button>
 
-				<button
-					className="w-1/2 bg-green-500 text-white p-2 rounded shadow-md font-semibold"
-					onClick={handleClickYes}
-				>
-					{textYes ? textYes : "Lanjutkan"}
-				</button>
+						<button
+							className="w-1/2 bg-green-500 text-white p-2 rounded shadow-md font-semibold"
+							onClick={handleClickYes}
+						>
+							{textYes ? textYes : "Lanjutkan"}
+						</button>
+					</React.Fragment>
+				)}
 			</DialogActions>
 		</Dialog>
 	);

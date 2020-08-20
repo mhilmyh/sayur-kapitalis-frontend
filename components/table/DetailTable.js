@@ -5,7 +5,11 @@ const DetailTable = ({ data }) => {
 	const [open, setOpen] = React.useState(false);
 	return (
 		<React.Fragment>
-			<OrderDialog open={open} onClose={() => setOpen(false)}></OrderDialog>
+			<OrderDialog
+				order={data}
+				open={open}
+				onClose={() => setOpen(false)}
+			></OrderDialog>
 			<div className="w-full flex flex-wrap justify-center items-center">
 				<div className="w-full flex bg-gray-200 p-2 my-1 mx-2 justify-between items-center rounded">
 					<div className="font-bold text-green-500 text-xs uppercase">
@@ -25,7 +29,7 @@ const DetailTable = ({ data }) => {
 					{data.order_details.map((order, index) => (
 						<div
 							key={index}
-							className="flex justify-between items-center border-b-2 border-gray-500"
+							className="flex justify-between items-center border-b-2 border-gray-500 my-1 py-1"
 						>
 							<div className="w-1/3 font-semibold text-gray-200 text-xs text-left">
 								{order.product_snapshot.product_name}

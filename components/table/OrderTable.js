@@ -1,18 +1,18 @@
 import LocalTable from "./LocalTable";
 import { useDispatch, useSelector } from "react-redux";
-import { ordersFetch, accountSave } from "../../redux/actions/creator/order";
+import { ordersFetch, accountsFetch } from "../../redux/actions/creator/order";
 import DetailTable from "./DetailTable";
 import { convertToRupiah } from "../../redux/utils/format";
 import { shipmentFetch } from "../../redux/actions/creator/shipments";
 
-const OrderTable = (props) => {
+const OrderTable = () => {
 	const dispatch = useDispatch();
 	const orders = useSelector((state) => state.orders);
 	React.useEffect(() => {
 		// Order
 		dispatch(ordersFetch());
 		// Account
-		dispatch(accountSave());
+		dispatch(accountsFetch());
 		// Shipment Time
 		dispatch(shipmentFetch());
 	}, []);

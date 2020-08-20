@@ -1,22 +1,40 @@
 import EasySelection from "../input/EasySelection";
 import TextField from "@material-ui/core/TextField";
 import EasyInputImage from "../input/EasyInputImage";
-const PaymentForm = () => {
-	const [accountID, setAccountID] = React.useState(-1);
-	const [shipmentDateID, setShipmentDateID] = React.useState(-1);
-	const [shipmentTimeID, setShipmentTimeID] = React.useState(-1);
-	const [img, setImg] = React.useState(null);
+import { useSelector } from "react-redux";
+import FlexibleAlert from "../alert/FlexibleAlert";
+import { dateNow } from "../../redux/utils/format";
+const PaymentForm = ({
+	paidDate,
+	accountID,
+	shipmentDate,
+	shipmentTimeID,
+	setPaidDate = () => {},
+	setAccountID = () => {},
+	setShipmentDate = () => {},
+	setShipmentTimeID = () => {},
+	setImg = () => {},
+}) => {
+	const alert = useSelector((state) => state.alert);
+	const accounts = useSelector((state) => state.accounts);
+	const shipmentTimes = useSelector((state) => state.shipmentTimes);
+
 	return (
 		<div className="w-full flex flex-wrap justify-center items-center">
 			{/* Rekening */}
+			<div className="pb-2 w-full">
+				<FlexibleAlert {...alert}></FlexibleAlert>
+			</div>
 			<div className="py-2 w-full">
 				<EasySelection
 					label="Rekening"
 					value={accountID}
 					onChange={(e) => setAccountID(e.target.value)}
-					data={[{ id: 1, name: "Wow" }]}
+					data={accounts}
 					val="id"
-					printFunc={(item) => `${item.name}`}
+					printFunc={(item) =>
+						`[${item.bank_name}] ${item.number} - ${item.owner_name}`
+					}
 				></EasySelection>
 			</div>
 			{/* Tanggal Pengiriman */}
@@ -24,9 +42,14 @@ const PaymentForm = () => {
 				<TextField
 					label="Tanggal Kirim"
 					type="date"
+					value={shipmentDate}
+					onChange={(e) => setShipmentDate(e.target.value)}
 					fullWidth={true}
 					InputLabelProps={{
 						shrink: true,
+					}}
+					inputProps={{
+						min: dateNow(),
 					}}
 				/>
 			</div>
@@ -34,12 +57,27 @@ const PaymentForm = () => {
 			<div className="py-2 w-full">
 				<EasySelection
 					label="Jam Kirim"
-					value={accountID}
-					onChange={(e) => setAccountID(e.target.value)}
-					data={[{ id: 1, name: "Wow" }]}
+					value={shipmentTimeID}
+					onChange={(e) => setShipmentTimeID(e.target.value)}
+					data={shipmentTimes}
 					val="id"
-					printFunc={(item) => `${item.name}`}
+					printFunc={(item) =>
+						`(${item.name}) ${item.start_time} - ${item.end_time}`
+					}
 				></EasySelection>
+			</div>
+			{/* Tanggal Pembayaran */}
+			<div className="py-2 w-full">
+				<TextField
+					label="Tanggal Pembayaran"
+					type="datetime-local"
+					value={paidDate}
+					onChange={(e) => setPaidDate(e.target.value)}
+					fullWidth={true}
+					InputLabelProps={{
+						shrink: true,
+					}}
+				/>
 			</div>
 			{/* Upload Bukti Pembayaran */}
 			<div className="py-2 w-full">
