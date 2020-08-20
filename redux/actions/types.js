@@ -7,6 +7,9 @@ export const PRODUCTS_SAVE = "PRODUCTS_SAVE";
 // Category Action Type
 export const CATEGORIES_SAVE = "CATEGORIES_SAVE";
 
+// Payment Action Type
+export const PAYMENTS_SAVE = "PAYMENTS_SAVE";
+
 // Account Action Type
 export const ACCOUNTS_SAVE = "ACCOUNTS_SAVE";
 

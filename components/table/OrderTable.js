@@ -8,7 +8,11 @@ const OrderTable = (props) => {
 	const dispatch = useDispatch();
 	const orders = useSelector((state) => state.orders);
 	React.useEffect(() => {
+		// Order
 		dispatch(ordersFetch());
+		// Account
+
+		// Shipment Time
 	}, []);
 	return (
 		<LocalTable

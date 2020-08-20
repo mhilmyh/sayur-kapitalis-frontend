@@ -28,8 +28,15 @@ const EasyInputImage = ({ title = "", desc = "", onChange = () => {} }) => {
 						className="object-contain h-48 text-center w-full"
 					></img>
 				) : (
-					<article className="prose lg:prose-lg text-center px-4">
-						<p className="text-xs">{desc ? desc : "Pilih Gambar"}</p>
+					<article className="prose lg:prose-lg text-center flex justify-center items-center flex-wrap">
+						<div className="w-16 h-16 shadow-lg flex justify-center items-center">
+							<img
+								className="object-cover w-full h-full"
+								src="/assets/placeholder.png"
+								alt="picture"
+							></img>
+						</div>
+						<p className="text-xs w-full">{desc ? desc : "Pilih Gambar"}</p>
 					</article>
 				)}
 			</div>

@@ -18,13 +18,11 @@ const handleRequestError = (error) => {
 
 const handleResponseReceive = (response) => {
 	// Status Code 2xx
-	console.log("Axios Response");
 	return response.data;
 };
 
 const handleResponseError = (error) => {
 	// Status Code 4xx
-	console.log("Axios Response Error");
 	return Promise.reject(error.response ? error.response.data : error.message);
 };
 

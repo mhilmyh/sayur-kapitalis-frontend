@@ -23,7 +23,10 @@ const DetailTable = ({ data }) => {
 				</div>
 				<div className="w-full bg-gray-600 p-2 mx-2 rounded-b">
 					{data.order_details.map((order, index) => (
-						<div key={index} className="flex justify-between items-center ">
+						<div
+							key={index}
+							className="flex justify-between items-center border-b-2 border-gray-500"
+						>
 							<div className="w-1/3 font-semibold text-gray-200 text-xs text-left">
 								{order.product_snapshot.product_name}
 							</div>
@@ -42,7 +45,7 @@ const DetailTable = ({ data }) => {
 						href={`#buttonPay-${data.id}`}
 					>
 						<span>Bayar Sekarang</span>
-						<svg class="svg-icon" viewBox="0 0 20 20">
+						<svg className="svg-icon" viewBox="0 0 20 20">
 							<path
 								fill="none"
 								d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z"
@@ -51,7 +54,7 @@ const DetailTable = ({ data }) => {
 					</a>
 					<button
 						id={`buttonPay-${data.id}`}
-						className="px-3 py-1 bg-green-500 text-gray-100 rounded shadow-md"
+						className="px-6 py-2 bg-green-500 text-gray-100 rounded shadow-md"
 						onClick={() => setOpen(true)}
 					>
 						Bayar
