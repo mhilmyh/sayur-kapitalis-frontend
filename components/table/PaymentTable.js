@@ -27,7 +27,7 @@ const PaymentTable = ({ payments = [] }) => {
 			options={{
 				rowStyle: {
 					fontSize: "0.8rem",
-					fontWeight: 600,
+					fontWeight: 500,
 					color: "#718096",
 				},
 			}}
