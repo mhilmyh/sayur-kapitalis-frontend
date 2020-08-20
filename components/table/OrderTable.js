@@ -1,8 +1,9 @@
 import LocalTable from "./LocalTable";
 import { useDispatch, useSelector } from "react-redux";
-import { ordersFetch } from "../../redux/actions/creator/order";
+import { ordersFetch, paymentsFetch } from "../../redux/actions/creator/order";
 import DetailTable from "./DetailTable";
 import { convertToRupiah } from "../../redux/utils/format";
+import { shipmentFetch } from "../../redux/actions/creator/shipments";
 
 const OrderTable = (props) => {
 	const dispatch = useDispatch();
@@ -11,8 +12,9 @@ const OrderTable = (props) => {
 		// Order
 		dispatch(ordersFetch());
 		// Account
-
+		dispatch(paymentsFetch());
 		// Shipment Time
+		dispatch(shipmentFetch());
 	}, []);
 	return (
 		<LocalTable
