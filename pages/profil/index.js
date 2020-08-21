@@ -15,22 +15,25 @@ const ProfilPage = () => {
 	const router = useRouter();
 
 	React.useEffect(() => {
-		dispatch(userFetch());
-		if (!CookieService.checkToken()) {
+		if (CookieService.checkToken()) {
+			dispatch(userFetch());
+		} else {
 			router.replace("/login");
 		}
 	}, []);
 	return (
 		<div className="w-full p-8 flex flex-wrap justify-center items-start">
 			<EasyWrapper title="Profil Pengguna">
-				<ProfileSection></ProfileSection>
+				<ProfileSection
+					user={user.is_agent ? user.agent : user.customer}
+				></ProfileSection>
 			</EasyWrapper>
 			<EasyWrapper title="Ganti Password">
 				<ChangePassSection></ChangePassSection>
 			</EasyWrapper>
 			{user.is_agent ? (
 				<EasyWrapper title="Daftar Customer">
-					<CustomerSection></CustomerSection>
+					<CustomerSection customers={user.agent.customers}></CustomerSection>
 				</EasyWrapper>
 			) : (
 				<EasyWrapper title="Agen">

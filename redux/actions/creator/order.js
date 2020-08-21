@@ -81,6 +81,22 @@ export const payOrder = (data = new FormData()) => {
 	};
 };
 
+export const paymentUpdate = (
+	paymentID = "",
+	data = new FormData(),
+	callback = () => {}
+) => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		PaymentServices.updateImage(paymentID, data)
+			.then(() => callback())
+			.catch(() => {
+				dispatch(alertSet({ show: true, error: true, message: error.message }));
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+
 // Account Action API
 export const accountsFetch = () => {
 	return (dispatch) => {

@@ -7,4 +7,8 @@ export default class PaymentServices {
 	static payOrder(data = new FormData()) {
 		return API.post("/orderPayment", data);
 	}
+
+	static updateImage(paymentID = "", data = new FormData()) {
+		return API.post("/orderPayment/" + paymentID, data);
+	}
 }

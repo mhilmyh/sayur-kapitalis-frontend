@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 const STR_TOKEN = "X_API_TOKEN_";
 
 export default class CookieService {
-	static setToken(token = "") {
-		Cookies.set(STR_TOKEN, token);
+	static setToken(token = "", expires = 1) {
+		Cookies.set(STR_TOKEN, token, { expires: expires });
 	}
 
 	static getToken() {

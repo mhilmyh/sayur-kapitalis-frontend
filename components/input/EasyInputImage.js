@@ -1,5 +1,10 @@
-const EasyInputImage = ({ title = "", desc = "", onChange = () => {} }) => {
-	const [img, setImg] = React.useState("");
+const EasyInputImage = ({
+	title = "",
+	desc = "",
+	onChange = () => {},
+	initSrc = "",
+}) => {
+	const [img, setImg] = React.useState(initSrc);
 
 	const handleChange = (event) => {
 		const file = event.target.files[0];

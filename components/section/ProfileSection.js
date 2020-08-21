@@ -10,16 +10,16 @@ import { useRouter } from "next/router";
 import { coverageFetch } from "../../redux/actions/creator/coverage";
 import LocalStorageService from "../../redux/services/localstorage.service";
 
-const ProfileSection = () => {
+const ProfileSection = ({ user = {} }) => {
 	const dispatch = useDispatch();
 	const alert = useSelector((state) => state.alert);
 	const coverageArea = useSelector((state) => state.coverageArea);
 	const loading = useSelector((state) => state.loading);
 	const router = useRouter();
 
-	const [firstName, setFirstName] = React.useState("");
-	const [lastName, setLastName] = React.useState("");
-	const [address, setAddress] = React.useState("");
+	const [firstName, setFirstName] = React.useState(user.first_name);
+	const [lastName, setLastName] = React.useState(user.last_name);
+	const [address, setAddress] = React.useState(user.address);
 	const [coverageID, setCoverageID] = React.useState(0);
 
 	const handleChange = (e) => {
@@ -51,12 +51,6 @@ const ProfileSection = () => {
 	};
 
 	React.useEffect(() => {
-		const user = LocalStorageService.getUserOnlyRole();
-		if (!!user) {
-			setFirstName(user.first_name);
-			setLastName(user.last_name);
-			setAddress(user.address);
-		}
 		dispatch(alertReset());
 		dispatch(coverageFetch());
 	}, []);

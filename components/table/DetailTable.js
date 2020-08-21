@@ -1,16 +1,23 @@
 import { stringToDate, convertToRupiah } from "../../redux/utils/format";
 import OrderDialog from "../dialog/OrderDialog";
+import EditPaymentDialog from "../dialog/EditPaymentDialog";
 import DetailSection from "../section/DetailSection";
 
 const DetailTable = ({ data }) => {
-	const [open, setOpen] = React.useState(false);
+	const [openOrder, setOpenOrder] = React.useState(false);
+	const [openEditPayment, setOpenEditPayment] = React.useState(false);
 	return (
 		<React.Fragment>
 			<OrderDialog
 				order={data}
-				open={open}
-				onClose={() => setOpen(false)}
+				open={openOrder}
+				onClose={() => setOpenOrder(false)}
 			></OrderDialog>
+			<EditPaymentDialog
+				payment={data.order_payment}
+				open={openEditPayment}
+				onClose={() => setOpenEditPayment(false)}
+			></EditPaymentDialog>
 			<div className="w-full flex flex-wrap justify-center items-center bg-gray-700">
 				<div className="w-full flex bg-gray-100 p-2 mb-1 mt-4 mx-2 justify-between items-center rounded">
 					<div className="font-bold text-green-500 text-xs uppercase">
@@ -66,6 +73,15 @@ const DetailTable = ({ data }) => {
 								},
 							]}
 						></DetailSection>
+						<div className="w-full flex bg-gray-100 p-2 my-3 mx-2 justify-center items-center rounded">
+							<button
+								id={`buttonPay-${data.id}`}
+								className="px-12 py-2 bg-green-500 text-gray-100 rounded shadow-md"
+								onClick={() => setOpenEditPayment(true)}
+							>
+								Ganti bukti
+							</button>
+						</div>
 						<div className="w-full mb-6"></div>
 					</React.Fragment>
 				) : (
@@ -85,7 +101,7 @@ const DetailTable = ({ data }) => {
 						<button
 							id={`buttonPay-${data.id}`}
 							className="px-6 py-2 bg-green-500 text-gray-100 rounded shadow-md"
-							onClick={() => setOpen(true)}
+							onClick={() => setOpenOrder(true)}
 						>
 							Bayar
 						</button>
