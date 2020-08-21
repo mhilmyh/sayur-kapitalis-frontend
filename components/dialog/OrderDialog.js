@@ -73,7 +73,7 @@ const OrderDialog = ({ open = false, onClose = () => {}, order = {} }) => {
 			title="Bayar Pesanan"
 			onClickYes={() => handleClickPay()}
 		>
-			<Tabs
+			{/* <Tabs
 				value={value}
 				onChange={handleChange}
 				indicatorColor="primary"
@@ -88,23 +88,23 @@ const OrderDialog = ({ open = false, onClose = () => {}, order = {} }) => {
 				index={value}
 				onChangeIndex={handleChangeIndex}
 			>
-				<TabPanel value={value} index={0} dir={theme.direction}>
-					<PaymentForm
-						paidDate={paidDate}
-						accountID={accountID}
-						shipmentDate={shipmentDate}
-						shipmentTimeID={shipmentTimeID}
-						setPaidDate={setPaidDate}
-						setAccountID={setAccountID}
-						setShipmentDate={setShipmentDate}
-						setShipmentTimeID={setShipmentTimeID}
-						setImg={setImg}
-					></PaymentForm>
-				</TabPanel>
+				<TabPanel value={value} index={0} dir={theme.direction}> */}
+			<PaymentForm
+				paidDate={paidDate}
+				accountID={accountID}
+				shipmentDate={shipmentDate}
+				shipmentTimeID={shipmentTimeID}
+				setPaidDate={setPaidDate}
+				setAccountID={setAccountID}
+				setShipmentDate={setShipmentDate}
+				setShipmentTimeID={setShipmentTimeID}
+				setImg={setImg}
+			></PaymentForm>
+			{/* </TabPanel>
 				<TabPanel value={value} index={1} dir={theme.direction}>
-					<PaymentTable></PaymentTable>
+					<PaymentTable payments={order.order_payment}></PaymentTable>
 				</TabPanel>
-			</SwipeableViews>
+			</SwipeableViews> */}
 		</DialogWrapper>
 	);
 };

@@ -23,7 +23,7 @@ const PaymentTable = ({ payments = [] }) => {
 					render: (data) => stringToDate(data.created_at),
 				},
 			]}
-			data={payments}
+			data={[payments]}
 			options={{
 				rowStyle: {
 					fontSize: "0.8rem",

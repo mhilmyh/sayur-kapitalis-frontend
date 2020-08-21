@@ -1,5 +1,6 @@
 import { stringToDate, convertToRupiah } from "../../redux/utils/format";
 import OrderDialog from "../dialog/OrderDialog";
+import DetailSection from "../section/DetailSection";
 
 const DetailTable = ({ data }) => {
 	const [open, setOpen] = React.useState(false);
@@ -10,8 +11,8 @@ const DetailTable = ({ data }) => {
 				open={open}
 				onClose={() => setOpen(false)}
 			></OrderDialog>
-			<div className="w-full flex flex-wrap justify-center items-center">
-				<div className="w-full flex bg-gray-200 p-2 my-1 mx-2 justify-between items-center rounded">
+			<div className="w-full flex flex-wrap justify-center items-center bg-gray-700">
+				<div className="w-full flex bg-gray-100 p-2 mb-1 mt-4 mx-2 justify-between items-center rounded">
 					<div className="font-bold text-green-500 text-xs uppercase">
 						Tanggal Pembuatan
 					</div>
@@ -19,7 +20,7 @@ const DetailTable = ({ data }) => {
 						{stringToDate(data.created_at)}
 					</div>
 				</div>
-				<div className="w-full flex bg-gray-200 p-2 mt-1 mx-2 justify-between items-center rounded-t">
+				<div className="w-full flex bg-gray-100 p-2 mt-1 mx-2 justify-between items-center rounded-t">
 					<div className="font-bold text-green-500 text-xs uppercase">
 						Detail Produk
 					</div>
@@ -43,27 +44,53 @@ const DetailTable = ({ data }) => {
 						</div>
 					))}
 				</div>
-				<div className="w-full flex bg-gray-200 p-2 my-3 mx-2 justify-between items-center rounded-t">
-					<a
-						className="font-bold text-green-500 text-xs uppercase flex justify-between items-center"
-						href={`#buttonPay-${data.id}`}
-					>
-						<span>Bayar Sekarang</span>
-						<svg className="svg-icon" viewBox="0 0 20 20">
-							<path
-								fill="none"
-								d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z"
-							></path>
-						</svg>
-					</a>
-					<button
-						id={`buttonPay-${data.id}`}
-						className="px-6 py-2 bg-green-500 text-gray-100 rounded shadow-md"
-						onClick={() => setOpen(true)}
-					>
-						Bayar
-					</button>
-				</div>
+				{!!data.order_payment ? (
+					<React.Fragment>
+						<DetailSection
+							title="Pengiriman"
+							data={[
+								{ name: "Tanggal Pengiriman", value: data.shipment_date },
+								{
+									name: "Waktu Pengiriman",
+									value: `(${data.shipment_time.name}) ${data.shipment_time.start_time} - ${data.shipment_time.end_time}`,
+								},
+							]}
+						></DetailSection>
+						<DetailSection
+							title="Bukti Pembayaran"
+							data={[
+								{
+									name: "Berkas yang diunggah",
+									label: "Link Gambar",
+									url: data.order_payment.image_url,
+								},
+							]}
+						></DetailSection>
+						<div className="w-full mb-6"></div>
+					</React.Fragment>
+				) : (
+					<div className="w-full flex bg-gray-100 p-2 my-3 mx-2 justify-between items-center rounded-t">
+						<a
+							className="font-bold text-green-500 text-xs uppercase flex justify-between items-center"
+							href={`#buttonPay-${data.id}`}
+						>
+							<span>Bayar Sekarang</span>
+							<svg className="svg-icon" viewBox="0 0 20 20">
+								<path
+									fill="none"
+									d="M11.611,10.049l-4.76-4.873c-0.303-0.31-0.297-0.804,0.012-1.105c0.309-0.304,0.803-0.293,1.105,0.012l5.306,5.433c0.304,0.31,0.296,0.805-0.012,1.105L7.83,15.928c-0.152,0.148-0.35,0.223-0.547,0.223c-0.203,0-0.406-0.08-0.559-0.236c-0.303-0.309-0.295-0.803,0.012-1.104L11.611,10.049z"
+								></path>
+							</svg>
+						</a>
+						<button
+							id={`buttonPay-${data.id}`}
+							className="px-6 py-2 bg-green-500 text-gray-100 rounded shadow-md"
+							onClick={() => setOpen(true)}
+						>
+							Bayar
+						</button>
+					</div>
+				)}
 			</div>
 		</React.Fragment>
 	);

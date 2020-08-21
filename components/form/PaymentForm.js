@@ -20,7 +20,7 @@ const PaymentForm = ({
 	const shipmentTimes = useSelector((state) => state.shipmentTimes);
 
 	return (
-		<div className="w-full flex flex-wrap justify-center items-center">
+		<div className="w-full flex flex-wrap justify-center items-center p-6">
 			{/* Rekening */}
 			<div className="pb-2 w-full">
 				<FlexibleAlert {...alert}></FlexibleAlert>
