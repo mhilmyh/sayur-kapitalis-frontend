@@ -69,7 +69,7 @@ const DetailTable = ({ data }) => {
 						<div className="w-full mb-6"></div>
 					</React.Fragment>
 				) : (
-					<div className="w-full flex bg-gray-100 p-2 my-3 mx-2 justify-between items-center rounded-t">
+					<div className="w-full flex bg-gray-100 p-2 my-3 mx-2 justify-between items-center rounded">
 						<a
 							className="font-bold text-green-500 text-xs uppercase flex justify-between items-center"
 							href={`#buttonPay-${data.id}`}
