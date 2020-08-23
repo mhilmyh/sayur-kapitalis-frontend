@@ -9,14 +9,14 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../redux/actions/creator/user";
 import { alertReset, alertSet } from "../redux/actions/creator/alert";
-import SuperEasySelection from "../components/input/SuperEasySelection";
+// import SuperEasySelection from "../components/input/SuperEasySelection";
 import { coverageFetch } from "../redux/actions/creator/coverage";
 
 const RegisterPage = () => {
 	const dispatch = useDispatch();
 	const alert = useSelector((state) => state.alert);
 	const loading = useSelector((state) => state.loading);
-	const coverage = useSelector((state) => state.coverage);
+	// const coverage = useSelector((state) => state.coverage);
 
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
@@ -29,8 +29,8 @@ const RegisterPage = () => {
 	const [bankName, setBankName] = React.useState("");
 	const [bankAccount, setBankAccount] = React.useState("");
 	const [bankOwner, setBankOwner] = React.useState("");
-	const [coverageArea, setCoverageArea] = React.useState(-1);
-	const [area, setArea] = React.useState("");
+	// const [coverageArea, setCoverageArea] = React.useState(-1);
+	// const [area, setArea] = React.useState("");
 	const [imageSelf, setImageSelf] = React.useState(null);
 	const [imageKTP, setImageKTP] = React.useState(null);
 
@@ -50,8 +50,8 @@ const RegisterPage = () => {
 				data.set("bank_account_owner", bankOwner);
 				data.set("image_self", imageSelf);
 				data.set("image_ktp", imageKTP);
-				if (coverageArea === -1) data.set("area", area);
-				else data.set("coverage_area_id", coverageArea);
+				// if (coverageArea === -1) data.set("area", area);
+				// else data.set("coverage_area_id", coverageArea);
 			}
 			dispatch(userRegister(data));
 		} else {
@@ -168,15 +168,14 @@ const RegisterPage = () => {
 							desc="Pilih gambar KTP anda (bagian depan saja)"
 							onChange={(f) => setImageKTP(f)}
 						></EasyInputImage>
-
-						<SuperEasySelection
+						{/* <SuperEasySelection
 							label="Coverage Area"
 							value={coverageArea}
 							notChoosenText="Tidak dipilih"
 							onChange={(e) => setCoverageArea(e)}
-						></SuperEasySelection>
+						></SuperEasySelection> */}
 
-						{coverageArea === -1 && (
+						{/* {coverageArea === -1 && (
 							<EasyTextfield
 								label="Area"
 								type="text"
@@ -184,7 +183,7 @@ const RegisterPage = () => {
 								placeholder="Bukit Royal 1"
 								onChange={(e) => setArea(e.target.value)}
 							></EasyTextfield>
-						)}
+						)} */}
 					</React.Fragment>
 				)}
 				{loading ? (

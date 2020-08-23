@@ -88,7 +88,7 @@ const ProfileSection = ({ user = {} }) => {
 						InputLabelProps={{ shrink: true }}
 					/>
 				</div>
-				<div className="w-full mb-4 mt-2">
+				{/* <div className="w-full mb-4 mt-2">
 					<Selection
 						entity="Coverage Area"
 						dataLabel="area"
@@ -96,7 +96,7 @@ const ProfileSection = ({ user = {} }) => {
 						data={coverageArea}
 						onChange={(e) => setCoverageID(e.target.value)}
 					/>
-				</div>
+				</div> */}
 				<div className="w-full mb-4 mt-2 flex justify-center items-center">
 					{loading ? (
 						<CircularLoad></CircularLoad>
