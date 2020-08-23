@@ -1,7 +1,7 @@
 import EasyCard from "../card/EasyCard";
 import FlexibleAlert from "../../components/alert/FlexibleAlert";
 import CircularLoad from "../../components/loading/CircularLoad";
-import Selection from "../../components/input/Selection";
+// import Selection from "../../components/input/Selection";
 import { TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout, userUpdate } from "../../redux/actions/creator/user";
