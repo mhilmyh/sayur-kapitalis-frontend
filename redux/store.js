@@ -10,6 +10,7 @@ import reducer from "./reducers";
 const persistConfig = {
 	key: "X-APP-STATE",
 	storage,
+	whitelist: ["user", "categories", "orders", "shipmentTimes", "accounts"],
 	stateReconciler: hardSet,
 };
 

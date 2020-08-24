@@ -7,6 +7,12 @@ export const PRODUCTS_SAVE = "PRODUCTS_SAVE";
 // Category Action Type
 export const CATEGORIES_SAVE = "CATEGORIES_SAVE";
 
+// Information Action Type
+export const INFORMATIONS_SAVE = "INFORMATIONS_SAVE";
+
+// Information Action Type
+export const HEADING_SAVE = "HEADING_SAVE";
+
 // Payment Action Type
 export const PAYMENTS_SAVE = "PAYMENTS_SAVE";
 

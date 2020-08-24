@@ -3,6 +3,7 @@ import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import ReceiptIcon from "@material-ui/icons/Receipt";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
 
 import { useRouter } from "next/router";
 
@@ -22,6 +23,11 @@ const BottomNav = () => {
 				label="Produk"
 				value="/produk"
 				icon={<StorefrontIcon></StorefrontIcon>}
+			></BottomNavigationAction>
+			<BottomNavigationAction
+				label="Informasi"
+				value="/info"
+				icon={<LocalLibraryIcon></LocalLibraryIcon>}
 			></BottomNavigationAction>
 			<BottomNavigationAction
 				label="Pesanan"

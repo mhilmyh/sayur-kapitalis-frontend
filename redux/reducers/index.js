@@ -6,6 +6,8 @@ const initState = {
 	carts: [],
 	products: [],
 	categories: [],
+	informations: [],
+	headings: [],
 	payments: [],
 	orders: [],
 	accounts: [],
@@ -99,6 +101,10 @@ const reducer = (state = initState, action) => {
 			return { ...state, accounts: action.payload.data };
 		case act.CATEGORIES_SAVE:
 			return { ...state, categories: action.payload.data };
+		case act.INFORMATIONS_SAVE:
+			return { ...state, informations: action.payload.data };
+		case act.HEADING_SAVE:
+			return { ...state, headings: action.payload.data };
 		case act.PRODUCTS_SAVE:
 			return { ...state, products: action.payload.data };
 		case act.PAYMENTS_SAVE:
