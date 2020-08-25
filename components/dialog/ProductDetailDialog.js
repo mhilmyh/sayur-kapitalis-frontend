@@ -3,6 +3,8 @@ import DialogWrapper from "../wrapper/DialogWrapper";
 import { convertToRupiah } from "../../redux/utils/format";
 import { useDispatch } from "react-redux";
 import { cartsAdd } from "../../redux/actions/creator/cart";
+import PriceSection from "../section/PriceSection";
+import DiscountTag from "../tag/DiscountTag";
 
 const ProductDetailDialog = ({
 	open = false,
@@ -23,33 +25,46 @@ const ProductDetailDialog = ({
 			textYes="Tambah"
 			onClickYes={handleClickToCart}
 		>
-			<ProductImage src={product.image_url} name={product.name}></ProductImage>
+			<div className="w-full relative">
+				<ProductImage
+					src={product.image_url}
+					name={product.name}
+				></ProductImage>
+				<div className="absolute top-0 right-0 m-4">
+					<span className="inline bg-gray-200 rounded p-2 font-semibold mr-2">
+						{product.category.name}
+					</span>
+					<span className="inline bg-gray-200 rounded p-2 font-semibold ml-2">
+						{product.sub_category.name}
+					</span>
+				</div>
+				<div className="absolute bottom-0 right-0 m-4">
+					<div className="bg-gray-200 text-gray-100 bg-red-600 rounded font-semibold px-2 py-1">
+						<span className="pr-1">Sisa</span>
+						<span className="pl-1">{product.stock}</span>
+					</div>
+				</div>
+			</div>
 			<div className="p-8">
 				<article className="prose lg:prose-lg">
 					<div className="w-full flex justify-between items-start">
 						<div className="p-0 m-0">
-							<h2 className="my-0 pr-4">{product.name}</h2>
-							<span className="text-green-500 font-bold">
-								{convertToRupiah(product.price)}
-							</span>
+							<h2 className="my-0 pr-4 text-green-500">{product.name}</h2>
+							<PriceSection
+								price={product.price}
+								promoPrice={product.promo_price}
+							></PriceSection>
 						</div>
 						<div className="p-0 m-0">
-							<div className="bg-gray-200 text-gray-100 bg-red-600 rounded font-semibold px-2 py-1">
-								<span className="pr-1">Sisa</span>
-								<span className="pl-1">{product.stock}</span>
-							</div>
+							<DiscountTag
+								discount={product.discount}
+								absolute={false}
+								sizing={"lg"}
+							></DiscountTag>
 						</div>
 					</div>
-					<span className="text-gray-600">{`Unit ${product.unit}`}</span>
+					<span className="bg-yellow-400 p-2 rounded">{`Unit ${product.unit}`}</span>
 					<p>{product.descriptions}</p>
-					<div className="w-full">
-						<span className="inline bg-yellow-400 rounded p-2 font-semibold mr-2">
-							{product.category.name}
-						</span>
-						<span className="inline bg-yellow-400 rounded p-2 font-semibold ml-2">
-							{product.sub_category.name}
-						</span>
-					</div>
 				</article>
 			</div>
 		</DialogWrapper>

@@ -1,8 +1,9 @@
 import ProductDetailDialog from "../dialog/ProductDetailDialog";
 import ProductImage from "../image/ProductImage";
-import { convertToRupiah } from "../../redux/utils/format";
 import { useDispatch } from "react-redux";
 import { cartsAdd } from "../../redux/actions/creator/cart";
+import PriceSection from "../section/PriceSection";
+import DiscountTag from "../tag/DiscountTag";
 
 const ProductCard = (props) => {
 	const dispatch = useDispatch();
@@ -27,12 +28,16 @@ const ProductCard = (props) => {
 					onClick={() => setOpen(true)}
 				></ProductImage>
 				<div className="px-4 py-2">
-					<div className="font-semibold text-sm text-green-500 mb-2">
-						{props.name}
+					<div className="w-full relative">
+						<div className="font-bold text-lg text-green-500 mb-2">
+							{props.name}
+						</div>
+						<PriceSection
+							price={props.price}
+							promoPrice={props.promo_price}
+						></PriceSection>
+						<DiscountTag discount={props.discount}></DiscountTag>
 					</div>
-					<p className="text-gray-700 text-sm">
-						{convertToRupiah(props.price)}
-					</p>
 				</div>
 				<div className="py-2 absolute top-0 right-0">
 					<span
