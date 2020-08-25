@@ -2,6 +2,7 @@ import DefaultLayout from "../../layouts/default";
 import SearchBar from "../../components/input/SearchBar";
 import CategorySection from "../../components/section/CategorySection";
 import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
+import HeadingSection from "../../components/section/HeadingSection";
 const ProdukPage = () => {
 	return (
 		<div className="flex flex-wrap w-full">
@@ -9,6 +10,9 @@ const ProdukPage = () => {
 				<SearchBar></SearchBar>
 			</div>
 			<div className="h-24 w-full"></div>
+			<div className="w-full px-8">
+				<HeadingSection></HeadingSection>
+			</div>
 			<div className="w-full px-8 relative">
 				<CategorySection></CategorySection>
 			</div>

@@ -20,7 +20,7 @@ const ProductCard = (props) => {
 	};
 	return (
 		<React.Fragment>
-			<div className="rounded overflow-hidden shadow-lg m-2 md:m-4 relative">
+			<div className="rounded overflow-hidden shadow-lg sm:w-3/4 m-2 md:m-8 relative">
 				<ProductImage
 					src={props.image_url}
 					name={props.name}

@@ -4,7 +4,7 @@ import { loadingSet } from "./loading";
 import CoverageAreaService from "../../services/coverage.service";
 import { alertSet } from "./alert";
 
-// Order Action API
+// Coverage Action API
 export const coverageFetch = () => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
@@ -19,7 +19,7 @@ export const coverageFetch = () => {
 	};
 };
 
-// Order Action Local
+// Coverage Action Local
 export const coverageSave = (data) => {
 	return goodWay(COVERAGE_AREA_SAVE, { data });
 };

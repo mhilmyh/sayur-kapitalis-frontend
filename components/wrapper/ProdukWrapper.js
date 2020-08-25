@@ -31,7 +31,7 @@ const ProdukWrapper = () => {
 							: true
 					)
 					.map((item, index) => (
-						<div key={index} className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+						<div key={index} className="w-1/2 md:w-1/3 lg:w-1/4">
 							<ProductCard {...item}></ProductCard>
 						</div>
 					))
