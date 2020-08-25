@@ -1,10 +1,10 @@
 import ProductImage from "../image/ProductImage";
 import DialogWrapper from "../wrapper/DialogWrapper";
-import { convertToRupiah } from "../../redux/utils/format";
 import { useDispatch } from "react-redux";
 import { cartsAdd } from "../../redux/actions/creator/cart";
 import PriceSection from "../section/PriceSection";
 import DiscountTag from "../tag/DiscountTag";
+import CircularLoad from "../loading/CircularLoad";
 
 const ProductDetailDialog = ({
 	open = false,
@@ -12,10 +12,15 @@ const ProductDetailDialog = ({
 	...product
 }) => {
 	const dispatch = useDispatch();
+	const [loading, setLoading] = React.useState(false);
 	const handleClickToCart = (event) => {
 		event.preventDefault();
-		if (!!product.stock) {
-			dispatch(cartsAdd(product));
+		if (!!product.stock && !loading) {
+			setLoading(true);
+			setTimeout(() => {
+				dispatch(cartsAdd(product));
+				setLoading(false);
+			}, 500);
 		}
 	};
 	return (
@@ -45,27 +50,31 @@ const ProductDetailDialog = ({
 					</div>
 				</div>
 			</div>
-			<div className="p-8">
-				<article className="prose lg:prose-lg">
-					<div className="w-full flex justify-between items-start">
-						<div className="p-0 m-0">
-							<h2 className="my-0 pr-4 text-green-500">{product.name}</h2>
-							<PriceSection
-								price={product.price}
-								promoPrice={product.promo_price}
-							></PriceSection>
+			<div className="p-8 w-full">
+				{loading ? (
+					<CircularLoad></CircularLoad>
+				) : (
+					<article className="prose lg:prose-lg">
+						<div className="w-full flex justify-between items-start">
+							<div className="p-0 m-0">
+								<h2 className="my-0 pr-4 text-green-500">{product.name}</h2>
+								<PriceSection
+									price={product.price}
+									promoPrice={product.promo_price}
+								></PriceSection>
+							</div>
+							<div className="p-0 m-0">
+								<DiscountTag
+									discount={product.discount}
+									absolute={false}
+									sizing={"lg"}
+								></DiscountTag>
+							</div>
 						</div>
-						<div className="p-0 m-0">
-							<DiscountTag
-								discount={product.discount}
-								absolute={false}
-								sizing={"lg"}
-							></DiscountTag>
-						</div>
-					</div>
-					<span className="bg-yellow-400 p-2 rounded">{`Unit ${product.unit}`}</span>
-					<p>{product.descriptions}</p>
-				</article>
+						<span className="bg-yellow-400 p-2 rounded">{`Unit ${product.unit}`}</span>
+						<p>{product.descriptions}</p>
+					</article>
+				)}
 			</div>
 		</DialogWrapper>
 	);
