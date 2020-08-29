@@ -67,7 +67,6 @@ const RegisterPage = () => {
 
 	React.useEffect(() => {
 		dispatch(alertReset());
-		dispatch(coverageFetch());
 	}, []);
 	return (
 		<div className="w-4/5 p-4 max-w-screen-sm bg-white rounded shadow-lg my-4">

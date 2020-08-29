@@ -10,7 +10,7 @@ import reducer from "./reducers";
 const persistConfig = {
 	key: "X-APP-STATE",
 	storage,
-	blacklist: ["loading", "alert", "coverageArea"],
+	blacklist: ["loading", "alert", "coverageArea", "headings", "informations"],
 	stateReconciler: hardSet,
 };
 

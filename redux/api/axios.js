@@ -1,7 +1,7 @@
 import axios from "axios";
 import CookieServices from "../services/cookie.service";
 
-export const BASE_URL = "http://api-bukitroyal.kiplikipli.my.id/api/v1";
+export const BASE_URL = "http://34.87.21.193/api/v1";
 
 const handleRequestSend = (config) => {
 	// Set token
@@ -23,7 +23,7 @@ const handleResponseReceive = (response) => {
 
 const handleResponseError = (error) => {
 	// Status Code 4xx
-	return Promise.reject(error.response ? error.response.data : error.message);
+	return Promise.reject(error.response ? error.response.data : error);
 };
 
 const API = axios.create({

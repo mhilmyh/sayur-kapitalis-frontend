@@ -110,9 +110,9 @@ const reducer = (state = initState, action) => {
 		case act.PAYMENTS_SAVE:
 			return { ...state, payments: action.payload.data };
 		case act.USER_SAVE:
-			return { ...state, user: { ...state.user, ...action.payload.data } };
+			return { ...state, user: action.payload.data };
 		case act.ALERT_SET:
-			return { ...state, alert: { ...state.alert, ...action.payload } };
+			return { ...state, alert: action.payload };
 		case act.LOADING_SET:
 			return { ...state, loading: action.payload };
 		default:
