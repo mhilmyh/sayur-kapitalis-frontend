@@ -1,9 +1,16 @@
-import { USER_SAVE, CUSTOMERS_SAVE } from "../types";
+import {
+	USER_SAVE,
+	CUSTOMERS_SAVE,
+	PROVINCES_SAVE,
+	CITIES_SAVE,
+	DISTRICTS_SAVE,
+} from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import { alertSet } from "./alert";
 import UserService from "../../services/user.service";
 import CustomerService from "../../services/customer.service";
+import LocationService from "../../services/location.service";
 import CookieService from "../../services/cookie.service";
 
 // User Action API Call
@@ -18,6 +25,69 @@ export const userFetch = (router = null) => {
 				if (!!router) {
 					router.replace("/login");
 				}
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+export const userFetchProvinsi = () => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		LocationService.province()
+			.then((response) => {
+				dispatch(provincesSave(response.data));
+			})
+			.catch((error) => {
+				dispatch(
+					alertSet({
+						show: true,
+						error: true,
+						message: error.message
+							? error.message
+							: "Terjadi kesahalan saat mengambil data provinsi",
+					})
+				);
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+export const userFetchKotakab = (province_id = null) => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		LocationService.kotakab(province_id)
+			.then((response) => {
+				dispatch(citiesSave(response.data));
+			})
+			.catch((error) => {
+				dispatch(
+					alertSet({
+						show: true,
+						error: true,
+						message: error.message
+							? error.message
+							: "Terjadi kesahalan saat mengambil data kota kabupaten",
+					})
+				);
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+export const userFetchKecamatan = (city_id = null) => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		LocationService.kecamatan(city_id)
+			.then((response) => {
+				dispatch(districsSave(response.data));
+			})
+			.catch((error) => {
+				dispatch(
+					alertSet({
+						show: true,
+						error: true,
+						message: error.message
+							? error.message
+							: "Terjadi kesahalan saat mengambil data kota kecamatan",
+					})
+				);
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
@@ -178,6 +248,21 @@ export const customerFetch = () => {
 // User Action Local
 export const userSave = (data) => {
 	return goodWay(USER_SAVE, { data });
+};
+
+// User Action Local
+export const provincesSave = (data) => {
+	return goodWay(PROVINCES_SAVE, { data });
+};
+
+// User Action Local
+export const citiesSave = (data) => {
+	return goodWay(CITIES_SAVE, { data });
+};
+
+// User Action Local
+export const districsSave = (data) => {
+	return goodWay(DISTRICTS_SAVE, { data });
 };
 
 // Customer Action Local

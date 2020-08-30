@@ -22,11 +22,13 @@ const CustomerSection = ({ customers = [] }) => {
 							className="flex my-2 rounded items-center px-1 bg-blue-100 cursor-pointer justify-between"
 						>
 							<div className="w-2 h-2 mx-1 my-2 bg-green-500 rounded-full"></div>
-							<div className="mx-2 p-2 font-semibold text-gray-600 text-sm">
-								{`${item.first_name} ${item.last_name}`}
-							</div>
-							<div className="mx-2 p-2 font-semibold text-gray-600 text-sm">
-								{`${item.phone_number}`}
+							<div className="w-full flex justify-between">
+								<div className="mx-2 p-2 font-semibold text-gray-600 text-xs">
+									{`${item.first_name} ${item.last_name}`}
+								</div>
+								<div className="mx-2 p-2 font-semibold text-gray-600 text-xs">
+									{`${item.phone_number}`}
+								</div>
 							</div>
 						</div>
 					))

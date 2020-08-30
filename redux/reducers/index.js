@@ -4,6 +4,9 @@ import _ from "lodash";
 
 const initState = {
 	carts: [],
+	provinces: [],
+	cities: [],
+	districs: [],
 	products: [],
 	categories: [],
 	informations: [],
@@ -128,6 +131,12 @@ const reducer = (state = initState, action) => {
 			return { ...state, user: action.payload.data };
 		case act.CUSTOMERS_SAVE:
 			return { ...state, customers: action.payload.data };
+		case act.PROVINCES_SAVE:
+			return { ...state, provinces: action.payload.data };
+		case act.CITIES_SAVE:
+			return { ...state, cities: action.payload.data };
+		case act.DISTRICTS_SAVE:
+			return { ...state, districs: action.payload.data };
 		case act.ALERT_SET:
 			return { ...state, alert: action.payload };
 		case act.LOADING_SET:

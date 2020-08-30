@@ -14,12 +14,12 @@ const StyledInputLabel = withStyles({
 })(InputLabel);
 
 const SuperEasySelection = ({
-	label = "",
-	value = null,
+	label = "Select",
+	value = -1,
 	onChange = () => {},
 	data = [],
-	val = "",
-	notChoosenText = "",
+	val = "id",
+	notChoosenText = "Belum dipilih",
 	printFunc = () => {},
 }) => {
 	return (
@@ -32,9 +32,7 @@ const SuperEasySelection = ({
 							{printFunc(item)}
 						</MenuItem>
 					))}
-					<MenuItem value={-1}>
-						{!!notChoosenText ? notChoosenText : "Belum dipilih"}
-					</MenuItem>
+					<MenuItem value={-1}>{notChoosenText}</MenuItem>
 				</Select>
 			</FormControl>
 		</div>

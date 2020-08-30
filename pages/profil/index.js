@@ -31,15 +31,14 @@ const ProfilPage = () => {
 			<EasyWrapper title="Ganti Password">
 				<ChangePassSection></ChangePassSection>
 			</EasyWrapper>
-			{user.is_agent ? (
+			{!!user.is_agent == true && (
 				<EasyWrapper title="Daftar Customer">
 					<CustomerSection customers={user.agent.customers}></CustomerSection>
 				</EasyWrapper>
-			) : (
-				<EasyWrapper title="Agen">
-					<AgenSection agen={user.agent}></AgenSection>
-				</EasyWrapper>
 			)}
+			{/* <EasyWrapper title="Agen"> */}
+			{/* <AgenSection agen={user.agent}></AgenSection> */}
+			{/* </EasyWrapper> */}
 		</div>
 	);
 };

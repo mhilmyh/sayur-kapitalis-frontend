@@ -8,7 +8,11 @@ export default class UserService {
 		const headers = {
 			"Content-Type": "multipart/from-data",
 		};
-		return API.post(byAgent ? `/auth/register` : `/auth/register/fromAgent`, data, { headers });
+		return API.post(
+			byAgent ? `/auth/register/fromAgent` : `/auth/register`,
+			data,
+			{ headers }
+		);
 	}
 
 	static login(email = "", password = "") {

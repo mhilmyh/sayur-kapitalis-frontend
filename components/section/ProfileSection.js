@@ -49,11 +49,6 @@ const ProfileSection = ({ user = {} }) => {
 		dispatch(userUpdate(data));
 	};
 
-	React.useEffect(() => {
-		dispatch(alertReset());
-		// dispatch(coverageFetch());
-	}, []);
-
 	return (
 		<EasyCard>
 			<FlexibleAlert {...alert}></FlexibleAlert>
@@ -88,15 +83,6 @@ const ProfileSection = ({ user = {} }) => {
 						InputLabelProps={{ shrink: true }}
 					/>
 				</div>
-				{/* <div className="w-full mb-4 mt-2">
-					<Selection
-						entity="Coverage Area"
-						dataLabel="area"
-						value={coverageID}
-						data={coverageArea}
-						onChange={(e) => setCoverageID(e.target.value)}
-					/>
-				</div> */}
 				<div className="w-full mb-4 mt-2 flex justify-center items-center">
 					{loading ? (
 						<CircularLoad></CircularLoad>

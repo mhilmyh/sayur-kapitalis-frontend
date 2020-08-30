@@ -7,14 +7,25 @@ import FlexibleAlert from "../components/alert/FlexibleAlert";
 import CircularLoad from "../components/loading/CircularLoad";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { userRegister } from "../redux/actions/creator/user";
+import {
+	userRegister,
+	userFetchProvinsi,
+	userFetchKotakab,
+	userFetchKecamatan,
+} from "../redux/actions/creator/user";
 import { alertReset, alertSet } from "../redux/actions/creator/alert";
-import { coverageFetch } from "../redux/actions/creator/coverage";
+// import { coverageFetch } from "../redux/actions/creator/coverage";
+import SuperEasySelection from "../components/input/SuperEasySelection";
+import { useRouter } from "next/router";
 
 const RegisterPage = () => {
 	const dispatch = useDispatch();
 	const alert = useSelector((state) => state.alert);
 	const loading = useSelector((state) => state.loading);
+	const provinces = useSelector((state) => state.provinces);
+	const cities = useSelector((state) => state.cities);
+	const districs = useSelector((state) => state.districs);
+	const router = useRouter();
 	// const coverage = useSelector((state) => state.coverage);
 
 	const [email, setEmail] = React.useState("");
@@ -28,6 +39,9 @@ const RegisterPage = () => {
 	const [bankName, setBankName] = React.useState("");
 	const [bankAccount, setBankAccount] = React.useState("");
 	const [bankOwner, setBankOwner] = React.useState("");
+	const [provinceID, setProvinceID] = React.useState(-1);
+	const [cityID, setCityID] = React.useState(-1);
+	const [districtID, setDistrictID] = React.useState(-1);
 	// const [coverageArea, setCoverageArea] = React.useState(-1);
 	// const [area, setArea] = React.useState("");
 	const [imageSelf, setImageSelf] = React.useState(null);
@@ -39,6 +53,9 @@ const RegisterPage = () => {
 			data.set("email", email);
 			data.set("password", password);
 			data.set("address", address);
+			data.set("province_id", provinceID);
+			data.set("city_id", cityID);
+			data.set("district_id", districtID);
 			data.set("first_name", firstName);
 			data.set("last_name", lastName);
 			data.set("phone_number", phoneNumber);
@@ -52,7 +69,7 @@ const RegisterPage = () => {
 				// if (coverageArea === -1) data.set("area", area);
 				// else data.set("coverage_area_id", coverageArea);
 			}
-			dispatch(userRegister(data));
+			dispatch(userRegister(data), undefined, () => router.push("/login"));
 		} else {
 			dispatch(
 				alertSet({
@@ -64,9 +81,31 @@ const RegisterPage = () => {
 		}
 	};
 
+	const handleChangeProvince = (e) => {
+		setProvinceID(e.target.value);
+		setCityID(-1);
+		setDistrictID(-1);
+	};
+	const handleChangeCity = (e) => {
+		setCityID(e.target.value);
+		setDistrictID(-1);
+	};
+	const handleChangeDistrict = (e) => {
+		setDistrictID(e.target.value);
+	};
+
 	React.useEffect(() => {
 		dispatch(alertReset());
+		dispatch(userFetchProvinsi());
 	}, []);
+
+	React.useEffect(() => {
+		if (provinceID !== -1) dispatch(userFetchKotakab(provinceID));
+	}, [provinceID]);
+
+	React.useEffect(() => {
+		if (cityID !== -1) dispatch(userFetchKecamatan(cityID));
+	}, [cityID]);
 	return (
 		<div className="w-4/5 p-4 max-w-screen-sm bg-white rounded shadow-lg my-4">
 			<FlexibleAlert {...alert}></FlexibleAlert>
@@ -115,6 +154,27 @@ const RegisterPage = () => {
 					placeholder="******"
 					onChange={(e) => setRePassword(e.target.value)}
 				></EasyTextfield>
+				<SuperEasySelection
+					label="Provinsi"
+					value={provinceID}
+					printFunc={(item) => item.name}
+					data={provinces}
+					onChange={(e) => handleChangeProvince(e)}
+				></SuperEasySelection>
+				<SuperEasySelection
+					label="Kota/Kabupaten"
+					value={cityID}
+					printFunc={(item) => item.name}
+					data={cities}
+					onChange={(e) => handleChangeCity(e)}
+				></SuperEasySelection>
+				<SuperEasySelection
+					label="Kecamatan"
+					value={districtID}
+					printFunc={(item) => item.name}
+					data={districs}
+					onChange={(e) => handleChangeDistrict(e)}
+				></SuperEasySelection>
 				<EasyTextfield
 					label="Alamat"
 					type="text"
