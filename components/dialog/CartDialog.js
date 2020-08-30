@@ -20,7 +20,7 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
-		dispatch(customerFetch());
+		if (user.is_agent) dispatch(customerFetch());
 	}, []);
 	return (
 		<DialogWrapper
