@@ -6,20 +6,29 @@ import { useSelector, useDispatch } from "react-redux";
 import {
 	cartsChangeQuantity,
 	cartsRemove,
+	cartsChangeBuyer,
 } from "../../redux/actions/creator/cart";
 import { convertToRupiah } from "../../redux/utils/format";
 import { ordersBuyProduct } from "../../redux/actions/creator/order";
+import EasySelection from "../input/EasySelection";
+import { customerFetch } from "../../redux/actions/creator/user";
 
 const CartDialog = ({ open = false, onClose = () => {} }) => {
 	const carts = useSelector((state) => state.carts);
+	const customers = useSelector((state) => state.customers);
+	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(customerFetch());
+	}, []);
 	return (
 		<DialogWrapper
 			open={open}
 			onClose={onClose}
 			textYes="Pesan Produk"
 			title="Keranjang"
-			onClickYes={() => dispatch(ordersBuyProduct(carts))}
+			onClickYes={() => dispatch(ordersBuyProduct(carts, user.id))}
 		>
 			<LocalTable
 				title="List Produk"
@@ -68,6 +77,19 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 				detailPanel={(row) => {
 					return (
 						<div className="w-full px-8 pt-2 pb-8">
+							<div className="pb-4">
+								<EasySelection
+									label="Pembeli"
+									notChoosenText="Saya sendiri"
+									value={row.user_id}
+									val="id"
+									data={customers}
+									onChange={(e) => {
+										dispatch(cartsChangeBuyer(row.id, e.target.value));
+									}}
+									printFunc={(item) => `${item.first_name} ${item.last_name}`}
+								></EasySelection>
+							</div>
 							<table className="w-full pb-2">
 								<tbody className="w-full flex flex-wrap justify-center items-center">
 									<tr className="flex w-full justify-between border-b-2 border-green-200">

@@ -27,11 +27,17 @@ export const ordersFetch = () => {
 	};
 };
 
-export const ordersBuyProduct = (products = []) => {
-	const payload = products.map(({ id, quantity }) => ({
-		product_id: id,
-		quantity,
-	}));
+export const ordersBuyProduct = (stageProducts = [], currentUserID = null) => {
+	const payload = stageProducts.map((item) => {
+		if (item.user_id === -1 && !!currentUserID) {
+			item.user_id = currentUserID;
+		}
+		return {
+			product_id: item.id,
+			quantity: item.quantity,
+			user_id: item.user_id,
+		};
+	});
 	return (dispatch) => {
 		dispatch(loadingSet(true));
 		OrderServices.buyProduct(payload)

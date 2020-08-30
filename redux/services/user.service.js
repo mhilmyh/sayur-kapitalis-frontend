@@ -4,11 +4,11 @@ export default class UserService {
 		return API.post("/auth/getUser");
 	}
 
-	static register(data = {}) {
+	static register(data = {}, byAgent = false) {
 		const headers = {
 			"Content-Type": "multipart/from-data",
 		};
-		return API.post("/auth/register", data, { headers });
+		return API.post(byAgent ? `/auth/register` : `/auth/register/fromAgent`, data, { headers });
 	}
 
 	static login(email = "", password = "") {

@@ -17,9 +17,10 @@ const InformationWrapper = () => {
 				<CircularLoad></CircularLoad>
 			) : (
 				<div className="w-full lg:w-1/2 flex flex-wrap justify-center">
-					{informations.map((item, index) => (
-						<InformationCard key={index} item={item}></InformationCard>
-					))}
+					{!!informations &&
+						informations.map((item, index) => (
+							<InformationCard key={index} item={item}></InformationCard>
+						))}
 				</div>
 			)}
 		</div>

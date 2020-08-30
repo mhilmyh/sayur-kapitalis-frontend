@@ -27,9 +27,8 @@ const HeadingSection = () => {
 	return (
 		<div className="w-full flex justify-center items-center mb-4 h-100">
 			<Carousel navButtonsAlwaysVisible={true} className="w-full">
-				{headings.map((item, index) => (
-					<Item key={index} item={item}></Item>
-				))}
+				{!!headings &&
+					headings.map((item, index) => <Item key={index} item={item}></Item>)}
 			</Carousel>
 		</div>
 	);

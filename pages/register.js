@@ -9,7 +9,6 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../redux/actions/creator/user";
 import { alertReset, alertSet } from "../redux/actions/creator/alert";
-// import SuperEasySelection from "../components/input/SuperEasySelection";
 import { coverageFetch } from "../redux/actions/creator/coverage";
 
 const RegisterPage = () => {

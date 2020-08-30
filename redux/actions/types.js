@@ -1,6 +1,9 @@
 // User Action Type
 export const USER_SAVE = "USER_SAVE";
 
+// Customer Action Type
+export const CUSTOMERS_SAVE = "CUSTOMERS_SAVE";
+
 // Product Action Type
 export const PRODUCTS_SAVE = "PRODUCTS_SAVE";
 
@@ -32,6 +35,7 @@ export const ORDERS_ADD = "ORDERS_ADD";
 // Cart Action Type
 export const CARTS_ADD = "CARTS_ADD";
 export const CARTS_CHANGE_QUANTITY = "CARTS_CHANGE_QUANTITY";
+export const CARTS_CHANGE_BUYER = "CARTS_CHANGE_BUYER";
 export const CARTS_REMOVE = "CARTS_REMOVE";
 export const CARTS_RESET = "CARTS_RESET";
 

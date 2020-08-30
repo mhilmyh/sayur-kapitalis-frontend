@@ -16,6 +16,8 @@ const DialogWrapper = ({
 	children,
 	textYes = "",
 	textNo = "",
+	withButtonYes = true,
+	withButtonNo = true,
 	onClickYes = () => {},
 }) => {
 	const loading = useSelector((state) => state.loading);
@@ -46,21 +48,25 @@ const DialogWrapper = ({
 						<CircularLoad></CircularLoad>
 					</React.Fragment>
 				) : (
-					<React.Fragment>
-						<button
-							className="w-1/2 bg-gray-500 text-white p-2 rounded shadow-md font-semibold"
-							onClick={onClose}
-						>
-							{textNo ? textNo : "Tutup"}
-						</button>
+					<div className="flex justify-center items-center w-full">
+						{!!withButtonNo && (
+							<button
+								className="w-1/2 bg-gray-500 text-white p-2 mr-1 rounded shadow-md font-semibold"
+								onClick={onClose}
+							>
+								{textNo ? textNo : "Tutup"}
+							</button>
+						)}
 
-						<button
-							className="w-1/2 bg-green-500 text-white p-2 rounded shadow-md font-semibold"
-							onClick={handleClickYes}
-						>
-							{textYes ? textYes : "Lanjutkan"}
-						</button>
-					</React.Fragment>
+						{!!withButtonYes && (
+							<button
+								className="w-1/2 bg-green-500 text-white p-2 ml-1 rounded shadow-md font-semibold"
+								onClick={handleClickYes}
+							>
+								{textYes ? textYes : "Lanjutkan"}
+							</button>
+						)}
+					</div>
 				)}
 			</DialogActions>
 		</Dialog>

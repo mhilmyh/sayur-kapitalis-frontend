@@ -7,19 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout, userUpdate } from "../../redux/actions/creator/user";
 import { alertReset } from "../../redux/actions/creator/alert";
 import { useRouter } from "next/router";
-import { coverageFetch } from "../../redux/actions/creator/coverage";
+// import { coverageFetch } from "../../redux/actions/creator/coverage";
 
 const ProfileSection = ({ user = {} }) => {
 	const dispatch = useDispatch();
 	const alert = useSelector((state) => state.alert);
-	const coverageArea = useSelector((state) => state.coverageArea);
+	// const coverageArea = useSelector((state) => state.coverageArea);
 	const loading = useSelector((state) => state.loading);
 	const router = useRouter();
 
 	const [firstName, setFirstName] = React.useState(user.first_name);
 	const [lastName, setLastName] = React.useState(user.last_name);
 	const [address, setAddress] = React.useState(user.address);
-	const [coverageID, setCoverageID] = React.useState(user.coverage_area_id);
+	// const [coverageID, setCoverageID] = React.useState(user.coverage_area_id);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -45,13 +45,13 @@ const ProfileSection = ({ user = {} }) => {
 		data.set("first_name", firstName);
 		data.set("last_name", lastName);
 		data.set("address", address);
-		data.set("coverage_area_id", coverageID);
+		// data.set("coverage_area_id", coverageID);
 		dispatch(userUpdate(data));
 	};
 
 	React.useEffect(() => {
 		dispatch(alertReset());
-		dispatch(coverageFetch());
+		// dispatch(coverageFetch());
 	}, []);
 
 	return (

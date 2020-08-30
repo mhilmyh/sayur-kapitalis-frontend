@@ -1,9 +1,9 @@
-import { USER_SAVE } from "../types";
+import { USER_SAVE, CUSTOMERS_SAVE } from "../types";
 import { goodWay } from "../../utils/format";
 import { loadingSet } from "./loading";
 import { alertSet } from "./alert";
 import UserService from "../../services/user.service";
-import LocalStorageService from "../../services/localstorage.service";
+import CustomerService from "../../services/customer.service";
 import CookieService from "../../services/cookie.service";
 
 // User Action API Call
@@ -22,14 +22,19 @@ export const userFetch = (router = null) => {
 			.finally(() => dispatch(loadingSet(false)));
 	};
 };
-export const userRegister = (data = {}) => {
+export const userRegister = (
+	data = {},
+	byAgent = false,
+	callback = () => {}
+) => {
 	return (dispatch) => {
 		dispatch(loadingSet(true));
-		UserService.register(data)
+		UserService.register(data, byAgent)
 			.then((response) => {
 				dispatch(
 					alertSet({ show: true, error: false, message: response.message })
 				);
+				callback();
 			})
 			.catch((error) => {
 				dispatch(
@@ -148,7 +153,34 @@ export const userForgotPassword = (email) => {
 	};
 };
 
+export const customerFetch = () => {
+	return (dispatch) => {
+		dispatch(loadingSet(true));
+		CustomerService.fetch()
+			.then((response) => {
+				dispatch(customerSave(response.data));
+			})
+			.catch((error) => {
+				dispatch(
+					alertSet({
+						show: true,
+						error: true,
+						message: error.message
+							? error.message
+							: "Terjadi kesalahan saat mengambil daftar pelanggan",
+					})
+				);
+			})
+			.finally(() => dispatch(loadingSet(false)));
+	};
+};
+
 // User Action Local
 export const userSave = (data) => {
 	return goodWay(USER_SAVE, { data });
+};
+
+// Customer Action Local
+export const customerSave = (data = []) => {
+	return goodWay(CUSTOMERS_SAVE, { data });
 };
