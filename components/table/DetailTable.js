@@ -34,18 +34,39 @@ const DetailTable = ({ data }) => {
 					<div className="font-bold bg-green-500 w-2 h-2 rounded-full"></div>
 				</div>
 				<div className="w-full bg-gray-600 p-2 mx-2 rounded-b">
+					<div className="flex justify-between items-center border-b-2 border-gray-500 my-1 py-1">
+						<div className="flex justify-between w-7/8 w-full">
+							<div className="w-1/4 font-semibold text-gray-200 text-xs text-left">
+								Nama Produk
+							</div>
+							<div className="w-1/4 font-semibold text-gray-200 text-xs text-center">
+								Harga
+							</div>
+							<div className="w-1/4 font-semibold text-gray-200 text-xs text-center">
+								Pembeli
+							</div>
+						</div>
+						<div className="w-1/8 text-right">
+							<div className="font-bold bg-gray-500 w-2 h-2 rounded-full float-right"></div>
+						</div>
+					</div>
 					{data.order_details.map((order, index) => (
 						<div
 							key={index}
 							className="flex justify-between items-center border-b-2 border-gray-500 my-1 py-1"
 						>
-							<div className="w-1/3 font-semibold text-gray-200 text-xs text-left">
-								{order.product_snapshot.product_name}
+							<div className="flex justify-between w-7/8 w-full">
+								<div className="w-1/3 font-semibold text-gray-200 text-xs text-left">
+									{order.product_snapshot.product_name}
+								</div>
+								<div className="w-1/3 font-semibold text-gray-200 text-xs text-center">
+									{convertToRupiah(order.price)}
+								</div>
+								<div className="w-1/3 font-semibold text-gray-200 text-xs text-center">
+									{order.user_full_name}
+								</div>
 							</div>
-							<div className="w-1/3 font-semibold text-gray-200 text-xs text-center">
-								{convertToRupiah(order.price)}
-							</div>
-							<div className="w-1/3 text-right">
+							<div className="w-1/8 text-right">
 								<div className="font-bold bg-gray-500 w-2 h-2 rounded-full float-right"></div>
 							</div>
 						</div>

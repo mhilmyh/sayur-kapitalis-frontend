@@ -12,15 +12,18 @@ import { convertToRupiah } from "../../redux/utils/format";
 import { ordersBuyProduct } from "../../redux/actions/creator/order";
 import EasySelection from "../input/EasySelection";
 import { customerFetch } from "../../redux/actions/creator/user";
+import FlexibleAlert from "../alert/FlexibleAlert";
 
 const CartDialog = ({ open = false, onClose = () => {} }) => {
 	const carts = useSelector((state) => state.carts);
 	const customers = useSelector((state) => state.customers);
 	const user = useSelector((state) => state.user);
+	const alert = useSelector((state) => state.alert);
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
-		if (user.is_agent) dispatch(customerFetch());
+		console.log(user.is_agent);
+		if (user.is_agent === 1) dispatch(customerFetch());
 	}, []);
 	return (
 		<DialogWrapper
@@ -30,6 +33,7 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 			title="Keranjang"
 			onClickYes={() => dispatch(ordersBuyProduct(carts, user.id))}
 		>
+			<FlexibleAlert {...alert}></FlexibleAlert>
 			<LocalTable
 				title="List Produk"
 				columns={[
@@ -82,7 +86,7 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 									label="Pembeli"
 									notChoosenText="Saya sendiri"
 									value={row.user_id}
-									val="id"
+									val="user_id"
 									data={customers}
 									onChange={(e) => {
 										dispatch(cartsChangeBuyer(row.id, e.target.value));

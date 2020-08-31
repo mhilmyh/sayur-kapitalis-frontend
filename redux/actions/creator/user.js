@@ -150,17 +150,21 @@ export const userLogout = (router = null) => {
 		dispatch(loadingSet(true));
 		UserService.logout()
 			.then(() => {
-				router.replace("/login");
 				CookieService.removeToken();
+				router.replace("/login");
 			})
-			.catch(() => {
+			.catch((error) => {
 				dispatch(
 					alertSet({
 						show: true,
 						error: true,
-						message: "Gagal logout",
+						message: error.message
+							? error.message
+							: "Terjadi suatu kesalahan, logout secara paksa... ",
 					})
 				);
+				CookieService.removeToken();
+				router.replace("/login");
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
@@ -231,15 +235,15 @@ export const customerFetch = () => {
 				dispatch(customerSave(response.data));
 			})
 			.catch((error) => {
-				dispatch(
-					alertSet({
-						show: true,
-						error: true,
-						message: error.message
-							? error.message
-							: "Terjadi kesalahan saat mengambil daftar pelanggan",
-					})
-				);
+				// dispatch(
+				// 	alertSet({
+				// 		show: true,
+				// 		error: true,
+				// 		message: error.message
+				// 			? error.message
+				// 			: "Terjadi kesalahan saat mengambil daftar pelanggan",
+				// 	})
+				// );
 			})
 			.finally(() => dispatch(loadingSet(false)));
 	};
