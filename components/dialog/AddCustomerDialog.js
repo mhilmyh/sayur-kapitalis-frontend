@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import SuperEasySelection from "../input/SuperEasySelection";
 
 const AddCustomerDialog = ({ open, onClose }) => {
-	const router = useRouter();
+	// const router = useRouter();
 	const dispatch = useDispatch();
 	const alert = useSelector((state) => state.alert);
 	const loading = useSelector((state) => state.loading);
@@ -85,6 +85,7 @@ const AddCustomerDialog = ({ open, onClose }) => {
 
 	return (
 		<DialogWrapper
+			title="Daftarkan Pelanggan Baru"
 			open={open}
 			onClose={onClose}
 			onClickYes={() => handleRegisterNewCustomer()}

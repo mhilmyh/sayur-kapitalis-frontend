@@ -1,21 +1,12 @@
 import EasyCard from "../card/EasyCard";
 import AddCustomerDialog from "../dialog/AddCustomerDialog";
+import LocalTable from "../table/LocalTable";
 const CustomerSection = ({ customers = [] }) => {
 	const [open, setOpen] = React.useState(false);
 	return (
-		<EasyCard>
-			<div className="w-full flex justify-end rounded bg-gray-200">
-				<div className="p-2">
-					<button
-						className="bg-green-500 text-white rounded shadow px-2 py-1 text-sm font-semibold"
-						onClick={() => setOpen(true)}
-					>
-						Tambah
-					</button>
-				</div>
-			</div>
-			<div className="w-full p-1">
-				{customers.length > 0 ? (
+		<React.Fragment>
+			<div className="w-full">
+				{/* {customers.length > 0 ? (
 					customers.map((item, index) => (
 						<div
 							key={`customer-${index}`}
@@ -38,13 +29,42 @@ const CustomerSection = ({ customers = [] }) => {
 							Belum Ada Customer
 						</div>
 					</div>
-				)}
+				)} */}
+				<LocalTable
+					title="Pelanggan"
+					columns={[
+						{ title: "Nama", field: "full_name" },
+						{ title: "Telepon", field: "phone_number" },
+						{ title: "Alamat", field: "address" },
+					]}
+					options={{
+						rowStyle: {
+							fontSize: "0.8rem",
+							fontWeight: 600,
+							padding: 0,
+							color: "#718096",
+						},
+					}}
+					data={customers}
+					actions={[
+						{
+							icon: () => (
+								<button className="bg-green-500 text-white rounded shadow px-2 py-1 text-sm font-semibold">
+									Tambah
+								</button>
+							),
+							isFreeAction: true,
+							tooltip: "Tambah",
+							onClick: (_, row) => setOpen(true),
+						},
+					]}
+				></LocalTable>
 			</div>
 			<AddCustomerDialog
 				open={open}
 				onClose={() => setOpen(false)}
 			></AddCustomerDialog>
-		</EasyCard>
+		</React.Fragment>
 	);
 };
 
