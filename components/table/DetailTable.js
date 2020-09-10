@@ -19,6 +19,7 @@ const DetailTable = ({ data }) => {
         onClose={() => setOpenEditPayment(false)}
       ></EditPaymentDialog>
       <div className="w-full flex flex-wrap justify-center items-center bg-gray-700">
+        <div className="h-4 w-full"></div>
         <div className="w-full flex bg-gray-100 p-2 mb-1 mt-4 mx-2 justify-between items-center rounded">
           <div className="font-bold text-green-500 text-xs uppercase">
             Tanggal Pembuatan
@@ -128,6 +129,7 @@ const DetailTable = ({ data }) => {
             </button>
           </div>
         )}
+        <div className="h-4 w-full"></div>
       </div>
     </React.Fragment>
   );
