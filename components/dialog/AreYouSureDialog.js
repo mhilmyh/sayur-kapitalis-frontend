@@ -13,15 +13,21 @@ const AreYouSureDialog = ({
   textYes = "Ya",
   onClickYes = () => {},
   onClickNo = () => {},
-  value = null,
+  open = false,
 }) => {
   return (
-    <Dialog open={value} maxWidth="sm" disableBackdropClick={true}>
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContentText>{text}</DialogContentText>
+    <Dialog open={open} maxWidth="sm" disableBackdropClick={true}>
+      <DialogTitle color="primary">{title}</DialogTitle>
+      <DialogContentText component="p" className="px-8 py-2">
+        {text}
+      </DialogContentText>
       <DialogActions>
-        <Button onClick={onClickNo}>{textNo}</Button>
-        <Button onClick={onClickYes}>{textYes}</Button>
+        <Button fullWidth={true} onClick={onClickNo}>
+          {textNo}
+        </Button>
+        <Button fullWidth={true} onClick={onClickYes}>
+          {textYes}
+        </Button>
       </DialogActions>
     </Dialog>
   );
