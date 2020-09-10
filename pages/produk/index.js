@@ -5,11 +5,9 @@ import ProdukWrapper from "../../components/wrapper/ProdukWrapper";
 import HeadingSection from "../../components/section/HeadingSection";
 import { alertReset } from "../../redux/actions/creator/alert";
 import { useDispatch } from "react-redux";
-import { customerFetch } from "../../redux/actions/creator/user";
 const ProdukPage = () => {
 	const dispatch = useDispatch();
 	React.useEffect(() => {
-		// dispatch(customerFetch());
 		dispatch(alertReset());
 	}, []);
 	return (
