@@ -132,14 +132,12 @@ const CartDialog = ({ open = false, onClose = () => {} }) => {
 									</tr>
 								</tbody>
 							</table>
-							{parseInt(row.quantity, 10) === 0 && (
 								<button
 									className="bg-red-600 text-gray-100 rounded shadow px-4 py-2 my-2 float-right"
 									onClick={() => dispatch(cartsRemove(row.id))}
 								>
 									Hapus
 								</button>
-							)}
 						</div>
 					);
 				}}
