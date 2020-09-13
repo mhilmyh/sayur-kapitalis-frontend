@@ -18,21 +18,15 @@ const Selection = ({
     <div className="w-full max-w-lg">
       <FormControl fullWidth={true} size="medium">
         <InputLabel shrink={true}>{entity}</InputLabel>
-        <Select
-          native
-          value={value}
-          onChange={onChange}
-          color="primary"
-          {...other}
-        >
-          <option value={0}>Belum dipilih</option>
+        <Select value={value} onChange={onChange} color="primary" {...other}>
+          <MenuItem value={0}>Belum dipilih</MenuItem>
           {data.map((item, index) => {
             return (
-              <option key={index} value={item.id}>
+              <MenuItem key={index} value={item.id}>
                 <Typography>
                   {dataLabel ? item[dataLabel] : item.name}
                 </Typography>
-              </option>
+              </MenuItem>
             );
           })}
         </Select>
